@@ -10,7 +10,7 @@ import java.util.Set;
 public class Usuario {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue (strategy = GenerationType.AUTO)
     private int id;
 
     @NotNull(message = "Nome é obrigatorio.")
@@ -35,6 +35,19 @@ public class Usuario {
     @ManyToMany( cascade = CascadeType.ALL)
     @JoinTable(name = "usuario_role", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
+
+    public Usuario(@NotNull(message = "Nome é obrigatorio.") String nome, @NotNull(message = "Email é obrigatorio.") @Email(message = "Email invalido") String email,
+                   @NotNull(message = "Senha é obrigatorio.") String password, @NotNull(message = "CPF é obrigatorio.") String cpf,
+                   String status, Date dataNascimento) {
+        this.nome = nome;
+        this.email = email;
+        this.password = password;
+        this.cpf = cpf;
+        this.status = status;
+        this.dataNascimento = dataNascimento;
+    }
+
+    public Usuario() { }
 
     public int getId() {
         return id;

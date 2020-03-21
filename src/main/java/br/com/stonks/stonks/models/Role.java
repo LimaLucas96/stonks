@@ -16,6 +16,13 @@ public class Role {
     @Column(name = "descricao")
     private String descricao;
 
+    public Role(String role, String descricao) {
+        this.role = role;
+        this.descricao = descricao;
+    }
+
+    public Role () {}
+
     public int getId() {
         return id;
     }
