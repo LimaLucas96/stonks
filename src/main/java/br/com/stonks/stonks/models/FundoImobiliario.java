@@ -16,7 +16,7 @@ public class FundoImobiliario extends Ativo {
         this.tipo = tipo;
     }
 
-    public FundoImobiliario(){}
+    public FundoImobiliario() { }
 
     public long getId() {
         return id;
@@ -26,7 +26,11 @@ public class FundoImobiliario extends Ativo {
         this.id = id;
     }
 
-    public String getTipo() { return tipo; }
+    public String getTipo() {
+        return tipo;
+    }
 
-    public void setTipo(String tipo) { this.tipo = tipo; }
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
 }

@@ -3,8 +3,9 @@ package br.com.stonks.stonks.models;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@MappedSuperclass
-public class Ativo {
+@Entity
+@Inheritance
+public abstract class Ativo {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private long id;
@@ -28,7 +29,7 @@ public class Ativo {
         this.valor = valor;
     }
 
-    public Ativo() {}
+    public Ativo() { }
 
     public long getId() {
         return id;
@@ -54,7 +55,11 @@ public class Ativo {
         this.codigo = codigo;
     }
 
-    public double getValor() { return valor; }
+    public double getValor() {
+        return valor;
+    }
 
-    public void setValor(double valor) { this.valor = valor; }
+    public void setValor(double valor) {
+        this.valor = valor;
+    }
 }

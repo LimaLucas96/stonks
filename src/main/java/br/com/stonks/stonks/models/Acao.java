@@ -16,7 +16,7 @@ public class Acao extends Ativo {
         this.setor = setor;
     }
 
-    public Acao(){}
+    public Acao() { }
 
     public long getId() {
         return id;
@@ -26,7 +26,11 @@ public class Acao extends Ativo {
         this.id = id;
     }
 
-    public String getSetor() { return setor; }
+    public String getSetor() {
+        return setor;
+    }
 
-    public void setSetor(String setor) { this.setor = setor; }
+    public void setSetor(String setor) {
+        this.setor = setor;
+    }
 }
