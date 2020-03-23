@@ -1,5 +1,7 @@
 package br.com.stonks.stonks.models;
 
+import org.hibernate.validator.constraints.UniqueElements;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -18,9 +20,11 @@ public class Usuario {
 
     @NotNull(message = "Email é obrigatorio.")
     @Email(message = "Email invalido")
+    @Column(unique = true)
     private String email;
 
     @NotNull(message = "Senha é obrigatorio.")
+    @Column(unique = true)
     private String password;
 
     @NotNull(message = "CPF é obrigatorio.")
