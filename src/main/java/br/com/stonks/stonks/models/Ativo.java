@@ -14,6 +14,7 @@ public abstract class Ativo {
     private String nome;
 
     @NotNull(message = "Código é obrigatório.")
+    @Column(unique = true)
     private String codigo;
 
     @NotNull(message = "Valor é obrigatório.")
