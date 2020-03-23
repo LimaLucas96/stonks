@@ -34,6 +34,13 @@ public class UsuarioServiceImp implements UsuarioService {
 
     @Override
     public boolean isUserAlreadyPresent(Usuario usuario) {
-        return false;
+        Boolean present;
+
+        if (usuarioRepository.findByEmail(usuario.getEmail()) != null){
+            present = true;
+        }else{
+            present = false;
+        }
+        return present;
     }
 }
