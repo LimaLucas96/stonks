@@ -1,13 +1,16 @@
 package br.com.stonks.stonks.controllers;
 
 import br.com.stonks.stonks.models.FundoImobiliario;
+import br.com.stonks.stonks.repository.FundoImobiliarioRepository;
 import br.com.stonks.stonks.services.AtivoService;
 import br.com.stonks.stonks.services.FundoImobiliarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,6 +23,9 @@ public class FundoImobiliarioController {
 
     @Autowired
     FundoImobiliarioService fundoImobiliarioService;
+
+    @Autowired
+    private FundoImobiliarioRepository fundoImobiliarioRepository;
 
     @GetMapping("fundo-imobiliario/cadastro")
     public ModelAndView paginaCadastro() {
@@ -47,5 +53,11 @@ public class FundoImobiliarioController {
 
         fundoImobiliario.addObject("fundoImobiliario", new FundoImobiliario());
         return fundoImobiliario;
+    }
+
+    @DeleteMapping("fundo-imobiliario/{id}")
+    public String delete(@PathVariable("id") int id) {
+        fundoImobiliarioRepository.deleteById(id);
+        return "redirect:/home";
     }
 }
