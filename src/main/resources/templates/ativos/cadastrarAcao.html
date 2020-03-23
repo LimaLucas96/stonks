@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Ativo | Cadastrar</title>
+    <title>Ação | Cadastrar</title>
     <!-- link rel="stylesheet" type="text/css" th:href="@{/css/registration.css}" /-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -12,7 +12,7 @@
 <div class="container-fluid" style="margin-top: 30px;">
     <div class="row col-lg-4 col-lg-offset-4" style="margin-top: 40px; background-color: #fff; padding: 20px; border: solid 1px #ddd;">
         <form autocomplete="off" th:action="@{/acao/cadastro}" th:object="${acao}" method="post" class="form-signin" role="form">
-            <h3 class="form-signin-heading">Cadastrar - Fundo Imobiliário</h3>
+            <h3 class="form-signin-heading">Cadastrar - Ação</h3>
             <div class="form-group">
                 <div class="">
                     <input type="text" name="nome" th:field="*{nome}" placeholder="Nome" class="form-control" />
@@ -35,7 +35,7 @@
             </div>
             <div class="form-group">
                 <div class="">
-                    <button type="submit" class="btn btn-primary btn-block">Cadastrar Novo Ativo</button>
+                    <button type="submit" class="btn btn-primary btn-block">Cadastrar Nova Ação</button>
                 </div>
             </div>
         </form>
