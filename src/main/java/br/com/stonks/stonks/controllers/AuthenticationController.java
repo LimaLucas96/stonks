@@ -35,10 +35,12 @@ public class AuthenticationController {
     }
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
-    public ModelAndView home() {
+    public String home() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("home");
-        return modelAndView;
+//        return modelAndView;
+
+        return "home";
     }
 
 //    @RequestMapping(value = "/usuario/register", method = RequestMethod.POST)
