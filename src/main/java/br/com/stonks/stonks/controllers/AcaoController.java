@@ -6,12 +6,10 @@ import br.com.stonks.stonks.services.AcaoService;
 import br.com.stonks.stonks.services.AtivoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -36,6 +34,15 @@ public class AcaoController {
         return cadastro;
     }
 
+    @GetMapping("acao/{id}")
+    public String paginaAtualizar(@PathVariable("id") int id, Model model) {
+        Acao acao = acaoRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("ID fornecido é inválido " + id)
+        );
+        model.addAttribute("acao", acao);
+        return "ativos/atualizarAcao";
+    }
+
     @PostMapping("acao/cadastro")
     public ModelAndView create(@Valid Acao acao, BindingResult bindingResult, ModelMap modelMap) {
         ModelAndView acaoModelView = new ModelAndView("/ativos/cadastrarAcao");
@@ -54,6 +61,19 @@ public class AcaoController {
 
         acaoModelView.addObject("acao", new Acao());
         return acaoModelView;
+    }
+
+    @PostMapping("acao/{id}")
+    public String atualizar(@PathVariable("id") int id, @Valid Acao acao, BindingResult result, Model model) {
+
+        if (result.hasErrors()) {
+            acao.setId(id);
+            return "ativos/atualizarAcao";
+        }
+
+        acaoRepository.save(acao);
+        model.addAttribute("acoes", acaoRepository.findAll());
+        return "ativos/index";
     }
 
     @DeleteMapping("acao/{id}")

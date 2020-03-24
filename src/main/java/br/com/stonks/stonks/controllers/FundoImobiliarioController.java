@@ -6,12 +6,10 @@ import br.com.stonks.stonks.services.AtivoService;
 import br.com.stonks.stonks.services.FundoImobiliarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -35,6 +33,14 @@ public class FundoImobiliarioController {
         return cadastro;
     }
 
+    @GetMapping("fundo-imobiliario/{id}")
+    public String paginaAtualizar(@PathVariable("id") int id, Model model) {
+        FundoImobiliario fundoImobiliario = fundoImobiliarioRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("ID fornecido é inválido " + id));
+        model.addAttribute("fundoImobiliario", fundoImobiliario);
+        return "ativos/atualizarFundoImobiliario";
+    }
+
     @PostMapping("fundo-imobiliario/cadastro")
     public ModelAndView create(@Valid FundoImobiliario fundo, BindingResult bindingResult, ModelMap modelMap) {
         ModelAndView fundoImobiliario = new ModelAndView("/ativos/cadastrarFundoImobiliario");
@@ -53,6 +59,19 @@ public class FundoImobiliarioController {
 
         fundoImobiliario.addObject("fundoImobiliario", new FundoImobiliario());
         return fundoImobiliario;
+    }
+
+    @PostMapping("fundo-imobiliario/{id}")
+    public String atualizar(@PathVariable("id") int id, @Valid FundoImobiliario fundoImobiliario,
+                            BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            fundoImobiliario.setId(id);
+            return "ativos/atualizarFundoImobiliario";
+        }
+
+        fundoImobiliarioRepository.save(fundoImobiliario);
+        model.addAttribute("fundoImobiliarios", fundoImobiliarioRepository.findAll());
+        return "ativos/index";
     }
 
     @DeleteMapping("fundo-imobiliario/{id}")
