@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Ação | Atualizar</title>
+    <!-- link rel="stylesheet" type="text/css" th:href="@{/css/registration.css}" /-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body style="background-color: #ededed;">
+<div style="background-color: #337ab7; height: 50px;"></div>
+<div class="container-fluid" style="margin-top: 30px;">
+    <div class="row col-lg-4 col-lg-offset-4" style="margin-top: 40px; background-color: #fff; padding: 20px; border: solid 1px #ddd;">
+        <div th:switch="${fundoImobiliarios}">
+            <h2 th:case="null">Não foram cadastrados Fundos Imobiliários ainda.</h2>
+            <div th:case="*">
+                <h2>Fundos Imobiliários</h2>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Código</th>
+                        <th>Valor</th>
+                        <th>Tipo</th>
+                        <td>Editar</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="fundoImobiliario : ${fundoImobiliarios}">
+                        <td th:text="${fundoImobiliario.nome}"></td>
+                        <td th:text="${fundoImobiliario.codigo}"></td>
+                        <td th:text="${fundoImobiliario.valor}"></td>
+                        <td th:text="${fundoImobiliario.tipo}"></td>
+                        <td><a th:href="@{/fundo-imobiliario/{id}(id=${fundoImobiliario.id})}">Editar</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p><a href="/fundo-imobiliario/cadastro">Cadastrar novo Fundo Imobiliário</a></p>
+        </div>
+        <div th:switch="${acoes}">
+            <h2 th:case="null">Não foram cadastradas Ações ainda.</h2>
+            <div th:case="*">
+                <h2>Ações</h2>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Código</th>
+                        <th>Valor</th>
+                        <th>Setor</th>
+                        <td>Editar</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="acao : ${acoes}">
+                        <td th:text="${acao.nome}"></td>
+                        <td th:text="${acao.codigo}"></td>
+                        <td th:text="${acao.valor}"></td>
+                        <td th:text="${acao.setor}"></td>
+                        <td><a th:href="@{/acao/{id}(id=${acao.id})}">Editar</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p><a href="/acao/cadastro">Cadastrar nova Ação</a></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
