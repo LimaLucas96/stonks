@@ -1,7 +1,6 @@
 package br.com.stonks.stonks.models;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Inheritance
@@ -10,25 +9,18 @@ public abstract class Ativo {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotNull(message = "Nome é obrigatório.")
+    @Column(nullable = false)
     private String nome;
 
-    @NotNull(message = "Código é obrigatório.")
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String codigo;
 
-    @NotNull(message = "Valor é obrigatório.")
+    @Column(nullable = false)
     private double valor;
 
-    // TODO: colocar a Empresa (relativo a outra issue)
-
-    public Ativo(@NotNull(message = "Nome é obrigatorio.") String nome,
-                 @NotNull(message = "Código é obrigatório.") String codigo,
-                 @NotNull(message = "Valor é obrigatório.") double valor) {
-        this.nome = nome;
-        this.codigo = codigo;
-        this.valor = valor;
-    }
+    @ManyToOne
+    @JoinColumn(name = "empresa_id")
+    private Empresa empresa;
 
     public Ativo() { }
 
@@ -62,5 +54,13 @@ public abstract class Ativo {
 
     public void setValor(double valor) {
         this.valor = valor;
+    }
+
+    public Empresa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
     }
 }

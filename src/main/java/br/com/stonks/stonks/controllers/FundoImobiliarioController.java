@@ -77,6 +77,6 @@ public class FundoImobiliarioController {
     @DeleteMapping("fundo-imobiliario/{id}")
     public String delete(@PathVariable("id") int id) {
         fundoImobiliarioRepository.deleteById(id);
-        return "redirect:/home";
+        return "ativos/index";
     }
 }

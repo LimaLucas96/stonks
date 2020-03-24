@@ -1,7 +1,6 @@
 package br.com.stonks.stonks.models;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 public class Acao extends Ativo {
@@ -9,12 +8,8 @@ public class Acao extends Ativo {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotNull(message = "Setor é um campo obrigatório.")
+    @Column(nullable = false)
     private String setor;
-
-    public Acao(@NotNull(message = "Setor é um campo obrigatório") String setor){
-        this.setor = setor;
-    }
 
     public Acao() { }
 

@@ -1,7 +1,6 @@
 package br.com.stonks.stonks.models;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 public class FundoImobiliario extends Ativo {
@@ -9,12 +8,8 @@ public class FundoImobiliario extends Ativo {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotNull(message = "Tipo é obrigatório.")
+    @Column(nullable = false)
     private String tipo;
-
-    public FundoImobiliario(@NotNull(message = "Tipo é obrigatório") String tipo) {
-        this.tipo = tipo;
-    }
 
     public FundoImobiliario() { }
 

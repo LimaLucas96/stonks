@@ -79,6 +79,6 @@ public class AcaoController {
     @DeleteMapping("acao/{id}")
     public String delete(@PathVariable("id") int id) {
         acaoRepository.deleteById(id);
-        return "redirect:/home";
+        return "ativos/index";
     }
 }
