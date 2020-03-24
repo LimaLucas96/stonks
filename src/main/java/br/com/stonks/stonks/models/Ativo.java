@@ -18,7 +18,7 @@ public abstract class Ativo {
     @Column(nullable = false)
     private double valor;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "empresa_id")
     private Empresa empresa;
 

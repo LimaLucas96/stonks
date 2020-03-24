@@ -49,7 +49,7 @@ public class EmpresaController {
 
     @PostMapping("empresa/cadastro")
     public ModelAndView create(@Valid Empresa empresa, BindingResult bindingResult, ModelMap modelMap) {
-        ModelAndView empresaModel = new ModelAndView("/empresa/cadastrarEmpresa");
+        ModelAndView empresaModel = new ModelAndView("/empresas/cadastrarEmpresa");
 
         if (bindingResult.hasErrors()){
             empresaModel.addObject("successMessage", "Corrija os erros.");
@@ -72,7 +72,7 @@ public class EmpresaController {
                             BindingResult result, Model model) {
         if (result.hasErrors()) {
             empresa.setId(id);
-            return "ativos/atualizarEmpresa";
+            return "empresas/atualizarEmpresa";
         }
 
         empresaRepository.save(empresa);
@@ -85,5 +85,4 @@ public class EmpresaController {
         empresaRepository.deleteById(id);
         return "empresas/index";
     }
-
 }

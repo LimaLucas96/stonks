@@ -16,7 +16,9 @@ public class Empresa {
     @Column(unique = true, nullable = false)
     private String cnpj;
 
-    @OneToMany(mappedBy = "empresa")
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "empresa")
     private List<Ativo> ativos;
 
     public Empresa() {}
