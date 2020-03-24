@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 public abstract class Ativo {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
 
     @NotNull(message = "Nome é obrigatório.")
     private String nome;
@@ -36,7 +36,7 @@ public abstract class Ativo {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

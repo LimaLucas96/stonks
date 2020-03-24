@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 public class Acao extends Ativo {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
 
     @NotNull(message = "Setor é um campo obrigatório.")
     private String setor;
@@ -22,7 +22,7 @@ public class Acao extends Ativo {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

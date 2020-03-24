@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 public class FundoImobiliario extends Ativo {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
 
     @NotNull(message = "Tipo é obrigatório.")
     private String tipo;
@@ -22,7 +22,7 @@ public class FundoImobiliario extends Ativo {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
