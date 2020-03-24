@@ -1,6 +1,7 @@
 package br.com.stonks.stonks.controllers;
 
 import br.com.stonks.stonks.models.FundoImobiliario;
+import br.com.stonks.stonks.repository.EmpresaRepository;
 import br.com.stonks.stonks.repository.FundoImobiliarioRepository;
 import br.com.stonks.stonks.services.AtivoService;
 import br.com.stonks.stonks.services.FundoImobiliarioService;
@@ -25,11 +26,15 @@ public class FundoImobiliarioController {
     @Autowired
     private FundoImobiliarioRepository fundoImobiliarioRepository;
 
+    @Autowired
+    private EmpresaRepository empresaRepository;
+
     @GetMapping("fundo-imobiliario/cadastro")
     public ModelAndView paginaCadastro() {
         ModelAndView cadastro = new ModelAndView("/ativos/cadastrarFundoImobiliario");
         FundoImobiliario fundo = new FundoImobiliario();
         cadastro.addObject("fundoImobiliario", fundo);
+        cadastro.addObject("empresas", empresaRepository.findAll());
         return cadastro;
     }
 
@@ -38,6 +43,7 @@ public class FundoImobiliarioController {
         FundoImobiliario fundoImobiliario = fundoImobiliarioRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("ID fornecido é inválido " + id));
         model.addAttribute("fundoImobiliario", fundoImobiliario);
+        model.addAttribute("empresas", empresaRepository.findAll());
         return "ativos/atualizarFundoImobiliario";
     }
 
@@ -77,6 +83,6 @@ public class FundoImobiliarioController {
     @DeleteMapping("fundo-imobiliario/{id}")
     public String delete(@PathVariable("id") int id) {
         fundoImobiliarioRepository.deleteById(id);
-        return "redirect:/home";
+        return "ativos/index";
     }
 }

@@ -2,6 +2,7 @@ package br.com.stonks.stonks.controllers;
 
 import br.com.stonks.stonks.models.Acao;
 import br.com.stonks.stonks.repository.AcaoRepository;
+import br.com.stonks.stonks.repository.EmpresaRepository;
 import br.com.stonks.stonks.services.AcaoService;
 import br.com.stonks.stonks.services.AtivoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +26,15 @@ public class AcaoController {
     @Autowired
     private AcaoRepository acaoRepository;
 
+    @Autowired
+    private EmpresaRepository empresaRepository;
 
     @GetMapping("acao/cadastro")
     public ModelAndView paginaCadastro() {
         ModelAndView cadastro = new ModelAndView("/ativos/cadastrarAcao");
         Acao acao = new Acao();
         cadastro.addObject("acao", acao);
+        cadastro.addObject("empresas", empresaRepository.findAll());
         return cadastro;
     }
 
@@ -40,6 +44,7 @@ public class AcaoController {
                 () -> new IllegalArgumentException("ID fornecido é inválido " + id)
         );
         model.addAttribute("acao", acao);
+        model.addAttribute("empresas", empresaRepository.findAll());
         return "ativos/atualizarAcao";
     }
 
@@ -79,6 +84,6 @@ public class AcaoController {
     @DeleteMapping("acao/{id}")
     public String delete(@PathVariable("id") int id) {
         acaoRepository.deleteById(id);
-        return "redirect:/home";
+        return "ativos/index";
     }
 }
