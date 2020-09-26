@@ -13,8 +13,8 @@ public class Empresa {
     @Column(nullable=false)
     private String nome;
 
-    @Column(unique = true, nullable = false)
-    private String cnpj;
+    @Column(nullable=false)
+    private Boolean ativo;
 
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
@@ -39,19 +39,19 @@ public class Empresa {
         this.nome = nome;
     }
 
-    public String getCnpj() {
-        return cnpj;
-    }
-
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
-    }
-
     public List<Ativo> getAtivos() {
         return ativos;
     }
 
     public void setAtivos(List<Ativo> ativos) {
         this.ativos = ativos;
+    }
+
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
     }
 }

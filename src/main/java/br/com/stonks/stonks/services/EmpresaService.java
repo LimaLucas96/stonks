@@ -6,6 +6,4 @@ public interface EmpresaService {
 
     public void salvarEmpresa(Empresa empresa);
 
-    public boolean isEmpresaAlreadyPresent(Empresa empresa);
-
 }
