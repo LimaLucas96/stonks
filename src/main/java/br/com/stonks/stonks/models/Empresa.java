@@ -7,21 +7,22 @@ import java.util.List;
 @Entity
 public class Empresa {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable=false)
+    @Column(nullable = false, unique = true)
     private String nome;
 
-    @Column(nullable=false)
-    private Boolean ativo;
+    @Column(nullable = false)
+    private Long cnpj;
 
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "empresa")
     private List<Ativo> ativos;
 
-    public Empresa() {}
+    public Empresa() {
+    }
 
     public long getId() {
         return id;
@@ -47,11 +48,11 @@ public class Empresa {
         this.ativos = ativos;
     }
 
-    public Boolean getAtivo() {
-        return ativo;
+    public Long getCnpj() {
+        return cnpj;
     }
 
-    public void setAtivo(Boolean ativo) {
-        this.ativo = ativo;
+    public void setCnpj(Long cnpj) {
+        this.cnpj = cnpj;
     }
 }
