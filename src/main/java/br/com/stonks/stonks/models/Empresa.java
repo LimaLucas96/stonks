@@ -7,16 +7,22 @@ import java.util.List;
 @Entity
 public class Empresa {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable=false)
+    @Column(nullable = false, unique = true)
     private String nome;
 
-    @Column(unique = true, nullable = false)
-    private String cnpj;
+    @Column(nullable = false)
+    private Long cnpj;
 
-    public Empresa() {}
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "empresa")
+    private List<Ativo> ativos;
+
+    public Empresa() {
+    }
 
     public long getId() {
         return id;
@@ -34,11 +40,19 @@ public class Empresa {
         this.nome = nome;
     }
 
-    public String getCnpj() {
+    public List<Ativo> getAtivos() {
+        return ativos;
+    }
+
+    public void setAtivos(List<Ativo> ativos) {
+        this.ativos = ativos;
+    }
+
+    public Long getCnpj() {
         return cnpj;
     }
 
-    public void setCnpj(String cnpj) {
+    public void setCnpj(Long cnpj) {
         this.cnpj = cnpj;
     }
 }

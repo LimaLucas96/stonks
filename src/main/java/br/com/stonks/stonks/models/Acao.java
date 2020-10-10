@@ -8,7 +8,6 @@ public class Acao extends Ativo {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false)
     private String setor;
 
     public Acao() { }
