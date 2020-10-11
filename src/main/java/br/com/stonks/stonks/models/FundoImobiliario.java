@@ -8,7 +8,6 @@ public class FundoImobiliario extends Ativo {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false)
     private String tipo;
 
     public FundoImobiliario() { }

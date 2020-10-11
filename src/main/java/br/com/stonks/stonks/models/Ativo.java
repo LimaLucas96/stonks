@@ -9,17 +9,11 @@ public abstract class Ativo {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false)
-    private String nome;
-
     @Column(unique = true, nullable = false)
     private String codigo;
 
-    @Column(nullable = false)
-    private double valor;
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "empresa_id")
+    @JoinColumn(name = "empresa_id", nullable = false)
     private Empresa empresa;
 
     public Ativo() { }
@@ -32,28 +26,12 @@ public abstract class Ativo {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
     public String getCodigo() {
         return codigo;
     }
 
     public void setCodigo(String codigo) {
         this.codigo = codigo;
-    }
-
-    public double getValor() {
-        return valor;
-    }
-
-    public void setValor(double valor) {
-        this.valor = valor;
     }
 
     public Empresa getEmpresa() {

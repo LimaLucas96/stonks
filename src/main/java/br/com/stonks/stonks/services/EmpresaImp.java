@@ -15,9 +15,4 @@ public class EmpresaImp implements EmpresaService {
     public void salvarEmpresa(Empresa empresa) {
         empresaRepository.save(empresa);
     }
-
-    @Override
-    public boolean isEmpresaAlreadyPresent(Empresa empresa) {
-        return empresaRepository.findByCnpj(empresa.getCnpj()) != null;
-    }
 }
