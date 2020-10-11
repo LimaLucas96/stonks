@@ -38,11 +38,11 @@ public class CarteiraUsuarioController {
             modelAndView.addObject("successMessage", "Carteira ja existente");
         }
         else {
-            carteiraUsuarioService.salvarUsuario(carteira);
+            carteiraUsuarioService.salvarCarteira(carteira);
             modelAndView.addObject("successMessage", "Carteira criada com sucesso.");
         }
 
-        modelAndView.addObject("user", new Usuario());
+        modelAndView.addObject("user", new CarteiraUsuario());
         modelAndView.setViewName("register");
         return modelAndView;
 
