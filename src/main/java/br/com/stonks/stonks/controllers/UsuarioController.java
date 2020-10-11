@@ -1,7 +1,9 @@
 package br.com.stonks.stonks.controllers;
 
+import br.com.stonks.stonks.exception.UsuarioExistenteException;
 import br.com.stonks.stonks.models.Usuario;
 import br.com.stonks.stonks.repository.UsuarioRepository;
+import br.com.stonks.stonks.exception.CpfInvalidoException;
 import br.com.stonks.stonks.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,19 +26,19 @@ public class UsuarioController {
     private UsuarioRepository usuarioRepository;
 
     @RequestMapping(value = "/usuario/register", method = RequestMethod.POST)
-    public ModelAndView create(@Valid Usuario user, BindingResult bindingResult, ModelMap modelMap){
+    public ModelAndView create(@Valid Usuario user, BindingResult bindingResult, ModelMap modelMap) throws Exception {
         ModelAndView modelAndView = new ModelAndView();
 
-        if (bindingResult.hasErrors()){
-            modelAndView.addObject("successMessage", "Por favor corriga os erros.");
+        if (bindingResult.hasErrors()) {
+            modelAndView.addObject("errorFlash", "Por favor corriga os erros.");
             modelMap.addAttribute("bindingResult", bindingResult);
-        }
-        else if(usuarioService.isUserAlreadyPresent(user)){
-            modelAndView.addObject("successMessage", "Usuario ja existe");
-        }
-        else {
-            usuarioService.salvarUsuario(user);
-            modelAndView.addObject("successMessage", "Usuario registrado com sucesso.");
+        } else {
+            try {
+                usuarioService.salvarUsuario(user);
+                modelAndView.addObject("successFlash", "Usuario registrado com sucesso.");
+            } catch (UsuarioExistenteException | CpfInvalidoException e){
+                modelAndView.addObject("errorFlash", e.getMessage());
+            }
         }
 
         modelAndView.addObject("user", new Usuario());
