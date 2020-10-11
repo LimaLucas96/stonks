@@ -31,7 +31,7 @@ public class Usuario {
     private String cpf;
 
     @Column(name = "status")
-    private String status;
+    private Boolean status;
 
     @Column( name = "data_nascimento")
     private Date dataNascimento;
@@ -40,9 +40,11 @@ public class Usuario {
     @JoinTable(name = "usuario_role", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    public Usuario(@NotNull(message = "Nome é obrigatorio.") String nome, @NotNull(message = "Email é obrigatorio.") @Email(message = "Email invalido") String email,
-                   @NotNull(message = "Senha é obrigatorio.") String password, @NotNull(message = "CPF é obrigatorio.") String cpf,
-                   String status, Date dataNascimento) {
+    public Usuario(@NotNull(message = "Nome é obrigatorio.") String nome,
+                   @NotNull(message = "Email é obrigatorio.") @Email(message = "Email invalido") String email,
+                   @NotNull(message = "Senha é obrigatorio.") String password,
+                   @NotNull(message = "CPF é obrigatorio.") String cpf,
+                   Boolean status, Date dataNascimento) {
         this.nome = nome;
         this.email = email;
         this.password = password;
@@ -93,11 +95,11 @@ public class Usuario {
         this.cpf = cpf;
     }
 
-    public String getStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 

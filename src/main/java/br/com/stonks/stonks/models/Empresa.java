@@ -16,11 +16,6 @@ public class Empresa {
     @Column(unique = true, nullable = false)
     private String cnpj;
 
-    @OneToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            mappedBy = "empresa")
-    private List<Ativo> ativos;
-
     public Empresa() {}
 
     public long getId() {
@@ -45,13 +40,5 @@ public class Empresa {
 
     public void setCnpj(String cnpj) {
         this.cnpj = cnpj;
-    }
-
-    public List<Ativo> getAtivos() {
-        return ativos;
-    }
-
-    public void setAtivos(List<Ativo> ativos) {
-        this.ativos = ativos;
     }
 }

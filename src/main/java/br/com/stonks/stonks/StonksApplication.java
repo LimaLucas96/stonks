@@ -59,7 +59,7 @@ public class StonksApplication implements CommandLineRunner {
 		Usuario usuarioAdmin = usuarioRepository.findByEmail(EMAIL_ADMIN);
 		if (usuarioAdmin == null){
 			usuarioAdmin = new Usuario("Admin", EMAIL_ADMIN, encoder.encode(SENHA_ADMIN),
-					"000.000.000-00","VERIFIED",new Date());
+					"000.000.000-00",true, new Date());
 			usuarioRepository.save(usuarioAdmin);
 			usuarioAdmin.setRoles(new HashSet<Role>(Arrays.asList(adminUser)));
 			usuarioRepository.save(usuarioAdmin);
