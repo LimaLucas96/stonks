@@ -55,9 +55,6 @@ public class EmpresaController {
             empresaModel.addObject("successMessage", "Corrija os erros.");
             modelMap.addAttribute("bindingResult", bindingResult);
         }
-        else if(empresaService.isEmpresaAlreadyPresent(empresa)){
-            empresaModel.addObject("successMessage", "Empresa já cadastrada.");
-        }
         else {
             empresaService.salvarEmpresa(empresa);
             empresaModel.addObject("successMessage", "Empresa cadastrada com sucesso.");
