@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html layout:decorator="layout" xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/bower_components/jvectormap/jquery-jvectormap.css">
+</head>
+
+<body>
+    <div layout:fragment="header">
+        <h1>
+            Dashboard
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        </ol>
+    </div>
+
+    <div layout:fragment="content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Grafico do valor das ações</h3>
+                    </div>
+                    <div class="box-body chart-responsive">
+                        <div class="chart" id="revenue-chart" style="height: 300px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="box box-default">
+                    <div class="box-body">
+                        <div id="chart_a"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="box box-default">
+                    <div class="box-body">
+                        <div id="chart_b"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="box box-default">
+                    <div class="box-body">
+                        <div id="chart_c"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div layout:fragment="scriptContent">
+        <!-- Morris.js charts -->
+        <script src="/bower_components/raphael/raphael.min.js"></script>
+        <script src="/bower_components/morris.js/morris.min.js"></script>
+
+        <script>
+            $(function () {
+                var area = new Morris.Area({
+                    element: 'revenue-chart',
+                    resize: true,
+                    data: [
+                        {y: '2011', item1: 2666},
+                        {y: '2012', item1: 2778},
+                        {y: '2013', item1: 4912},
+
+                    ],
+                    xkey: 'y',
+                    ykeys: ['item1'],
+                    labels: ['Item 1'],
+                    lineColors: ['#1f4a5b']
+                });
+            });
+        </script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+            google.charts.load('current', {'packages':['line']});
+            google.charts.setOnLoadCallback(drawCharts);
+
+            function drawCharts() {
+
+                var data = new google.visualization.DataTable();
+                data.addColumn('number', 'Day');
+                data.addColumn('number', 'Ação');
+
+                data.addRows([
+                    [1,  37.8],
+                    [2,  30.9],
+                    [3,  25.4],
+                    [4,  11.7],
+                    [5,  11.9],
+                    [6,   8.8],
+                    [7,   7.6],
+                    [8,  12.3],
+                    [9,  16.9],
+                    [10, 12.8],
+                    [11,  5.3],
+                    [12,  6.6],
+                    [13,  4.8],
+                    [14,  4.2]
+                ]);
+
+                var options = {
+                    chart: {
+                        title: 'Ação',
+                        subtitle: 'em reais (BRL)'
+                    },
+                    axes: {
+                        x: {
+                            0: {side: 'top'}
+                        }
+                    }
+                };
+
+                var chart = new google.charts.Line(document.getElementById('chart_a'));
+                var chartb = new google.charts.Line(document.getElementById('chart_b'));
+                var chartc = new google.charts.Line(document.getElementById('chart_c'));
+
+                chart.draw(data, google.charts.Line.convertOptions(options));
+                chartb.draw(data, google.charts.Line.convertOptions(options));
+                chartc.draw(data, google.charts.Line.convertOptions(options));
+
+            }
+        </script>
+    </div>
+</body>
+</html>

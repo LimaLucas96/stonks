@@ -12,6 +12,9 @@
 *.zip
 *.tar.gz
 *.rar
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###
 .apt_generated
@@ -27,6 +30,7 @@
 *.iws
 *.iml
 *.ipr
+bin/
 
 ### NetBeans ###
 /nbproject/private/
@@ -34,12 +38,9 @@
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
 
 ### VS Code ###
 .vscode/
-/target/
-/bin/
 
 # Created by https://www.toptal.com/developers/gitignore/api/java
 # Edit at https://www.toptal.com/developers/gitignore?templates=java
