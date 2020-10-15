@@ -8,35 +8,33 @@
 <body>
     <div layout:fragment="header">
         <h1>
-            Dashboard
+            Nova Carteira de Investimento
         </h1>
-        <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        </ol>
     </div>
 
     <div layout:fragment="content">
+        
+        <label for="basic-url">Ativo</label>
         <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">@</span>
-            <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+            <select class="form-control input-lg">
+                <option th:each="ativo : ${ativos}"
+                    th:value="${ativo.id}"
+                    th:text="${ativo.codigo}" />
+            </select>
+        </div>
+        
+        <label for="basic-url">Valor</label>
+        <div class="input-group">
+            <span class="input-group-addon" id="basic-addon2">R$</span>
+            <input type="text" class="form-control input-lg" placeholder="Valor em reais">
+            <span class="input-group-addon">.00 (BRL)</span>
+        </div>
+         
+        <label for="basic-url">Data</label>
+        <div class="input-group">
+            <input class="form-control input-lg" type="date" value="2011-08-19" id="example-date-input">
         </div>
           
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="Recipient's username" aria-describedby="basic-addon2">
-            <span class="input-group-addon" id="basic-addon2">@example.com</span>
-        </div>
-          
-        <div class="input-group">
-            <span class="input-group-addon">$</span>
-            <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
-            <span class="input-group-addon">.00</span>
-        </div>
-          
-        <label for="basic-url">Your vanity URL</label>
-        <div class="input-group">
-            <span class="input-group-addon" id="basic-addon3">https://example.com/users/</span>
-            <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-        </div>
     </div>
 </body>
 </html>
