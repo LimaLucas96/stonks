@@ -3,8 +3,6 @@ package br.com.stonks.stonks.models;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 public class Carteira {
