@@ -16,7 +16,6 @@ public class Carteira {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
     
-    @ManyToMany
     @JoinColumn(name = "carteira_ativo_id")
     private int carteira_ativo_id;
 
