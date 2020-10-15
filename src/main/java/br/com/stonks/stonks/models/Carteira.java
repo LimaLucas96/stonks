@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class CarteiraUsuario {
+public class Carteira {
 
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO)
@@ -19,8 +19,7 @@ public class CarteiraUsuario {
     private Usuario usuario;
     
     @ManyToMany(mappedBy = "carteira_ativo", fetch = FetchType.LAZY)
-    @Column(name = "ativos")
-    private Set<Ativo> ativos = new HashSet<>();
+    private int carteira_ativo_id;
 
     @Column(name = "status")
     private Boolean status;
@@ -29,18 +28,17 @@ public class CarteiraUsuario {
     private Date data_atualizacao;
     
 
-    public CarteiraUsuario(
+    public Carteira(
     		@NotNull(message = "Status é obrigatorio.") Usuario usuario,
     		@NotNull(message = "Status é obrigatorio.") Ativo ativo,
     		@NotNull(message = "Status é obrigatorio.") Boolean status, 
     		@NotNull(message = "Data da compra é obrigatório.") Date data_atualizacao) {
-    	this.ativos.add(ativo);
     	this.status = status;
     	this.usuario = usuario;
         this.data_atualizacao = data_atualizacao;
     }
 
-    public CarteiraUsuario() { }
+    public Carteira() { }
 
 	public int getId() {
 		return id;
@@ -58,12 +56,12 @@ public class CarteiraUsuario {
 		this.usuario = usuario;
 	}
 
-	public Set<Ativo> getAtivos() {
-		return ativos;
+	public int getCarteira_ativo_id() {
+		return carteira_ativo_id;
 	}
 
-	public void setAtivos(Set<Ativo> ativos) {
-		this.ativos = ativos;
+	public void setCarteira_ativo_id(int carteira_ativo_id) {
+		this.carteira_ativo_id = carteira_ativo_id;
 	}
 
 	public Boolean getStatus() {
@@ -74,11 +72,11 @@ public class CarteiraUsuario {
 		this.status = status;
 	}
 
-	public Date getdata_atualizacao() {
+	public Date getData_atualizacao() {
 		return data_atualizacao;
 	}
 
-	public void setdata_atualizacao(Date data_atualizacao) {
+	public void setData_atualizacao(Date data_atualizacao) {
 		this.data_atualizacao = data_atualizacao;
 	}
 

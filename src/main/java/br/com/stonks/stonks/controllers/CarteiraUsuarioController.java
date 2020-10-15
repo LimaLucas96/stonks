@@ -1,10 +1,10 @@
 
 package br.com.stonks.stonks.controllers;
 
-import br.com.stonks.stonks.models.CarteiraUsuario;
+import br.com.stonks.stonks.models.Carteira;
 import br.com.stonks.stonks.repository.AtivoRepository;
-import br.com.stonks.stonks.repository.CarteiraUsuarioRepository;
-import br.com.stonks.stonks.services.CarteiraUsuarioService;
+import br.com.stonks.stonks.repository.CarteiraRepository;
+import br.com.stonks.stonks.services.CarteiraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -22,31 +22,31 @@ import javax.validation.Valid;
 public class CarteiraUsuarioController {
 
     @Autowired
-    CarteiraUsuarioService carteiraUsuarioService;
+    CarteiraService carteiraService;
 
     @Autowired
-    private CarteiraUsuarioRepository carteiraUsuarioRepository;
+    private CarteiraRepository carteiraRepository;
     
     @Autowired
     private AtivoRepository ativoRepository;
 
     @RequestMapping(value = "/carteira/cadastrar", method = RequestMethod.POST)
-    public ModelAndView create(@Valid CarteiraUsuario carteira, BindingResult bindingResult, ModelMap modelMap){
+    public ModelAndView create(@Valid Carteira carteira, BindingResult bindingResult, ModelMap modelMap){
         ModelAndView modelAndView = new ModelAndView();
 
         if (bindingResult.hasErrors()){
             modelAndView.addObject("successMessage", "Por favor corriga os erros.");
             modelMap.addAttribute("bindingResult", bindingResult);
         }
-        else if(carteiraUsuarioService.isAlreadyPresent(carteira)){
+        else if(carteiraService.isAlreadyPresent(carteira)){
             modelAndView.addObject("successMessage", "Carteira ja existente");
         }
         else {
-            carteiraUsuarioService.salvarCarteira(carteira);
+            carteiraService.salvarCarteira(carteira);
             modelAndView.addObject("successMessage", "Carteira criada com sucesso.");
         }
 
-        modelAndView.addObject("carteira", new CarteiraUsuario());
+        modelAndView.addObject("carteira", new Carteira());
         modelAndView.setViewName("cadastrarCarteira");
         return modelAndView;
 
@@ -61,17 +61,17 @@ public class CarteiraUsuarioController {
     }
 
     @RequestMapping(value = "/carteira/{id}", method = RequestMethod.POST)
-    public String update(@PathVariable("id") int id, CarteiraUsuario carteira) {
-    	CarteiraUsuario carteiraInstance = carteiraUsuarioRepository.findById(id).get();
+    public String update(@PathVariable("id") int id, Carteira carteira) {
+    	Carteira carteiraInstance = carteiraRepository.findById(id).get();
     	
-        carteiraInstance.setUltimaAtualizacao(new Date());
-        carteiraUsuarioRepository.save(carteiraInstance);
+        carteiraInstance.setData_atualizacao(new Date());
+        carteiraRepository.save(carteiraInstance);
         return "redirect:/dashboard/home";
     }
 
     @RequestMapping(value = "/carteira/{id}", method = RequestMethod.DELETE)
     public String delete(@PathVariable("id") int id) {
-        carteiraUsuarioRepository.deleteById(id);
+        carteiraRepository.deleteById(id);
 
         return "redirect:/dashboard/home";
     }

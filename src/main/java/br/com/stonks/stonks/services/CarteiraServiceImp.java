@@ -1,26 +1,26 @@
 package br.com.stonks.stonks.services;
 
-import br.com.stonks.stonks.models.CarteiraUsuario;
-import br.com.stonks.stonks.repository.CarteiraUsuarioRepository;
+import br.com.stonks.stonks.models.Carteira;
+import br.com.stonks.stonks.repository.CarteiraRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 @Service
-public class CarteiraUsuarioServiceImp implements CarteiraUsuarioService{
+public class CarteiraServiceImp implements CarteiraService{
 
     @Autowired
-    CarteiraUsuarioRepository carteiraRepository;
+    CarteiraRepository carteiraRepository;
 
     @Override
-    public void salvarCarteira(CarteiraUsuario carteira) {
+    public void salvarCarteira(Carteira carteira) {
         
-        carteira.setUltimaAtualizacao(new Date());
+        carteira.setData_atualizacao(new Date());
         carteiraRepository.save(carteira);
     }
 
     @Override
-    public boolean isAlreadyPresent(CarteiraUsuario carteira) {
+    public boolean isAlreadyPresent(Carteira carteira) {
         Boolean present;
 
         if (carteiraRepository.findById(carteira.getId()) != null){
