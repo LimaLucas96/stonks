@@ -16,7 +16,8 @@ public class Carteira {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
     
-    @ManyToMany(mappedBy = "carteira_ativo", fetch = FetchType.LAZY)
+    @ManyToMany
+    @JoinColumn(name = "carteira_ativo_id")
     private int carteira_ativo_id;
 
     @Column(name = "status")
@@ -27,7 +28,7 @@ public class Carteira {
     
 
     public Carteira(
-    		@NotNull(message = "Status é obrigatorio.") Usuario usuario) {
+    		@NotNull(message = "Usuário é obrigatorio.") Usuario usuario) {
     	this.status = true;
     	this.usuario = usuario;
         this.data_atualizacao = new Date();

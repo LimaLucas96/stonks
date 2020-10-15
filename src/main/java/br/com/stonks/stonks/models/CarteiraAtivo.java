@@ -12,10 +12,13 @@ public class CarteiraAtivo {
     private int id;
 
     @NotNull
+    @ManyToMany
     @JoinColumn(name = "carteira_id")
     private Carteira carteira;
     
-    @ManyToMany(mappedBy = "ativo_id", fetch = FetchType.LAZY)
+    @NotNull
+    @ManyToMany
+    @JoinColumn(name = "ativo_id")
     private Ativo ativo;
 
     @Column(name = "valor")
@@ -29,11 +32,11 @@ public class CarteiraAtivo {
     
 
     public CarteiraAtivo(
-    		@NotNull(message = "Status é obrigatorio.") Carteira carteira,
-    		@NotNull(message = "Status é obrigatorio.") Ativo ativo,
-    		@NotNull(message = "Status é obrigatorio.") double valor,
-    		@NotNull(message = "Status é obrigatorio.") int quantidade,
-    		@NotNull(message = "Data da compra é obrigatório.") Date data_compra) {
+    		@NotNull(message = "Carteira é obrigatoria.") Carteira carteira,
+    		@NotNull(message = "Ativo é obrigatorio.") Ativo ativo,
+    		@NotNull(message = "Valor é obrigatorio.") double valor,
+    		@NotNull(message = "Quantidade é obrigatoria.") int quantidade,
+    		@NotNull(message = "Data da compra é obrigatória.") Date data_compra) {
     	this.ativo = ativo;
     	this.carteira = carteira;
     	this.valor = valor;
