@@ -14,12 +14,12 @@ public class CarteiraAtivo {
     //@NotNull
     //@ManyToMany
     //@JoinColumn(name = "carteira_id")
-    private Carteira carteira;
+    //private Carteira carteira;
     
     //@NotNull
     //@ManyToMany
     //@Column(name = "ativo_id")
-    private Ativo ativo;
+    //private Ativo ativo;
 
     @Column(name = "valor")
     private double valor;
