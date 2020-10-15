@@ -11,15 +11,15 @@ public class CarteiraAtivo {
     @GeneratedValue (strategy = GenerationType.AUTO)
     private int id;
 
-    //@NotNull
-    //@ManyToMany
-    //@JoinColumn(name = "carteira_id")
-    //private Carteira carteira;
+    @NotNull
+	@ManyToOne
+    @JoinColumn(name = "carteira_id")
+    private Carteira carteira;
     
-    //@NotNull
-    //@ManyToMany
-    //@Column(name = "ativo_id")
-    //private Ativo ativo;
+    @NotNull
+	@ManyToOne
+    @JoinColumn(name = "ativo_id")
+    private Ativo ativo;
 
     @Column(name = "valor")
     private double valor;
