@@ -27,13 +27,10 @@ public class Carteira {
     
 
     public Carteira(
-    		@NotNull(message = "Status é obrigatorio.") Usuario usuario,
-    		@NotNull(message = "Status é obrigatorio.") Ativo ativo,
-    		@NotNull(message = "Status é obrigatorio.") Boolean status, 
-    		@NotNull(message = "Data da compra é obrigatório.") Date data_atualizacao) {
-    	this.status = status;
+    		@NotNull(message = "Status é obrigatorio.") Usuario usuario) {
+    	this.status = true;
     	this.usuario = usuario;
-        this.data_atualizacao = data_atualizacao;
+        this.data_atualizacao = new Date();
     }
 
     public Carteira() { }

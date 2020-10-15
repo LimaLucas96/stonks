@@ -19,7 +19,7 @@ import java.util.Date;
 import javax.validation.Valid;
 
 @Controller
-public class CarteiraUsuarioController {
+public class CarteiraController {
 
     @Autowired
     CarteiraService carteiraService;
