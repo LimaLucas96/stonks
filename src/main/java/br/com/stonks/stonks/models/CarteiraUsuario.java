@@ -19,24 +19,25 @@ public class CarteiraUsuario {
     private Usuario usuario;
     
     @ManyToMany(mappedBy = "carteira_ativo", fetch = FetchType.LAZY)
-    @Column(name = "ativo")
+    @Column(name = "ativos")
     private Set<Ativo> ativos = new HashSet<>();
 
     @Column(name = "status")
     private Boolean status;
 
-    @Column( name = "data_compra")
-    private Date data_compra;
+    @Column( name = "data_atualizacao")
+    private Date data_atualizacao;
     
 
     public CarteiraUsuario(
     		@NotNull(message = "Status é obrigatorio.") Usuario usuario,
     		@NotNull(message = "Status é obrigatorio.") Ativo ativo,
-    		@NotNull(message = "Status é obrigatorio.") Boolean satus, 
-    		@NotNull(message = "Data da compra é obrigatório.") Date data_compra) {
+    		@NotNull(message = "Status é obrigatorio.") Boolean status, 
+    		@NotNull(message = "Data da compra é obrigatório.") Date data_atualizacao) {
     	this.ativos.add(ativo);
+    	this.status = status;
     	this.usuario = usuario;
-        this.data_compra = data_compra;
+        this.data_atualizacao = data_atualizacao;
     }
 
     public CarteiraUsuario() { }
@@ -73,12 +74,12 @@ public class CarteiraUsuario {
 		this.status = status;
 	}
 
-	public Date getData_compra() {
-		return data_compra;
+	public Date getdata_atualizacao() {
+		return data_atualizacao;
 	}
 
-	public void setData_compra(Date data_compra) {
-		this.data_compra = data_compra;
+	public void setdata_atualizacao(Date data_atualizacao) {
+		this.data_atualizacao = data_atualizacao;
 	}
 
 
