@@ -3,6 +3,7 @@ package br.com.stonks.stonks.models;
 import javax.persistence.*;
 
 @Entity
+@DiscriminatorValue(value = "fundo")
 public class FundoImobiliario extends Ativo {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
