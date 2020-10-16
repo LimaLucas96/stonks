@@ -53,11 +53,11 @@ public class CarteiraController {
     }
     
     @RequestMapping(value = "/carteira/cadastrar", method = RequestMethod.GET)
-    public String cadastrarCarteira() {
+    public ModelAndView cadastrarCarteira() {
     	ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("cadastrarCarteira");
+        modelAndView.setViewName("/dashboard/cadastrarcarteira");
         modelAndView.addObject("ativos", ativoRepository.findAll());
-        return "dashboard/cadastrarcarteira";
+        return modelAndView;
     }
 
     @RequestMapping(value = "/carteira/{id}", method = RequestMethod.POST)
