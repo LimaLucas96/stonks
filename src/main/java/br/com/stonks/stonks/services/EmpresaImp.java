@@ -10,7 +10,6 @@ public class EmpresaImp implements EmpresaService {
     @Autowired
     EmpresaRepository empresaRepository;
 
-
     @Override
     public void salvarEmpresa(Empresa empresa) {
         empresaRepository.save(empresa);
