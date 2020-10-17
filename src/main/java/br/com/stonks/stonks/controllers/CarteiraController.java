@@ -2,6 +2,7 @@
 package br.com.stonks.stonks.controllers;
 
 import br.com.stonks.stonks.models.Carteira;
+import br.com.stonks.stonks.models.CarteiraAtivo;
 import br.com.stonks.stonks.repository.AtivoRepository;
 import br.com.stonks.stonks.repository.CarteiraRepository;
 import br.com.stonks.stonks.services.CarteiraService;
@@ -39,7 +40,7 @@ public class CarteiraController {
             modelMap.addAttribute("bindingResult", bindingResult);
         }
         else if(carteiraService.isAlreadyPresent(carteira)){
-            modelAndView.addObject("successMessage", "Carteira ja existente");
+            modelAndView.addObject("failMessage", "Carteira ja existente");
         }
         else {
             carteiraService.salvarCarteira(carteira);
@@ -47,6 +48,8 @@ public class CarteiraController {
         }
 
         modelAndView.addObject("carteira", new Carteira());
+        modelAndView.addObject("carteiraAtivo", new CarteiraAtivo());
+        
         modelAndView.setViewName("cadastrarCarteira");
         return modelAndView;
 

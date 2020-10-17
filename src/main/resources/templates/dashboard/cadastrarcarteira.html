@@ -14,30 +14,36 @@
 
     <div layout:fragment="content">
         <div class="row">
-            <div class="col-sm-12 col-md-3">
-                <label for="ativo">Ativo</label>
-                <div class="input-group">
-                    <select class="form-control input-lg">
-                        <option id="ativo" th:each="ativo : ${ativos}"
-                                th:value="${ativo.id}"
-                                th:text="${ativo.codigo}" ></option>
-                    </select>
+            <form th:action="@{/carteira/cadastrar}" th:object="${carteiraAtivo}" method="post">
+                <div class="col-sm-12 col-md-3">
+                    <label for="ativo">Ativo</label>
+                    <div class="input-group">
+                        <select class="form-control input-lg" th:field="*{ativo}">
+                            <option id="ativo" th:each="ativo : ${ativos}"
+                                    th:value="${ativo.id}"
+                                    th:text="${ativo.codigo}">
+                            </option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm-12 col-md-3">
-                <label for="basic-url">Valor</label>
-                <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon2">R$</span>
-                    <input type="text" class="form-control input-lg" placeholder="Valor em reais">
-                    <span class="input-group-addon">.00 (BRL)</span>
+                <div class="col-sm-12 col-md-3">
+                    <label for="basic-url">Valor</label>
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon2">R$</span>
+                        <input type="text" class="form-control input-lg" placeholder="Valor em reais" th:field="*{valor}">
+                        <span class="input-group-addon">.00 (BRL)</span>
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm-12 col-md-3">
-                <label for="basic-url">Data</label>
-                <div class="input-group">
-                    <input class="form-control input-lg" type="date" value="2011-08-19" id="example-date-input">
+                <div class="col-sm-12 col-md-3">
+                    <label for="basic-url">Data</label>
+                    <div class="input-group">
+                        <input class="form-control input-lg" type="date" value="2020-10-19" id="data de compra" th:field="*{data_compra}">
+                    </div>
                 </div>
-            </div>
+                <div class="col-sm-12 col-md-3">
+                    <button type="submit" class="btn btn-primary">Cadastrar</button>
+                </div>
+            </form>
         </div>
     </div>
 </body>
