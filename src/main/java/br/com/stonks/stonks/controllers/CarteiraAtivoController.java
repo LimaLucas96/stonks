@@ -7,6 +7,8 @@ import br.com.stonks.stonks.services.CarteiraAtivoService;
 import br.com.stonks.stonks.services.CarteiraService;
 import br.com.stonks.stonks.services.UsuarioServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,11 +31,13 @@ public class CarteiraAtivoController {
     private UsuarioServiceImp usuarioService;
 
     @GetMapping(value = "/relatorio")
-    public String imprimirRelatorio(@RequestParam(value = "idCarteira") int idCarteira, Model model){
+    public String imprimirRelatorio(Model model){
 
-        List<CarteiraAtivo> ativos = carteiraAtivoService.findByCarteira(idCarteira);
-        Carteira carteira = carteiraService.findById(idCarteira).get();
-        Usuario usuario = usuarioService.findById(carteira.getUsuario().getId()).get();
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Usuario usuario = usuarioService.usuarioPorEmail(principal.getUsername());
+        Carteira carteira = carteiraService.carteiraByUsuario(usuario);
+
+        List<CarteiraAtivo> ativos = carteiraAtivoService.findByCarteira(carteira.getId());
 
         model.addAttribute("ativos", ativos);
         model.addAttribute("usuario", usuario.getNome());

@@ -75,6 +75,11 @@ public class UsuarioServiceImp implements UsuarioService {
         return true;
     }
 
+    @Override
+    public Usuario usuarioPorEmail(String email) {
+        return usuarioRepository.findByEmail(email);
+    }
+
     public Optional<Usuario> findById(int id){
         return usuarioRepository.findById(id);
     }
