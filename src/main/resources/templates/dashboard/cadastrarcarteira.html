@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html layout:decorator="layout" xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/bower_components/jvectormap/jquery-jvectormap.css">
+</head>
+
+<body>
+    <div layout:fragment="header">
+        <h1>
+            Nova Carteira de Investimento
+        </h1>
+    </div>
+
+    <div layout:fragment="content">
+        <div class="row">
+            <form th:action="@{/carteira/cadastrar}" th:object="${carteiraAtivo}" method="post">
+                <div class="col-sm-12 col-md-3">
+                    <label for="ativo">Ativo</label>
+                    <div class="input-group">
+                        <select class="form-control input-lg" th:field="*{ativo}">
+                            <option id="ativo" th:each="ativo : ${ativos}"
+                                    th:value="${ativo.id}"
+                                    th:text="${ativo.codigo}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-3">
+                    <label for="valor">Valor</label>
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon2">R$</span>
+                        <input type="number" class="form-control input-lg" placeholder="Valor em reais" id="valor" th:field="*{valor}">
+                        <span class="input-group-addon">.00 (BRL)</span>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-3">
+                    <label for="valor">Quantidade</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control input-lg" placeholder="Quantidade" th:field="*{quantidade}">
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-3">
+                    <label for="dataTransacao">Data</label>
+                    <div class="input-group">
+                        <input class="form-control input-lg" type="date" id="dataTransacao" th:field="*{dataTransacao}">
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-3">
+                    <button type="submit" class="btn btn-primary">Cadastrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html layout:decorator="layout" xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/bower_components/jvectormap/jquery-jvectormap.css">
+</head>
+
+<body>
+
+    <div layout:fragment="content">
+        <div class="row">
+            <div class="col-lg-4" th:each="ativo : ${ativos}">
+                <div class="box box-default">
+                    <div class="box-header"><p th:text="${ativo.codigo}">Codigo</p></div>
+                    <div class="box-body">
+                        <div th:id="'chart_' + ${ativo.codigo}" class="autoChamadaAjax"
+                             th:attr="data-after-success=${'desenharGraficos(data, 200,chart_' + ativo.codigo+')'}, data-url=${'/ativo/' + ativo.codigo}"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div layout:fragment="scriptContent">
+        <!-- Google Charts -->
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+        <script>
+             google.charts.load('current', {'packages':['corechart']});
+             google.charts.setOnLoadCallback(setupAjax);
+
+
+            function setupAjax() {
+                $('.autoChamadaAjax:not(".setupAjax")').each(function autoCahamadaAjaxFunc() {
+                    var this_ = $(this);
+                    atualizarDiv(this_, 500, false);
+                    this_.addClass('setupAjax');
+                })
+            }
+
+            function atualizarDiv(selector, global, time) {
+                const this_ = $(selector);
+                const globalAjax = global ? global : false;
+                const afterSuccess = this_.attr('data-after-success');
+
+                let url = this_.attr('data-url');
+
+
+                if (this_.length) {
+                    $.ajax({
+                        url: url,
+                        global: globalAjax,
+                    }).done(function (data) {
+                        if (afterSuccess) {
+                            eval(afterSuccess);
+                        }
+                    });
+                }
+            }
+
+        </script>
+
+        <script>
+
+            function desenharGraficos (dataGrafico, height, idDiv) {
+                var obj = JSON.parse(dataGrafico);
+
+                var dadosGrafico = obj.dados;
+
+                var options = {
+                    title: 'TesteGrafico',
+                    titlePosition: 'none',
+                    height: height,
+                    legend: 'none',
+                    hAxis: {
+                        viewWindow: {
+                            min: 0
+                        }
+                    }
+                };
+
+                var data = google.visualization.arrayToDataTable(dadosGrafico);
+
+                var chart =new google.visualization.AreaChart(idDiv);
+                chart.draw(data, options);
+            }
+        </script>
+
+
+    </div>
+</body>
+</html>

@@ -14,7 +14,7 @@ public abstract class Ativo {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "empresa_id", nullable = false)
-    private Empresa empresa;
+    private Empresa empresa;   
 
     public Ativo() { }
 
