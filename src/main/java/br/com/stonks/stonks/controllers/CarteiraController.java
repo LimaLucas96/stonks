@@ -68,7 +68,7 @@ public class CarteiraController {
     @RequestMapping(value = "/carteira/cadastrar", method = RequestMethod.GET)
     public ModelAndView cadastrarCarteira() {
     	ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/dashboard/cadastrarcarteira");
+        modelAndView.setViewName("dashboard/cadastrarcarteira");
         modelAndView.addObject("ativos", ativoRepository.findAll());
         modelAndView.addObject("carteiraAtivo", new CarteiraAtivo());
         return modelAndView;

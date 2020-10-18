@@ -9,4 +9,6 @@ public interface UsuarioService {
     public void salvarUsuario(Usuario usuario) throws UsuarioExistenteException, CpfInvalidoException;
 
     Boolean isUserAlreadyPresent(Usuario usuario);
+
+    Usuario usuarioPorEmail(String email);
 }

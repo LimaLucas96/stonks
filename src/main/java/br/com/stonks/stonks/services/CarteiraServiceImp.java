@@ -1,11 +1,13 @@
 package br.com.stonks.stonks.services;
 
 import br.com.stonks.stonks.models.Carteira;
+import br.com.stonks.stonks.models.Usuario;
 import br.com.stonks.stonks.repository.CarteiraRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.util.Optional;
+
 @Service
 public class CarteiraServiceImp implements CarteiraService{
 
@@ -14,6 +16,7 @@ public class CarteiraServiceImp implements CarteiraService{
 
     @Override
     public void salvarCarteira(Carteira carteira) {
+
         carteiraRepository.save(carteira);
     }
 
@@ -27,5 +30,15 @@ public class CarteiraServiceImp implements CarteiraService{
             present = false;
         }
         return present;
+    }
+
+    @Override
+    public Optional<Carteira> findById(int id){
+        return carteiraRepository.findById(id);
+    }
+
+    @Override
+    public Carteira carteiraByUsuario(Usuario usuario) {
+        return carteiraRepository.findByUsuario(usuario);
     }
 }
