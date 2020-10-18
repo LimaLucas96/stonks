@@ -14,8 +14,6 @@ public class CarteiraServiceImp implements CarteiraService{
 
     @Override
     public void salvarCarteira(Carteira carteira) {
-        
-        carteira.setData_atualizacao(new Date());
         carteiraRepository.save(carteira);
     }
 
