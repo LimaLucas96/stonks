@@ -10,46 +10,56 @@
         <h1>
             Nova Carteira de Investimento
         </h1>
+        <ol class="breadcrumb">
+            <li><a href="/home"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="/carteira/cadastrar"><i class="fa fa-edit"></i> Sua Carteira</a></li>
+        </ol>
     </div>
 
     <div layout:fragment="content">
         <div class="row">
-            <form th:action="@{/carteira/cadastrar}" th:object="${carteiraAtivo}" method="post">
-                <div class="col-sm-12 col-md-3">
-                    <label for="ativo">Ativo</label>
-                    <div class="input-group">
-                        <select class="form-control input-lg" th:field="*{ativo}">
-                            <option id="ativo" th:each="ativo : ${ativos}"
-                                    th:value="${ativo.id}"
-                                    th:text="${ativo.codigo}">
-                            </option>
-                        </select>
-                    </div>
+            <div class="col-sm-12">
+                <div class="box box-primary">
+                    <form th:action="@{/carteira/cadastrar}" th:object="${carteiraAtivo}" method="post">
+                        <div class="box-body">
+                            <div class="col-sm-12 col-md-3">
+                                <label for="ativo">Ativo</label>
+                                <div class="input-group">
+                                    <select class="form-control input-lg" th:field="*{ativo}">
+                                        <option id="ativo" th:each="ativo : ${ativos}"
+                                                th:value="${ativo.id}"
+                                                th:text="${ativo.codigo}">
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-3">
+                                <label for="valor">Valor</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon2">R$</span>
+                                    <input type="number" class="form-control input-lg" placeholder="Valor em reais" id="valor" th:field="*{valor}">
+                                    <span class="input-group-addon">.00 (BRL)</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-3">
+                                <label for="valor">Quantidade</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control input-lg" placeholder="Quantidade" th:field="*{quantidade}">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-3">
+                                <label for="dataTransacao">Data</label>
+                                <div class="input-group">
+                                    <input class="form-control input-lg" type="date" id="dataTransacao" th:field="*{dataTransacao}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-primary pull-right">Cadastrar</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="col-sm-12 col-md-3">
-                    <label for="valor">Valor</label>
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon2">R$</span>
-                        <input type="number" class="form-control input-lg" placeholder="Valor em reais" id="valor" th:field="*{valor}">
-                        <span class="input-group-addon">.00 (BRL)</span>
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-3">
-                    <label for="valor">Quantidade</label>
-                    <div class="input-group">
-                        <input type="number" class="form-control input-lg" placeholder="Quantidade" th:field="*{quantidade}">
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-3">
-                    <label for="dataTransacao">Data</label>
-                    <div class="input-group">
-                        <input class="form-control input-lg" type="date" id="dataTransacao" th:field="*{dataTransacao}">
-                    </div>
-                </div>
-                <div class="col-sm-12 col-md-3">
-                    <button type="submit" class="btn btn-primary">Cadastrar</button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </body>
