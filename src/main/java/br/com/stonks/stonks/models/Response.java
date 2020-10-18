@@ -21,6 +21,22 @@ public class Response {
                 "currency='" + meta.getCurrency() + "'/ preco='"+meta.getRegularMarketPrice()+"'/ symbol='"+meta.getSymbol()+"'}";
     }
 
+    public String getTabelaDados(){
+        Quote quote = getChart().getResult()[0].getIndicators().getQuote()[0];
+        Float[] valores = quote.getOpen();
+        String retorno = "[[\"tempo\", \"Valor\"]";
+
+        for (int i = 0 ; i < valores.length; i ++) {
+            if (valores[i] != null) {
+                retorno += ",";
+                retorno += "[" + i + "," + valores[i] + "]";
+            }
+        }
+
+        retorno += "]";
+        return retorno;
+    }
+
     public Response() {
 
     }

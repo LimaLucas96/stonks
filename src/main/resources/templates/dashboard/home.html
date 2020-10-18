@@ -14,7 +14,7 @@
                     <div class="box-header"><p th:text="${ativo.codigo}">Codigo</p></div>
                     <div class="box-body">
                         <div th:id="'chart_' + ${ativo.codigo}" class="autoChamadaAjax"
-                             th:attr="data-after-success=${'desenharGraficos(data, 200,chart_' + ativo.codigo+')'}, data-url=${'/teste'}"></div>
+                             th:attr="data-after-success=${'desenharGraficos(data, 200,chart_' + ativo.codigo+')'}, data-url=${'/ativo/' + ativo.codigo}"></div>
                     </div>
                 </div>
             </div>
