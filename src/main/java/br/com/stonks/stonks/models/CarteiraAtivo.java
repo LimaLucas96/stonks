@@ -27,21 +27,25 @@ public class CarteiraAtivo {
     @Column(name = "quantidade")
     private int quantidade;
 
-    @Column( name = "data_compra")
-    private Date data_compra;
-    
+    @Column( name = "data_transacao")
+    private Date dataTransacao;
+
+    @Column( name = "operacao")
+    private Operacao operacao;
 
     public CarteiraAtivo(
     		@NotNull(message = "Carteira é obrigatoria.") Carteira carteira,
     		@NotNull(message = "Ativo é obrigatorio.") Ativo ativo,
     		@NotNull(message = "Valor é obrigatorio.") double valor,
     		@NotNull(message = "Quantidade é obrigatoria.") int quantidade,
-    		@NotNull(message = "Data da compra é obrigatória.") Date data_compra) {
+    		@NotNull(message = "Data da compra é obrigatória.") Date data_compra,
+			@NotNull(message = "Data da compra é obrigatória.") Operacao operacao) {
     	this.ativo = ativo;
     	this.carteira = carteira;
     	this.valor = valor;
     	this.quantidade = quantidade;
-        this.data_compra = data_compra;
+        this.dataTransacao = data_compra;
+        this.operacao = operacao;
     }
 
     public Carteira getCarteira() {
@@ -76,12 +80,12 @@ public class CarteiraAtivo {
 		this.quantidade = quantidade;
 	}
 
-	public Date getData_compra() {
-		return data_compra;
+	public Date getDataTransacao() {
+		return dataTransacao;
 	}
 
-	public void setData_compra(Date data_compra) {
-		this.data_compra = data_compra;
+	public void setDataTransacao(Date dataTransacao) {
+		this.dataTransacao = dataTransacao;
 	}
 
 	public CarteiraAtivo() { }
@@ -94,5 +98,11 @@ public class CarteiraAtivo {
 		this.id = id;
 	}
 
+	public Operacao getOperacao() {
+		return operacao;
+	}
 
+	public void setOperacao(Operacao operacao) {
+		this.operacao = operacao;
+	}
 }

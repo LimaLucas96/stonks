@@ -17,7 +17,6 @@ public class CarteiraAtivoServiceImp implements CarteiraAtivoService {
 
     @Override
     public void salvar(CarteiraAtivo carteiraAtivo) {
-
         carteiraAtivoRepository.save(carteiraAtivo);
     }
 

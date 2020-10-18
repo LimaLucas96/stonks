@@ -54,7 +54,6 @@ public class AuthenticationController {
         Usuario usuario = usuarioService.usuarioPorEmail(principal.getUsername());
         Carteira carteira = carteiraService.carteiraByUsuario(usuario);
         modelAndView.addObject("ativos", carteiraAtivoService.listarAtivos(carteira));
-//        return modelAndView;
 
         return modelAndView;
     }
@@ -70,25 +69,4 @@ public class AuthenticationController {
         return "{\"dados\":[[\"teste\", \"conexao\"], [\"1\", 12], [\"2\", 12], [\"3\", 12]]}";
     }
 
-//    @RequestMapping(value = "/usuario/register", method = RequestMethod.POST)
-//    public ModelAndView create(@Valid Usuario user, BindingResult bindingResult, ModelMap modelMap){
-//        ModelAndView modelAndView = new ModelAndView();
-//
-//        if (bindingResult.hasErrors()){
-//            modelAndView.addObject("successMessage", "Por favor corriga os erros.");
-//            modelMap.addAttribute("bindingResult", bindingResult);
-//        }
-//        else if(usuarioService.isUserAlreadyPresent(user)){
-//            modelAndView.addObject("successMessage", "Usuario ja existe");
-//        }
-//        else {
-//            usuarioService.salvarUsuario(user);
-//            modelAndView.addObject("successMessage", "Usuario registrado com sucesso.");
-//        }
-//
-//        modelAndView.addObject("user", new Usuario());
-//        modelAndView.setViewName("register");
-//        return modelAndView;
-//
-//    }
 }

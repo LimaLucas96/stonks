@@ -30,7 +30,7 @@ public class CarteiraAtivoController {
     @Autowired
     private UsuarioServiceImp usuarioService;
 
-    @GetMapping(value = "/relatorio")
+    @GetMapping(value = "/carteiraativo/relatorio")
     public String imprimirRelatorio(Model model){
 
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -39,7 +39,7 @@ public class CarteiraAtivoController {
 
         List<CarteiraAtivo> ativos = carteiraAtivoService.findByCarteira(carteira.getId());
 
-        model.addAttribute("ativos", ativos);
+        model.addAttribute("ativosCarteira", ativos);
         model.addAttribute("usuario", usuario.getNome());
 
         return "dashboard/imprimirRelatorio";

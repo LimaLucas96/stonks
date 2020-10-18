@@ -1,10 +1,8 @@
 package br.com.stonks.stonks;
-import br.com.stonks.stonks.models.Response;
+import br.com.stonks.stonks.models.*;
+import br.com.stonks.stonks.services.CarteiraService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import br.com.stonks.stonks.models.Chart;
-import br.com.stonks.stonks.models.Role;
-import br.com.stonks.stonks.models.Usuario;
 import br.com.stonks.stonks.repository.RoleRepository;
 import br.com.stonks.stonks.repository.UsuarioRepository;
 import br.com.stonks.stonks.services.UsuarioService;
@@ -33,6 +31,9 @@ public class StonksApplication implements CommandLineRunner {
 
 	@Autowired
 	BCryptPasswordEncoder encoder;
+
+	@Autowired
+	CarteiraService carteiraService;
 
 	public static String EMAIL_ADMIN = "admin@stonks.com";
 	public static String SENHA_ADMIN = "123456";
@@ -68,6 +69,8 @@ public class StonksApplication implements CommandLineRunner {
 			usuarioRepository.save(usuarioAdmin);
 			usuarioAdmin.setRoles(new HashSet<Role>(Arrays.asList(adminUser)));
 			usuarioRepository.save(usuarioAdmin);
+			Carteira carteira = new Carteira(usuarioAdmin);
+			carteiraService.salvarCarteira(carteira);
 		}
 
 		System.out.println("Fim da configuração do banco.\n.\n.\n.");
