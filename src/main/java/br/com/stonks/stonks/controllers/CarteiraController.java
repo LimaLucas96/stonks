@@ -3,16 +3,16 @@ package br.com.stonks.stonks.controllers;
 
 import br.com.stonks.stonks.models.Carteira;
 import br.com.stonks.stonks.models.CarteiraAtivo;
+import br.com.stonks.stonks.models.Response;
 import br.com.stonks.stonks.repository.AtivoRepository;
 import br.com.stonks.stonks.repository.CarteiraRepository;
 import br.com.stonks.stonks.services.CarteiraService;
+import br.com.stonks.stonks.services.ResponseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Date;
@@ -30,6 +30,9 @@ public class CarteiraController {
     
     @Autowired
     private AtivoRepository ativoRepository;
+
+    @Autowired
+    private ResponseService responseService;
 
     @RequestMapping(value = "/carteira/cadastrar", method = RequestMethod.POST)
     public ModelAndView create(@Valid Carteira carteira, BindingResult bindingResult, ModelMap modelMap){
@@ -77,5 +80,12 @@ public class CarteiraController {
 
         return "redirect:/dashboard/home";
     }
-    
+
+
+    @RequestMapping(value = "/ativo/{symbol}", method = RequestMethod.GET)
+    @ResponseBody
+    public String dadosAtivo(@PathVariable("symbol") String symbol) {
+        Response response = responseService.getDadosAtivo(symbol);
+        return "{\"dados\":"+response.getTabelaDados()+"}";
+    }
 }
