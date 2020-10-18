@@ -1,3 +1,4 @@
+package br.com.stonks.stonks.services;
 
 import br.com.stonks.stonks.models.CarteiraAtivo;
 import org.springframework.stereotype.Service;

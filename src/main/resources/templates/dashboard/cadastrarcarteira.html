@@ -14,7 +14,7 @@
 
     <div layout:fragment="content">
         <div class="row">
-            <form action="#" th:action="@{/carteira/cadastrar}" th:object="${carteiraAtivo}" method="post">
+            <form th:action="@{/carteira/cadastrar}" th:object="${carteiraAtivo}" method="post">
                 <div class="col-sm-12 col-md-3">
                     <label for="ativo">Ativo</label>
                     <div class="input-group">
@@ -27,22 +27,23 @@
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-3">
-                    <label for="basic-url">Valor</label>
+                    <label for="valor">Valor</label>
                     <div class="input-group">
                         <span class="input-group-addon" id="basic-addon2">R$</span>
-                        <input type="number" class="form-control input-lg" placeholder="Valor em reais" th:field="*{valor}">
+                        <input type="number" class="form-control input-lg" placeholder="Valor em reais" id="valor" th:field="*{valor}">
                         <span class="input-group-addon">.00 (BRL)</span>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-3">
+                    <label for="valor">Quantidade</label>
                     <div class="input-group">
                         <input type="number" class="form-control input-lg" placeholder="Quantidade" th:field="*{quantidade}">
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-3">
-                    <label for="basic-url">Data</label>
+                    <label for="data_compra">Data</label>
                     <div class="input-group">
-                        <input class="form-control input-lg" type="date" value="2020-10-19" id="data de compra" th:field="*{data_compra}">
+                        <input class="form-control input-lg" type="date" id="data_compra" th:field="*{data_compra}">
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-3">

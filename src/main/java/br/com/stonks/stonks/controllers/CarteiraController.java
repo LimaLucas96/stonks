@@ -10,6 +10,7 @@ import br.com.stonks.stonks.repository.AtivoRepository;
 import br.com.stonks.stonks.repository.CarteiraAtivoRepository;
 import br.com.stonks.stonks.services.CarteiraAtivoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Date;
 
 @Controller
 public class CarteiraController {
@@ -39,7 +41,7 @@ public class CarteiraController {
     private AtivoRepository ativoRepository;
 
     @RequestMapping(value = "/carteira/cadastrar", method = RequestMethod.POST)
-    public ModelAndView create(@Valid CarteiraAtivo carteiraAtivo, BindingResult bindingResult, ModelMap modelMap){
+    public ModelAndView create(@Valid CarteiraAtivo carteiraAtivo, BindingResult bindingResult, @DateTimeFormat(pattern = "yyyy-MM-dd") Date data_compra, ModelMap modelMap){
         ModelAndView modelAndView = new ModelAndView();
 
         if (bindingResult.hasErrors()){
@@ -55,7 +57,9 @@ public class CarteiraController {
         }
         
         modelAndView.addObject("carteiraAtivo", carteiraAtivoRepository.findById(carteiraAtivo.getId()));
-        modelAndView.setViewName("cadastrarCarteira");
+        modelAndView.addObject("ativos", ativoRepository.findAll());
+
+        modelAndView.setViewName("/dashboard/cadastrarcarteira");
        
         return modelAndView;
 
@@ -66,6 +70,7 @@ public class CarteiraController {
     	ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/dashboard/cadastrarcarteira");
         modelAndView.addObject("ativos", ativoRepository.findAll());
+        modelAndView.addObject("carteiraAtivo", new CarteiraAtivo());
         return modelAndView;
     }
 
