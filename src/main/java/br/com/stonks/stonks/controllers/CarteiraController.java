@@ -3,14 +3,18 @@ package br.com.stonks.stonks.controllers;
 
 import br.com.stonks.stonks.models.Carteira;
 import br.com.stonks.stonks.models.CarteiraAtivo;
+import br.com.stonks.stonks.models.Operacao;
 import br.com.stonks.stonks.models.Usuario;
 import br.com.stonks.stonks.repository.CarteiraRepository;
 import br.com.stonks.stonks.services.CarteiraService;
 import br.com.stonks.stonks.repository.AtivoRepository;
 import br.com.stonks.stonks.repository.CarteiraAtivoRepository;
 import br.com.stonks.stonks.services.CarteiraAtivoService;
+import br.com.stonks.stonks.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -39,16 +43,33 @@ public class CarteiraController {
     
     @Autowired
     private AtivoRepository ativoRepository;
+    @Autowired
+    private UsuarioService usuarioService;
 
     @RequestMapping(value = "/carteira/cadastrar", method = RequestMethod.POST)
-    public ModelAndView create(@Valid CarteiraAtivo carteiraAtivo, BindingResult bindingResult, @DateTimeFormat(pattern = "yyyy-MM-dd") Date data_compra, ModelMap modelMap){
+    public ModelAndView create(@Valid CarteiraAtivo carteiraAtivo, BindingResult bindingResult, @DateTimeFormat(pattern = "yyyy-MM-dd") Date dataTransacao, ModelMap modelMap){
         ModelAndView modelAndView = new ModelAndView();
 
-        if (bindingResult.hasErrors()){
-            modelAndView.addObject("successMessage", "Por favor corriga os erros.");
-            modelMap.addAttribute("bindingResult", bindingResult);
+        carteiraAtivo.setDataTransacao(dataTransacao);
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Usuario usuario = usuarioService.usuarioPorEmail(principal.getUsername());
+        Carteira carteira = carteiraService.carteiraByUsuario(usuario);
+
+        if (carteira == null) {
+            carteira = new Carteira();
+            carteira.setUsuario(usuario);
+            carteira.setStatus(true);
+
+            carteiraService.salvarCarteira(carteira);
         }
-        else if(carteiraAtivoService.isAlreadyPresent(carteiraAtivo)){
+
+        carteiraAtivo.setCarteira(carteira);
+        carteiraAtivo.setOperacao(Operacao.COMPRA);
+//        if (bindingResult.hasErrors()){
+//            modelAndView.addObject("successMessage", "Por favor corriga os erros.");
+//            modelMap.addAttribute("bindingResult", bindingResult);
+//        }
+         if(carteiraAtivoService.isAlreadyPresent(carteiraAtivo)){
             modelAndView.addObject("failMessage", "CarteiraAtivo ja existente");
         }
         else {

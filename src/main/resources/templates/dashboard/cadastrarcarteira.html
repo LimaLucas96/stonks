@@ -18,7 +18,7 @@
                 <div class="col-sm-12 col-md-3">
                     <label for="ativo">Ativo</label>
                     <div class="input-group">
-                        <select class="form-control input-lg" >
+                        <select class="form-control input-lg" th:field="*{ativo}">
                             <option id="ativo" th:each="ativo : ${ativos}"
                                     th:value="${ativo.id}"
                                     th:text="${ativo.codigo}">
@@ -41,9 +41,9 @@
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-3">
-                    <label for="data_compra">Data</label>
+                    <label for="dataTransacao">Data</label>
                     <div class="input-group">
-                        <input class="form-control input-lg" type="date" id="data_compra" th:field="*{data_compra}">
+                        <input class="form-control input-lg" type="date" id="dataTransacao" th:field="*{dataTransacao}">
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-3">
