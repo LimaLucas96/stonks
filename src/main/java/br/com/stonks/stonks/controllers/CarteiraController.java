@@ -85,19 +85,23 @@ public class CarteiraController {
 
         modelAndView.addObject("carteiraAtivo", carteiraAtivoRepository.findById(carteiraAtivo.getId()));
         modelAndView.addObject("ativos", ativoRepository.findAll());
+        modelAndView.addObject("usuario", usuario);
 
         modelAndView.setViewName("/dashboard/cadastrarcarteira");
 
         return modelAndView;
 
     }
-    
+
     @RequestMapping(value = "/carteira/cadastrar", method = RequestMethod.GET)
     public ModelAndView cadastrarCarteira() {
-    	ModelAndView modelAndView = new ModelAndView();
+        ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("dashboard/cadastrarcarteira");
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Usuario usuario = usuarioService.usuarioPorEmail(principal.getUsername());
         modelAndView.addObject("ativos", ativoRepository.findAll());
         modelAndView.addObject("carteiraAtivo", new CarteiraAtivo());
+        modelAndView.addObject("usuario", usuario);
         return modelAndView;
     }
 

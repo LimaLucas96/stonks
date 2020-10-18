@@ -40,7 +40,7 @@ public class CarteiraAtivoController {
         List<CarteiraAtivo> ativos = carteiraAtivoService.findByCarteira(carteira.getId());
 
         model.addAttribute("ativosCarteira", ativos);
-        model.addAttribute("usuario", usuario.getNome());
+        model.addAttribute("usuario", usuario);
 
         return "dashboard/imprimirRelatorio";
     }
