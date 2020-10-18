@@ -1,6 +1,7 @@
 package br.com.stonks.stonks.services;
 
 import br.com.stonks.stonks.models.Carteira;
+import br.com.stonks.stonks.models.Usuario;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -14,4 +15,5 @@ public interface CarteiraService {
 
     public Optional<Carteira> findById(int id);
 
+	Carteira carteiraByUsuario(Usuario usuario);
 }

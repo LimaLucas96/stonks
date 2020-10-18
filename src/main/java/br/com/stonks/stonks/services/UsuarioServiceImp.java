@@ -46,6 +46,11 @@ public class UsuarioServiceImp implements UsuarioService {
         return usuarioRepository.findByCpf(usuario.getCpf()) != null;
     }
 
+    @Override
+    public Usuario usuarioPorEmail(String email) {
+        return usuarioRepository.findByEmail(email);
+    }
+
     private Boolean validarCpf(String cpf) {
         cpf = cpf.replace(".","").replace("-","");
         if (cpf.length() != 11) { return false; }

@@ -17,36 +17,12 @@
 
     <div layout:fragment="content">
         <div class="row">
-            <div class="col-sm-12">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Grafico do valor das ações</h3>
-                    </div>
-                    <div class="box-body chart-responsive">
-                        <div class="chart" id="revenue-chart" style="height: 300px"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-4" th:each="ativo : ${ativos}">
                 <div class="box box-default">
+                    <div class="box-header"><p th:text="${ativo.codigo}">Codigo</p></div>
                     <div class="box-body">
-                        <div id="chart_a"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="box box-default">
-                    <div class="box-body">
-                        <div id="chart_b"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="box box-default">
-                    <div class="box-body">
-                        <div id="chart_c"></div>
+                        <div th:id="'chart_' + ${ativo.codigo}" class="autoChamadaAjax"
+                             th:attr="data-after-success=${'desenharGraficos(data, 200,chart_' + ativo.codigo+')'}, data-url=${'/teste'}"></div>
                     </div>
                 </div>
             </div>
@@ -54,78 +30,77 @@
     </div>
 
     <div layout:fragment="scriptContent">
-        <!-- Morris.js charts -->
-        <script src="/bower_components/raphael/raphael.min.js"></script>
-        <script src="/bower_components/morris.js/morris.min.js"></script>
+        <!-- Google Charts -->
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
         <script>
-            $(function () {
-                var area = new Morris.Area({
-                    element: 'revenue-chart',
-                    resize: true,
-                    data: [
-                        {y: '2011', item1: 2666},
-                        {y: '2012', item1: 2778},
-                        {y: '2013', item1: 4912},
+             google.charts.load('current', {'packages':['corechart']});
+             google.charts.setOnLoadCallback(setupAjax);
 
-                    ],
-                    xkey: 'y',
-                    ykeys: ['item1'],
-                    labels: ['Item 1'],
-                    lineColors: ['#1f4a5b']
-                });
-            });
+
+            function setupAjax() {
+                $('.autoChamadaAjax:not(".setupAjax")').each(function autoCahamadaAjaxFunc() {
+                    var this_ = $(this);
+                    atualizarDiv(this_, 500, false);
+                    this_.addClass('setupAjax');
+                })
+            }
+
+            function atualizarDiv(selector, global, time) {
+                const this_ = $(selector);
+                const globalAjax = global ? global : false;
+                const afterSuccess = this_.attr('data-after-success');
+
+                let url = this_.attr('data-url');
+
+
+                if (this_.length) {
+                    $.ajax({
+                        url: url,
+                        global: globalAjax,
+                    }).done(function (data) {
+                        if (afterSuccess) {
+                            eval(afterSuccess);
+                        }
+                    });
+                }
+            }
+
         </script>
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-        <script type="text/javascript">
-            google.charts.load('current', {'packages':['line']});
-            google.charts.setOnLoadCallback(drawCharts);
 
-            function drawCharts() {
+        <script>
 
-                var data = new google.visualization.DataTable();
-                data.addColumn('number', 'Day');
-                data.addColumn('number', 'Ação');
+            function desenharGraficos (dataGrafico, height, idDiv) {
+                var obj = JSON.parse(dataGrafico);
 
-                data.addRows([
-                    [1,  37.8],
-                    [2,  30.9],
-                    [3,  25.4],
-                    [4,  11.7],
-                    [5,  11.9],
-                    [6,   8.8],
-                    [7,   7.6],
-                    [8,  12.3],
-                    [9,  16.9],
-                    [10, 12.8],
-                    [11,  5.3],
-                    [12,  6.6],
-                    [13,  4.8],
-                    [14,  4.2]
-                ]);
+                var dadosGrafico = obj.dados;
 
                 var options = {
-                    chart: {
-                        title: 'Ação',
-                        subtitle: 'em reais (BRL)'
-                    },
-                    axes: {
-                        x: {
-                            0: {side: 'top'}
+                    title: 'TesteGrafico',
+                    titlePosition: 'none',
+                    height: height,
+                    legend: 'none',
+                    hAxis: {
+                        viewWindow: {
+                            min: 0
                         }
                     }
                 };
 
-                var chart = new google.charts.Line(document.getElementById('chart_a'));
-                var chartb = new google.charts.Line(document.getElementById('chart_b'));
-                var chartc = new google.charts.Line(document.getElementById('chart_c'));
+                // var data = google.visualization.arrayToDataTable([
+                //     ['teste', 'conexao'],
+                //     ['1', 12],
+                //     ['1', 15],
+                //     ['1', 20]
+                // ]);
+                var data = google.visualization.arrayToDataTable(dadosGrafico);
 
-                chart.draw(data, google.charts.Line.convertOptions(options));
-                chartb.draw(data, google.charts.Line.convertOptions(options));
-                chartc.draw(data, google.charts.Line.convertOptions(options));
-
+                var chart =new google.visualization.AreaChart(idDiv);
+                chart.draw(data, options);
             }
         </script>
+
+
     </div>
 </body>
 </html>
