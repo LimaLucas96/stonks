@@ -54,6 +54,7 @@ public class AuthenticationController {
         Usuario usuario = usuarioService.usuarioPorEmail(principal.getUsername());
         Carteira carteira = carteiraService.carteiraByUsuario(usuario);
         modelAndView.addObject("ativos", carteiraAtivoService.listarAtivos(carteira));
+        modelAndView.addObject("usuario", usuario);
 
         return modelAndView;
     }
