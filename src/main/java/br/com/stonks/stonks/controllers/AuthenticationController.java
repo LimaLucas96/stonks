@@ -34,30 +34,7 @@ public class AuthenticationController {
     public String home() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("home");
-//        return modelAndView;
 
         return "dashboard/home";
     }
-
-//    @RequestMapping(value = "/usuario/register", method = RequestMethod.POST)
-//    public ModelAndView create(@Valid Usuario user, BindingResult bindingResult, ModelMap modelMap){
-//        ModelAndView modelAndView = new ModelAndView();
-//
-//        if (bindingResult.hasErrors()){
-//            modelAndView.addObject("successMessage", "Por favor corriga os erros.");
-//            modelMap.addAttribute("bindingResult", bindingResult);
-//        }
-//        else if(usuarioService.isUserAlreadyPresent(user)){
-//            modelAndView.addObject("successMessage", "Usuario ja existe");
-//        }
-//        else {
-//            usuarioService.salvarUsuario(user);
-//            modelAndView.addObject("successMessage", "Usuario registrado com sucesso.");
-//        }
-//
-//        modelAndView.addObject("user", new Usuario());
-//        modelAndView.setViewName("register");
-//        return modelAndView;
-//
-//    }
 }

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="fragments/relatorio/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Relatório Ativos</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <style>
+        .confirmacao p {
+            color: #616161;
+            font-size: 16px;
+        }
+
+        .confirmacao span {
+            color: black;
+            font-size: 16px;
+        }
+
+        .title-confirmacao {
+            padding-bottom: 20px;
+        }
+
+        p {
+            text-transform: uppercase !important;
+        }
+
+        h5 {
+            text-align: center
+        }
+    </style>
+    <div class="row confirmacao">
+        <div class="col-12 title-confirmacao">
+            <h5>
+                <span th:text="${usuario}"></span>
+            </h5>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="dataTable" class="table table-striped table-bordered inputToUpper"
+                               th:each="ativo : ${ativos}">
+                            <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Data compra</th>
+                                <th>Valor</th>
+                                <th>Quantidade</th>
+                                <th>Total</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <span th:text="${ativo.codigo}"></span>
+                                </td>
+                                <td>
+                                    <span th:text="${#dates.format(ativo.data_compra, 'dd/MM/yyyy')}"></span>
+                                </td>
+                                <td>
+                                    <span th:text="${ativo.valor}"></span>
+                                </td>
+                                <td>
+                                    <span th:text="${ativo.quantidade}"></span>
+                                </td>
+                                <td>
+                                    <span th:text="${ativo.quantidade * ativo.valor}"></span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

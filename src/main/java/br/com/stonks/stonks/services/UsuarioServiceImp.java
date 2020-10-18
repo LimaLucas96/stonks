@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Optional;
 
 @Service
 public class UsuarioServiceImp implements UsuarioService {
@@ -72,5 +73,9 @@ public class UsuarioServiceImp implements UsuarioService {
         if (resto != Math.floor(Integer.parseInt(String.valueOf(cpf.charAt(10))))) { return false; }
 
         return true;
+    }
+
+    public Optional<Usuario> findById(int id){
+        return usuarioRepository.findById(id);
     }
 }

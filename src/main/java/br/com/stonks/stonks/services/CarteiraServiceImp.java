@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Optional;
+
 @Service
 public class CarteiraServiceImp implements CarteiraService{
 
@@ -27,5 +29,10 @@ public class CarteiraServiceImp implements CarteiraService{
             present = false;
         }
         return present;
+    }
+
+    @Override
+    public Optional<Carteira> findById(int id){
+        return carteiraRepository.findById(id);
     }
 }
