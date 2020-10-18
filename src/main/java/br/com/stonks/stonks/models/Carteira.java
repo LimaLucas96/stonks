@@ -3,6 +3,7 @@ package br.com.stonks.stonks.models;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 public class Carteira {
@@ -19,7 +20,19 @@ public class Carteira {
     @Column(name = "status")
     private Boolean status;
 
-    public Carteira(
+
+    @OneToMany(mappedBy = "carteira", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<CarteiraAtivo> carteiraAtivos;
+
+	public Set<CarteiraAtivo> getCarteiraAtivos() {
+		return carteiraAtivos;
+	}
+
+	public void setCarteiraAtivos(Set<CarteiraAtivo> carteiraAtivos) {
+		this.carteiraAtivos = carteiraAtivos;
+	}
+
+	public Carteira(
     		@NotNull(message = "Usuário é obrigatorio.") Usuario usuario) {
     	this.status = true;
     	this.usuario = usuario;

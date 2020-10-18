@@ -66,8 +66,7 @@ public class CarteiraController {
     @RequestMapping(value = "/carteira/{id}", method = RequestMethod.POST)
     public String update(@PathVariable("id") int id, Carteira carteira) {
     	Carteira carteiraInstance = carteiraRepository.findById(id).get();
-    	
-        carteiraInstance.setData_atualizacao(new Date());
+
         carteiraRepository.save(carteiraInstance);
         return "redirect:/dashboard/home";
     }
