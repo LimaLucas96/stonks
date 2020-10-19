@@ -1,16 +1,18 @@
 package br.com.stonks.stonks.controllers;
 
 import br.com.stonks.stonks.models.FundoImobiliario;
-import br.com.stonks.stonks.repository.EmpresaRepository;
-import br.com.stonks.stonks.repository.FundoImobiliarioRepository;
 import br.com.stonks.stonks.services.AtivoService;
+import br.com.stonks.stonks.services.EmpresaService;
 import br.com.stonks.stonks.services.FundoImobiliarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -18,32 +20,29 @@ import javax.validation.Valid;
 @Controller
 public class FundoImobiliarioController {
     @Autowired
-    AtivoService ativoService;
+    private AtivoService ativoService;
 
     @Autowired
-    FundoImobiliarioService fundoImobiliarioService;
+    private FundoImobiliarioService fundoImobiliarioService;
 
     @Autowired
-    private FundoImobiliarioRepository fundoImobiliarioRepository;
-
-    @Autowired
-    private EmpresaRepository empresaRepository;
+    private EmpresaService empresaService;
 
     @GetMapping("fundo-imobiliario/cadastro")
     public ModelAndView paginaCadastro() {
         ModelAndView cadastro = new ModelAndView("/ativos/cadastrarFundoImobiliario");
         FundoImobiliario fundo = new FundoImobiliario();
         cadastro.addObject("fundoImobiliario", fundo);
-        cadastro.addObject("empresas", empresaRepository.findAll());
+        cadastro.addObject("empresas", empresaService.findAll());
         return cadastro;
     }
 
     @GetMapping("fundo-imobiliario/{id}")
     public String paginaAtualizar(@PathVariable("id") int id, Model model) {
-        FundoImobiliario fundoImobiliario = fundoImobiliarioRepository.findById(id)
+        FundoImobiliario fundoImobiliario = fundoImobiliarioService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("ID fornecido é inválido " + id));
         model.addAttribute("fundoImobiliario", fundoImobiliario);
-        model.addAttribute("empresas", empresaRepository.findAll());
+        model.addAttribute("empresas", empresaService.findAll());
         return "ativos/atualizarFundoImobiliario";
     }
 
@@ -75,14 +74,14 @@ public class FundoImobiliarioController {
             return "ativos/atualizarFundoImobiliario";
         }
 
-        fundoImobiliarioRepository.save(fundoImobiliario);
-        model.addAttribute("fundoImobiliarios", fundoImobiliarioRepository.findAll());
+        fundoImobiliarioService.salvar(fundoImobiliario);
+        model.addAttribute("fundoImobiliarios", fundoImobiliarioService.findAll());
         return "ativos/index";
     }
 
     @DeleteMapping("fundo-imobiliario/{id}")
     public String delete(@PathVariable("id") int id) {
-        fundoImobiliarioRepository.deleteById(id);
+        fundoImobiliarioService.deleteById(id);
         return "ativos/index";
     }
 }

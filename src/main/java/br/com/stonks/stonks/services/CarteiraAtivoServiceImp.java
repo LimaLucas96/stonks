@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CarteiraAtivoServiceImp implements CarteiraAtivoService {
@@ -38,5 +39,10 @@ public class CarteiraAtivoServiceImp implements CarteiraAtivoService {
             ativos[i] = carteiraAtivo[i].getAtivo();
         }
         return ativos;
+    }
+
+    @Override
+    public Optional<CarteiraAtivo> findById(int id) {
+        return carteiraAtivoRepository.findById(id);
     }
 }

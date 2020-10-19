@@ -41,4 +41,9 @@ public class CarteiraServiceImp implements CarteiraService{
     public Carteira carteiraByUsuario(Usuario usuario) {
         return carteiraRepository.findByUsuario(usuario);
     }
+
+    @Override
+    public void deleteById(int id) {
+        carteiraRepository.deleteById(id);
+    }
 }

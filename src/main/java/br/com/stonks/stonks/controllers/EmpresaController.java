@@ -19,14 +19,11 @@ import javax.validation.Valid;
 @Controller
 public class EmpresaController {
     @Autowired
-    private EmpresaRepository empresaRepository;
-
-    @Autowired
-    EmpresaService empresaService;
+    private EmpresaService empresaService;
 
     @GetMapping("empresas")
     public String index(Model model) {
-        model.addAttribute("empresas", empresaRepository.findAll());
+        model.addAttribute("empresas", empresaService.findAll());
         return "empresas/index";
     }
 
@@ -40,7 +37,7 @@ public class EmpresaController {
 
     @GetMapping("empresa/{id}")
     public String paginaAtualizar(@PathVariable("id") long id, Model model) {
-        Empresa empresa = empresaRepository.findById(id).orElseThrow(
+        Empresa empresa = empresaService.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("ID fornecido é inválido " + id)
         );
         model.addAttribute("empresa", empresa);
@@ -72,14 +69,14 @@ public class EmpresaController {
             return "empresas/atualizarEmpresa";
         }
 
-        empresaRepository.save(empresa);
-        model.addAttribute("empresas", empresaRepository.findAll());
+        empresaService.salvarEmpresa(empresa);
+        model.addAttribute("empresas", empresaService.findAll());
         return "empresas/index";
     }
 
     @DeleteMapping("empresa/{id}")
     public String delete(@PathVariable("id") long id) {
-        empresaRepository.deleteById(id);
+        empresaService.deleteById(id);
         return "empresas/index";
     }
 }

@@ -22,13 +22,13 @@ import java.util.Set;
 public class AuthenticationController {
 
     @Autowired
-    UsuarioService usuarioService;
+    private UsuarioService usuarioService;
 
     @Autowired
-    CarteiraService carteiraService;
+    private CarteiraService carteiraService;
 
     @Autowired
-    CarteiraAtivoService carteiraAtivoService;
+    private CarteiraAtivoService carteiraAtivoService;
 
     @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
     public ModelAndView login(){

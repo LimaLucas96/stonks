@@ -18,13 +18,13 @@ import java.util.Optional;
 public class UsuarioServiceImp implements UsuarioService {
 
     @Autowired
-    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @Autowired
-    RoleRepository roleRepository;
+    private RoleRepository roleRepository;
 
     @Autowired
-    UsuarioRepository usuarioRepository;
+    private UsuarioRepository usuarioRepository;
 
     @Override
     public void salvarUsuario(Usuario usuario) throws UsuarioExistenteException, CpfInvalidoException {
@@ -80,7 +80,13 @@ public class UsuarioServiceImp implements UsuarioService {
         return usuarioRepository.findByEmail(email);
     }
 
+    @Override
     public Optional<Usuario> findById(int id){
         return usuarioRepository.findById(id);
+    }
+
+    @Override
+    public void deleteById(int id) {
+        usuarioRepository.deleteById(id);
     }
 }
