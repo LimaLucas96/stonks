@@ -20,7 +20,6 @@ public class Carteira {
     @Column(name = "status")
     private Boolean status;
 
-
     @OneToMany(mappedBy = "carteira", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<CarteiraAtivo> carteiraAtivos;
 

@@ -4,11 +4,17 @@ import br.com.stonks.stonks.exception.CpfInvalidoException;
 import br.com.stonks.stonks.exception.UsuarioExistenteException;
 import br.com.stonks.stonks.models.Usuario;
 
+import java.util.Optional;
+
 public interface UsuarioService {
 
     public void salvarUsuario(Usuario usuario) throws UsuarioExistenteException, CpfInvalidoException;
 
-    Boolean isUserAlreadyPresent(Usuario usuario);
+    public Boolean isUserAlreadyPresent(Usuario usuario);
 
-    Usuario usuarioPorEmail(String email);
+    public Usuario usuarioPorEmail(String email);
+
+    public Optional<Usuario> findById(int id);
+
+    public void deleteById(int id);
 }

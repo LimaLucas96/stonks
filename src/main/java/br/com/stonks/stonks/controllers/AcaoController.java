@@ -1,16 +1,18 @@
 package br.com.stonks.stonks.controllers;
 
 import br.com.stonks.stonks.models.Acao;
-import br.com.stonks.stonks.repository.AcaoRepository;
-import br.com.stonks.stonks.repository.EmpresaRepository;
 import br.com.stonks.stonks.services.AcaoService;
 import br.com.stonks.stonks.services.AtivoService;
+import br.com.stonks.stonks.services.EmpresaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -18,33 +20,30 @@ import javax.validation.Valid;
 @Controller
 public class AcaoController {
     @Autowired
-    AtivoService ativoService;
+    private AtivoService ativoService;
 
     @Autowired
-    AcaoService acaoService;
+    private AcaoService acaoService;
 
     @Autowired
-    private AcaoRepository acaoRepository;
-
-    @Autowired
-    private EmpresaRepository empresaRepository;
+    private EmpresaService empresaService;
 
     @GetMapping("acao/cadastro")
     public ModelAndView paginaCadastro() {
         ModelAndView cadastro = new ModelAndView("/ativos/cadastrarAcao");
         Acao acao = new Acao();
         cadastro.addObject("acao", acao);
-        cadastro.addObject("empresas", empresaRepository.findAll());
+        cadastro.addObject("empresas", empresaService.findAll());
         return cadastro;
     }
 
     @GetMapping("acao/{id}")
     public String paginaAtualizar(@PathVariable("id") int id, Model model) {
-        Acao acao = acaoRepository.findById(id).orElseThrow(
+        Acao acao = acaoService.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("ID fornecido é inválido " + id)
         );
         model.addAttribute("acao", acao);
-        model.addAttribute("empresas", empresaRepository.findAll());
+        model.addAttribute("empresas", empresaService.findAll());
         return "ativos/atualizarAcao";
     }
 
@@ -76,14 +75,14 @@ public class AcaoController {
             return "ativos/atualizarAcao";
         }
 
-        acaoRepository.save(acao);
-        model.addAttribute("acoes", acaoRepository.findAll());
+        acaoService.salvar(acao);
+        model.addAttribute("acoes", acaoService.findAll());
         return "ativos/index";
     }
 
     @DeleteMapping("acao/{id}")
     public String delete(@PathVariable("id") int id) {
-        acaoRepository.deleteById(id);
+        acaoService.deleteById(id);
         return "ativos/index";
     }
 }

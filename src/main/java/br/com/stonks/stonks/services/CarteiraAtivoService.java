@@ -6,6 +6,7 @@ import br.com.stonks.stonks.models.CarteiraAtivo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public interface CarteiraAtivoService {
@@ -17,4 +18,6 @@ public interface CarteiraAtivoService {
     public List<CarteiraAtivo> findByCarteira(int id);
 
     Ativo[] listarAtivos(Carteira carteira);
+
+    public Optional<CarteiraAtivo> findById(int id);
 }

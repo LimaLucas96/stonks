@@ -22,9 +22,6 @@ public class UsuarioController {
     @Autowired
     UsuarioService usuarioService;
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-
     @RequestMapping(value = "/usuario/register", method = RequestMethod.POST)
     public ModelAndView create(@Valid Usuario user, BindingResult bindingResult, ModelMap modelMap) throws Exception {
         ModelAndView modelAndView = new ModelAndView();
@@ -48,18 +45,18 @@ public class UsuarioController {
     }
 
     @RequestMapping(value = "/usuario/{id}", method = RequestMethod.POST)
-    public String update(@PathVariable("id") int id, Usuario usuario) {
-        Usuario usuarioInstance = usuarioRepository.findById(id).get();
+    public String update(@PathVariable("id") int id, Usuario usuario) throws CpfInvalidoException, UsuarioExistenteException {
+        Usuario usuarioInstance = usuarioService.findById(id).get();
 
         usuarioInstance.setNome(usuario.getNome());
 
-        usuarioRepository.save(usuarioInstance);
+        usuarioService.salvarUsuario(usuarioInstance);
         return "redirect:/register";
     }
 
     @RequestMapping(value = "/usuario/{id}", method = RequestMethod.DELETE)
     public String delete(@PathVariable("id") int id) {
-        usuarioRepository.deleteById(id);
+        usuarioService.deleteById(id);
 
         return "redirect:/login";
     }

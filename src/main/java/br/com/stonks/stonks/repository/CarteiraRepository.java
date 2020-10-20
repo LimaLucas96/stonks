@@ -10,6 +10,7 @@ import br.com.stonks.stonks.models.Carteira;
 public interface CarteiraRepository extends JpaRepository<Carteira, Integer> {
 
     public Carteira findByid(int id);
-    Carteira findByUsuario(Usuario usuario);
+
+    public Carteira findByUsuario(Usuario usuario);
 }
 
