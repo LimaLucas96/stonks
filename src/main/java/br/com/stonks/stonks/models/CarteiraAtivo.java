@@ -30,7 +30,7 @@ public class CarteiraAtivo {
     @Column( name = "data_transacao")
     private Date dataTransacao;
 
-    @Column( name = "operacao")
+	@Enumerated(EnumType.STRING)
     private Operacao operacao;
 
     public CarteiraAtivo(
