@@ -39,6 +39,12 @@
   <div class="login-box-body">
     <p class="login-box-msg">Sign in to start your session</p>
 
+    <div th:if="${param.error}">
+      <div class="callout callout-danger">
+        <p>Email ou senha invalidos!</p>
+      </div>
+    </div>
+
     <form th:action="@{/login}" method="post">
       <div class="form-group has-feedback">
         <input type="email" class="form-control" th:placeholder="Email" id="email" name="email">
