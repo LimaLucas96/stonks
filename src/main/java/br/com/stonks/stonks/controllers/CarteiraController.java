@@ -107,6 +107,6 @@ public class CarteiraController {
     @ResponseBody
     public String dadosAtivo(@PathVariable("symbol") String symbol) {
         Response response = responseService.getDadosAtivo(symbol);
-        return "{\"dados\":"+response.getTabelaDados()+"}";
+        return "{\"dados\":"+response.getTabelaDados()+", \"valorAcao\": "+response.getValorAcao()+"}";
     }
 }
