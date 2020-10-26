@@ -36,6 +36,7 @@ public class CarteiraAtivoController {
     @Autowired
     private UsuarioService usuarioService;
     
+    @Autowired
     private EmailConfig emailConfig;
  
 
@@ -63,8 +64,27 @@ public class CarteiraAtivoController {
 
         List<CarteiraAtivo> ativos = carteiraAtivoService.findByCarteira(carteira.getId());
         
-        String body = "Ativo / Valor / Quantidade / Data da Transação\n";
+        /*String body = "<h2>Seu relatório Stonks</h2> <br/>";
         
+        body += "<table>"
+				+ "<tr>"
+					+ "<th> Ativo </th>"
+					+ "<th> Valor </th>"
+					+ "<th> Quantidade </th>"
+					+ "<th> Data da Transação </th>"
+				+ "</tr>";
+        
+        for (CarteiraAtivo ca : ativos) {
+        	body += "<tr> <th>" + ca.getAtivo().getCodigo() + "</th>" 
+        			+ "<th>" + ca.getValor() + "</th>"
+        			+ "<th>" + ca.getQuantidade() + "</th>"
+        			+ "<th>" + ca.getDataTransacao() + "</th> </tr>";
+        }
+        
+        body += "</table>"; */
+        
+        String body = "Ativo / Valor / Quantidade / Data da Transação\n";
+
         for (CarteiraAtivo ca : ativos) {
         	body += ca.getAtivo().getCodigo() 
         			+ " / " + ca.getValor() 
@@ -89,8 +109,8 @@ public class CarteiraAtivoController {
         mailMessage.setText(body);
         
         mailSender.send(mailMessage);
-
-        return "dashboard/imprimirRelatorio";
+        
+        return "redirect:/dashboard/home";
     }
     
 }
