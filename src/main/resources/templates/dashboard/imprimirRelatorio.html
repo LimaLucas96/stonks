@@ -39,7 +39,8 @@
             </h5>
         </div>
     </div>
-
+    <div class="alert alert-success" role="alert" th:text="${success}" th:if="${success}"></div>
+    <div class="alert alert-warning" role="alert" th:text="${fail}" th:if="${fail}"></div>
     <div class="row">
         <div class="col-xs-12 col-lg-12">
             <div class="box box-primary">

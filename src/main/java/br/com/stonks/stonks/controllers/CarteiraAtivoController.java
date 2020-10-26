@@ -9,6 +9,7 @@ import br.com.stonks.stonks.services.CarteiraAtivoService;
 import br.com.stonks.stonks.services.CarteiraService;
 import br.com.stonks.stonks.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -19,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Arrays;
 import java.util.List;
@@ -57,7 +59,9 @@ public class CarteiraAtivoController {
     
     @GetMapping(value = "/carteiraativo/relatorio/enviar")
     public String enviarRelatorio(Model model){
-
+    	ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("dashboard/imprimirRelatorio");
+        
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Usuario usuario = usuarioService.usuarioPorEmail(principal.getUsername());
         Carteira carteira = carteiraService.carteiraByUsuario(usuario);
@@ -94,7 +98,7 @@ public class CarteiraAtivoController {
 
         model.addAttribute("ativosCarteira", ativos);
         model.addAttribute("usuario", usuario);
-        
+                
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost(emailConfig.getHost());
         mailSender.setPort(emailConfig.getPort());
@@ -108,7 +112,13 @@ public class CarteiraAtivoController {
         mailMessage.setSubject("Relatório do Stonks");
         mailMessage.setText(body);
         
-        mailSender.send(mailMessage);
+        try {
+        	mailSender.send(mailMessage);
+        	modelAndView.addObject("success", "Relatório enviado com sucesso.");
+        } catch (MailException e) {
+        	System.out.print(e.getMessage());
+        	modelAndView.addObject("fail", "Relatório não pode ser envaido.");
+        }
         
         return "dashboard/imprimirRelatorio";
     }
