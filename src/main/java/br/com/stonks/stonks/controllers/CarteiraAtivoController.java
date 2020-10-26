@@ -1,5 +1,6 @@
 package br.com.stonks.stonks.controllers;
 
+import br.com.stonks.stonks.exception.EmailInvalidoException;
 import br.com.stonks.stonks.models.Carteira;
 import br.com.stonks.stonks.models.CarteiraAtivo;
 import br.com.stonks.stonks.models.Operacao;
@@ -13,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Arrays;
@@ -30,6 +32,7 @@ public class CarteiraAtivoController {
 
     @Autowired
     private UsuarioService usuarioService;
+ 
 
     @GetMapping(value = "/carteiraativo/relatorio")
     public String imprimirRelatorio(Model model){
@@ -45,4 +48,5 @@ public class CarteiraAtivoController {
 
         return "dashboard/imprimirRelatorio";
     }
+    
 }
