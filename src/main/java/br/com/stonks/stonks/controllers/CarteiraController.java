@@ -1,6 +1,7 @@
 
 package br.com.stonks.stonks.controllers;
 
+import br.com.stonks.stonks.exception.OperacaoInvalidaException;
 import br.com.stonks.stonks.models.*;
 import br.com.stonks.stonks.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +39,12 @@ public class CarteiraController {
     private ResponseService responseService;
 
     @RequestMapping(value = "/carteira/cadastrar", method = RequestMethod.POST)
-    public ModelAndView create(@Valid CarteiraAtivo carteiraAtivo, BindingResult bindingResult, @DateTimeFormat(pattern = "yyyy-MM-dd") Date dataTransacao, ModelMap modelMap){
-        ModelAndView modelAndView = new ModelAndView();
-
+    public ModelAndView create(@Valid CarteiraAtivo carteiraAtivo, 
+    		BindingResult bindingResult, 
+    		@DateTimeFormat(pattern = "yyyy-MM-dd") Date dataTransacao, 
+    		ModelMap modelMap) throws OperacaoInvalidaException {
+        
+    	ModelAndView modelAndView = new ModelAndView();
         carteiraAtivo.setDataTransacao(dataTransacao);
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Usuario usuario = usuarioService.usuarioPorEmail(principal.getUsername());
@@ -57,8 +61,11 @@ public class CarteiraController {
         carteiraAtivo.setCarteira(carteira);
         carteiraAtivo.setOperacao(Operacao.COMPRA);
 
-         if(carteiraAtivoService.isAlreadyPresent(carteiraAtivo)){
+        if (carteiraAtivoService.isAlreadyPresent(carteiraAtivo)){
             modelAndView.addObject("failMessage", "CarteiraAtivo ja existente");
+        }
+        else if (carteiraAtivo.getValor() <= 0 || carteiraAtivo.getQuantidade() <= 0){
+        	modelAndView.addObject("failMessage", "Operação Inválida");
         }
         else {
             carteiraAtivoService.salvar(carteiraAtivo);

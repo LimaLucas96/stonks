@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html layout:decorator="layout" xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <title>Dashboard</title>
@@ -16,6 +16,16 @@
     </div>
 
     <div layout:fragment="content">
+        <div class="row">
+            <div class="col">
+                <div class="box box-default">
+                    <div class="box-header"><p>Total Investido</p></div>
+                    <div class="box-body">
+                        <h1 th:text="${total}"></h1>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-lg-4" th:each="ativo : ${ativos}">
                 <div class="box box-default">
