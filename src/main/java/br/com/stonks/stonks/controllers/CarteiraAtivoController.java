@@ -110,7 +110,7 @@ public class CarteiraAtivoController {
         
         mailSender.send(mailMessage);
         
-        return "redirect:/dashboard/home";
+        return "dashboard/imprimirRelatorio";
     }
     
 }
