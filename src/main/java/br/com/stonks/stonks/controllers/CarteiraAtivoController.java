@@ -107,17 +107,17 @@ public class CarteiraAtivoController {
         
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         
-        mailMessage.setFrom("admin@stonks.com");
+        mailMessage.setFrom("no-reply@stonks.com");
         mailMessage.setTo(usuario.getEmail());
         mailMessage.setSubject("Relatório do Stonks");
         mailMessage.setText(body);
         
         try {
         	mailSender.send(mailMessage);
-        	modelAndView.addObject("success", "Relatório enviado com sucesso.");
+        	modelAndView.addObject("successMessage", "Relatório enviado com sucesso.");
         } catch (MailException e) {
         	System.out.print(e.getMessage());
-        	modelAndView.addObject("fail", "Relatório não pode ser envaido.");
+        	modelAndView.addObject("failMessage", "Relatório não pode ser envaido.");
         }
         
         return "dashboard/imprimirRelatorio";

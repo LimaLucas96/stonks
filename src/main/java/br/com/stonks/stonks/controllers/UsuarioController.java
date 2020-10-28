@@ -32,9 +32,9 @@ public class UsuarioController {
         } else {
             try {
                 usuarioService.salvarUsuario(user);
-                modelAndView.addObject("successFlash", "Usuario registrado com sucesso.");
+                modelAndView.addObject("successMessage", "Usuario registrado com sucesso.");
             } catch (UsuarioExistenteException | CpfInvalidoException e){
-                modelAndView.addObject("errorFlash", e.getMessage());
+                modelAndView.addObject("errorMessage", e.getMessage());
             }
         }
 
