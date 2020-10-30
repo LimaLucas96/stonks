@@ -13,6 +13,7 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -22,8 +23,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+
 import java.util.Arrays;
 import java.util.List;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 
 @Controller
 @RequestMapping
@@ -68,7 +73,7 @@ public class CarteiraAtivoController {
 
         List<CarteiraAtivo> ativos = carteiraAtivoService.findByCarteira(carteira.getId());
         
-        /*String body = "<h2>Seu relatório Stonks</h2> <br/>";
+        String body = "<h2>Seu relatório Stonks</h2> <br/>";
         
         body += "<table>"
 				+ "<tr>"
@@ -85,16 +90,16 @@ public class CarteiraAtivoController {
         			+ "<th>" + ca.getDataTransacao() + "</th> </tr>";
         }
         
-        body += "</table>"; */
+        body += "</table>"; 
         
-        String body = "Ativo / Valor / Quantidade / Data da Transação\n";
+        /*String body = "Ativo / Valor / Quantidade / Data da Transação\n";
 
         for (CarteiraAtivo ca : ativos) {
         	body += ca.getAtivo().getCodigo() 
         			+ " / " + ca.getValor() 
         			+ " / " + ca.getQuantidade()
         			+ " / " + ca.getDataTransacao() + "\n";
-        }
+        }*/
 
         model.addAttribute("ativosCarteira", ativos);
         model.addAttribute("usuario", usuario);
@@ -105,19 +110,27 @@ public class CarteiraAtivoController {
         mailSender.setUsername(emailConfig.getUsername());
         mailSender.setPassword(emailConfig.getPassword());
         
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        //SimpleMailMessage mailMessage = new SimpleMailMessage();
         
-        mailMessage.setFrom("no-reply@stonks.com");
-        mailMessage.setTo(usuario.getEmail());
-        mailMessage.setSubject("Relatório do Stonks");
-        mailMessage.setText(body);
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
         
         try {
-        	mailSender.send(mailMessage);
-        	modelAndView.addObject("successMessage", "Relatório enviado com sucesso.");
+			helper.setFrom("no-reply@stonks.com"); 
+			helper.setTo(usuario.getEmail());
+			helper.setSubject("Relatório do Stonks");
+			helper.setText(body, true);
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+       
+        try {
+        	mailSender.send(mimeMessage);
+        	modelAndView.addObject("successMessage", "Relatório enviado por email com sucesso.");
         } catch (MailException e) {
         	System.out.print(e.getMessage());
-        	modelAndView.addObject("failMessage", "Relatório não pode ser envaido.");
+        	modelAndView.addObject("failMessage", "Relatório não pode ser enviado.");
         }
         
         return "dashboard/imprimirRelatorio";
