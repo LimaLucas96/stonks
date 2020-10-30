@@ -1,6 +1,7 @@
 package br.com.stonks.stonks.controllers;
 
 import br.com.stonks.stonks.models.Carteira;
+import br.com.stonks.stonks.models.CarteiraAtivo;
 import br.com.stonks.stonks.models.Usuario;
 import br.com.stonks.stonks.services.CarteiraAtivoService;
 import br.com.stonks.stonks.services.CarteiraService;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -55,6 +57,14 @@ public class AuthenticationController {
         Carteira carteira = carteiraService.carteiraByUsuario(usuario);
         modelAndView.addObject("ativos", carteiraAtivoService.listarAtivos(carteira));
         modelAndView.addObject("usuario", usuario);
+        
+        List<CarteiraAtivo> carteiraAtivos = carteiraAtivoService.findByCarteira(carteira.getId());
+        double sum = 0;
+        for (CarteiraAtivo ca : carteiraAtivos) {
+        	sum += ca.getValor() * ca.getQuantidade();
+        }
+
+        modelAndView.addObject("total", sum);
 
         return modelAndView;
     }
