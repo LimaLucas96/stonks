@@ -10,12 +10,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Date;
 
@@ -36,6 +34,20 @@ public class CarteiraController {
 
     @Autowired
     private ResponseService responseService;
+
+    @RequestMapping(value = "/carteira/index", method = RequestMethod.GET)
+    public ModelAndView index() {
+        ModelAndView modelAndView = new ModelAndView();
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Usuario usuario = usuarioService.usuarioPorEmail(principal.getUsername());
+        Carteira carteira = carteiraService.carteiraByUsuario(usuario);
+
+        modelAndView.setViewName("/carteira/index");
+        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByCarteira(carteira.getId()));
+        modelAndView.addObject("usuario", usuario);
+
+        return modelAndView;
+    }
 
     @RequestMapping(value = "/carteira/cadastrar", method = RequestMethod.POST)
     public ModelAndView create(@Valid CarteiraAtivo carteiraAtivo, BindingResult bindingResult, @DateTimeFormat(pattern = "yyyy-MM-dd") Date dataTransacao, ModelMap modelMap){
@@ -62,23 +74,37 @@ public class CarteiraController {
         }
         else {
             carteiraAtivoService.salvar(carteiraAtivo);
-            modelAndView.addObject("successMessage", "Ativo registrado na carteira com sucesso.");
+            modelAndView.addObject("successFlash", "Ativo registrado na carteira com sucesso.");
         }
 
-        modelAndView.addObject("carteiraAtivo", carteiraAtivoService.findById(carteiraAtivo.getId()));
-        modelAndView.addObject("ativos", ativoService.findAll());
+        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByCarteira(carteira.getId()));
         modelAndView.addObject("usuario", usuario);
 
-        modelAndView.setViewName("/dashboard/cadastrarcarteira");
+        modelAndView.setViewName("/carteira/index");
 
         return modelAndView;
 
     }
 
+    @RequestMapping(value = "/carteira/editar/{id}")
+    public ModelAndView edit(@PathVariable("id") int id) {
+        ModelAndView modelAndView = new ModelAndView();
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Usuario usuario = usuarioService.usuarioPorEmail(principal.getUsername());
+
+        modelAndView.addObject("ativos", ativoService.findAll());
+        modelAndView.addObject("carteiraAtivo", carteiraAtivoService.findById(id).get() );
+        modelAndView.addObject("usuario", usuario);
+
+        modelAndView.setViewName("/carteira/edit");
+
+        return modelAndView;
+    }
+
     @RequestMapping(value = "/carteira/cadastrar", method = RequestMethod.GET)
     public ModelAndView cadastrarCarteira() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("dashboard/cadastrarcarteira");
+        modelAndView.setViewName("/carteira/create");
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Usuario usuario = usuarioService.usuarioPorEmail(principal.getUsername());
         modelAndView.addObject("ativos", ativoService.findAll());
@@ -87,12 +113,23 @@ public class CarteiraController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/carteira/{id}", method = RequestMethod.POST)
-    public String update(@PathVariable("id") int id, Carteira carteira) {
-    	Carteira carteiraInstance = carteiraService.findById(id).get();
-        carteiraService.salvarCarteira(carteiraInstance);
+    @RequestMapping(value = "/carteira/editar/{id}", method = RequestMethod.POST)
+    public ModelAndView update(@PathVariable("id") int id, HttpServletRequest request, @ModelAttribute("carteiraAtivo") CarteiraAtivo carteiraAtivo) {
 
-        return "redirect:/dashboard/home";
+        CarteiraAtivo carteiraAtivoInstance = carteiraAtivoService.findById(id).get();
+        carteiraAtivo.setCarteira(carteiraAtivoInstance.getCarteira());
+        carteiraAtivoService.salvar(carteiraAtivo);
+
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Usuario usuario = usuarioService.usuarioPorEmail(principal.getUsername());
+        Carteira carteira = carteiraService.carteiraByUsuario(usuario);
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("successFlash", "Ativo Atualizado");
+        modelAndView.setViewName("/carteira/index");
+        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByCarteira(carteira.getId()));
+        modelAndView.addObject("usuario", usuario);
+        return modelAndView;
     }
 
     @RequestMapping(value = "/carteira/{id}", method = RequestMethod.DELETE)
