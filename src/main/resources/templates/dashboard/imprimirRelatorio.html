@@ -39,7 +39,13 @@
             </h5>
         </div>
     </div>
-
+    <div class="alert alert-success" role="alert" th:text="${successMessage}" th:if="${successMessage}"></div>
+    <div class="alert alert-warning" role="alert" th:text="${failMessage}" th:if="${failMessage}"></div>
+    <div class="row" style="align-self: end">
+        <button type="button" class="btn btn-primary" href="#" onclick="window.print()">Imprimir</button>
+        <button type="button" class="btn btn-primary" href="/carteiraativo/relatorio/enviar" th:href="@{/carteiraativo/relatorio/enviar}">Enviar</button>
+        
+    </div>
     <div class="row">
         <div class="col-xs-12 col-lg-12">
             <div class="box box-primary">
