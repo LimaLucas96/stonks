@@ -34,7 +34,7 @@ public class UsuarioController {
                 usuarioService.salvarUsuario(user);
                 modelAndView.addObject("successMessage", "Usuario registrado com sucesso.");
             } catch (UsuarioExistenteException | CpfInvalidoException e){
-                modelAndView.addObject("errorMessage", e.getMessage());
+                modelAndView.addObject("failMessage", e.getMessage());
             }
         }
 
