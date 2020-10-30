@@ -1,8 +1,12 @@
 package br.com.stonks.stonks.models;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+
+import static javax.persistence.TemporalType.DATE;
 
 @Entity
 public class CarteiraAtivo {
@@ -28,6 +32,7 @@ public class CarteiraAtivo {
     private int quantidade;
 
     @Column( name = "data_transacao")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
     private Date dataTransacao;
 
 	@Enumerated(EnumType.STRING)
