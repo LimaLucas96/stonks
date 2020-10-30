@@ -3,6 +3,13 @@
 <head>
     <title>Dashboard</title>
     <link rel="stylesheet" href="/bower_components/jvectormap/jquery-jvectormap.css">
+
+    <style>
+        .valor-acao {
+            font-size: 2em;
+            font-weight: 800;
+        }
+    </style>
 </head>
 
 <body>
@@ -27,12 +34,22 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-4" th:each="ativo : ${ativos}">
+            <div class="col-lg-4" th:each="carteiraAtivo : ${carteiraAtivos}">
                 <div class="box box-default">
-                    <div class="box-header"><p th:text="${ativo.codigo}">Codigo</p></div>
+                    <div class="box-header"><p th:text="${carteiraAtivo.ativo.codigo}">Codigo</p></div>
                     <div class="box-body">
-                        <div th:id="'chart_' + ${ativo.codigo}" class="autoChamadaAjax"
-                             th:attr="data-after-success=${'desenharGraficos(data, 200,chart_' + ativo.codigo+')'}, data-url=${'/ativo/' + ativo.codigo}"></div>
+
+                        <div class="box-group">
+                            <div class="col-6">
+                                <div class="valor-acao" th:id="'valorAcao_' + ${carteiraAtivo.id}">--</div>
+                            </div>
+                            <div class="col-6">
+                                <div th:id="'lucroAcao_' + ${carteiraAtivo.id}" > -- </div>
+                            </div>
+                        </div>
+
+                        <div th:id="'chart_' + ${carteiraAtivo.id}" class="autoChamadaAjax"
+                             th:attr="data-after-success=${'desenharGraficos(data, 200, &quot;'+carteiraAtivo.id+'&quot;)'}, data-url=${'/ativo/' + carteiraAtivo.id}"></div>
                     </div>
                 </div>
             </div>
@@ -84,7 +101,19 @@
                 var obj = JSON.parse(dataGrafico);
 
                 var dadosGrafico = obj.dados;
+                var valorAcao = obj.valorAcao;
+                var lucroAcao = obj.lucroAcao;
 
+                document.getElementById('valorAcao_' + idDiv).innerHTML = "R$ " + valorAcao;
+
+                var element =  document.getElementById('lucroAcao_' + idDiv);
+                if (lucroAcao > 0) {
+                   element.classList.add("text-green");
+                } else {
+                    element.classList.add("text-red");
+                }
+
+                element.innerHTML = "" + lucroAcao;
                 var options = {
                     title: 'TesteGrafico',
                     titlePosition: 'none',
@@ -99,12 +128,10 @@
 
                 var data = google.visualization.arrayToDataTable(dadosGrafico);
 
-                var chart =new google.visualization.AreaChart(idDiv);
+                var chart =new google.visualization.AreaChart(document.getElementById('chart_' + idDiv));
                 chart.draw(data, options);
             }
         </script>
-
-
     </div>
 </body>
 </html>

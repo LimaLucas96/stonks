@@ -21,6 +21,12 @@ public class Response {
                 "currency='" + meta.getCurrency() + "'/ preco='"+meta.getRegularMarketPrice()+"'/ symbol='"+meta.getSymbol()+"'}";
     }
 
+    public Float getValorAcao() {
+        Meta meta = getChart().getResult()[0].getMeta();
+
+        return meta.getRegularMarketPrice();
+    }
+
     public String getTabelaDados(){
         Quote quote = getChart().getResult()[0].getIndicators().getQuote()[0];
         Float[] valores = quote.getOpen();
