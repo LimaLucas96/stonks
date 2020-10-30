@@ -70,7 +70,7 @@ public class CarteiraController {
         carteiraAtivo.setOperacao(Operacao.COMPRA);
 
          if(carteiraAtivoService.isAlreadyPresent(carteiraAtivo)){
-            modelAndView.addObject("failMessage", "CarteiraAtivo ja existente");
+            modelAndView.addObject("errorFlash", "CarteiraAtivo ja existente");
         }
         else {
             carteiraAtivoService.salvar(carteiraAtivo);
@@ -116,19 +116,29 @@ public class CarteiraController {
     @RequestMapping(value = "/carteira/editar/{id}", method = RequestMethod.POST)
     public ModelAndView update(@PathVariable("id") int id, HttpServletRequest request, @ModelAttribute("carteiraAtivo") CarteiraAtivo carteiraAtivo) {
 
-        CarteiraAtivo carteiraAtivoInstance = carteiraAtivoService.findById(id).get();
-        carteiraAtivo.setCarteira(carteiraAtivoInstance.getCarteira());
-        carteiraAtivoService.salvar(carteiraAtivo);
-
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Usuario usuario = usuarioService.usuarioPorEmail(principal.getUsername());
         Carteira carteira = carteiraService.carteiraByUsuario(usuario);
 
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("successFlash", "Ativo Atualizado");
-        modelAndView.setViewName("/carteira/index");
+
         modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByCarteira(carteira.getId()));
         modelAndView.addObject("usuario", usuario);
+        modelAndView.setViewName("/carteira/index");
+
+        CarteiraAtivo carteiraAtivoInstance = carteiraAtivoService.findById(id).get();
+
+        if (carteiraAtivoInstance == null) {
+            modelAndView.addObject("errorFlash", "Ativo não encontrado");
+
+            return modelAndView;
+        }
+        carteiraAtivo.setCarteira(carteiraAtivoInstance.getCarteira());
+        carteiraAtivoService.salvar(carteiraAtivo);
+
+        modelAndView.addObject("successFlash", "Ativo Atualizado");
+        modelAndView.setViewName("/carteira/index");
+
         return modelAndView;
     }
 
