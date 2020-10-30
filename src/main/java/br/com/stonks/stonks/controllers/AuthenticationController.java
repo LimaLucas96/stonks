@@ -53,7 +53,7 @@ public class AuthenticationController {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Usuario usuario = usuarioService.usuarioPorEmail(principal.getUsername());
         Carteira carteira = carteiraService.carteiraByUsuario(usuario);
-        modelAndView.addObject("ativos", carteiraAtivoService.listarAtivos(carteira));
+        modelAndView.addObject("carteiraAtivos", carteiraAtivoService.findByCarteira(carteira.getId()));
         modelAndView.addObject("usuario", usuario);
 
         return modelAndView;

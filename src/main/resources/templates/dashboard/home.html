@@ -24,22 +24,22 @@
 
     <div layout:fragment="content">
         <div class="row">
-            <div class="col-lg-4" th:each="ativo : ${ativos}">
+            <div class="col-lg-4" th:each="carteiraAtivo : ${carteiraAtivos}">
                 <div class="box box-default">
-                    <div class="box-header"><p th:text="${ativo.codigo}">Codigo</p></div>
+                    <div class="box-header"><p th:text="${carteiraAtivo.ativo.codigo}">Codigo</p></div>
                     <div class="box-body">
 
                         <div class="box-group">
                             <div class="col-6">
-                                <div class="valor-acao" th:id="'valorAcao_' + ${ativo.codigo}">--</div>
+                                <div class="valor-acao" th:id="'valorAcao_' + ${carteiraAtivo.id}">--</div>
                             </div>
                             <div class="col-6">
-                                <div class="text-red"> -- </div>
+                                <div th:id="'lucroAcao_' + ${carteiraAtivo.id}" > -- </div>
                             </div>
                         </div>
 
-                        <div th:id="'chart_' + ${ativo.codigo}" class="autoChamadaAjax"
-                             th:attr="data-after-success=${'desenharGraficos(data, 200, &quot;'+ativo.codigo+'&quot;)'}, data-url=${'/ativo/' + ativo.codigo}"></div>
+                        <div th:id="'chart_' + ${carteiraAtivo.id}" class="autoChamadaAjax"
+                             th:attr="data-after-success=${'desenharGraficos(data, 200, &quot;'+carteiraAtivo.id+'&quot;)'}, data-url=${'/ativo/' + carteiraAtivo.id}"></div>
                     </div>
                 </div>
             </div>
@@ -92,8 +92,18 @@
 
                 var dadosGrafico = obj.dados;
                 var valorAcao = obj.valorAcao;
+                var lucroAcao = obj.lucroAcao;
 
                 document.getElementById('valorAcao_' + idDiv).innerHTML = "R$ " + valorAcao;
+
+                var element =  document.getElementById('lucroAcao_' + idDiv);
+                if (lucroAcao > 0) {
+                   element.classList.add("text-green");
+                } else {
+                    element.classList.add("text-red");
+                }
+
+                element.innerHTML = "" + lucroAcao;
                 var options = {
                     title: 'TesteGrafico',
                     titlePosition: 'none',

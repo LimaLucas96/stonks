@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.Date;
 
 @Controller
@@ -103,10 +105,20 @@ public class CarteiraController {
     }
 
 
-    @RequestMapping(value = "/ativo/{symbol}", method = RequestMethod.GET)
+    @RequestMapping(value = "/ativo/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public String dadosAtivo(@PathVariable("symbol") String symbol) {
-        Response response = responseService.getDadosAtivo(symbol);
-        return "{\"dados\":"+response.getTabelaDados()+", \"valorAcao\": "+response.getValorAcao()+"}";
+    public String dadosAtivo(@PathVariable("id") int id) {
+
+        CarteiraAtivo carteiraAtivo = carteiraAtivoService.findById(id).get();
+        Response response = responseService.getDadosAtivo(carteiraAtivo.getAtivo().getCodigo());
+
+        double valorLucro = response.getValorAcao() - carteiraAtivo.getValor();
+
+        BigDecimal bd = new BigDecimal(valorLucro);
+        bd.setScale(2, BigDecimal.ROUND_HALF_DOWN);
+
+        return "{\"dados\":"+response.getTabelaDados()+"," +
+                " \"valorAcao\": "+response.getValorAcao()+"," +
+                " \"lucroAcao\": "+bd.setScale(2, BigDecimal.ROUND_HALF_DOWN)+"}";
     }
 }
