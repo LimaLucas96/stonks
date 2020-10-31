@@ -12,8 +12,11 @@ import java.util.List;
 @Repository
 public interface CarteiraAtivoRepository extends JpaRepository<CarteiraAtivo, Integer> {
 
+    @Query("SELECT ca, a.codigo FROM CarteiraAtivo ca JOIN Ativo a ON ca.ativo.id = a.id WHERE ca.carteira.id = :id AND ca.operacao = 'COMPRA'")
+    public List<CarteiraAtivo> findByAtivosCarteiraCompra(@Param("id") int id);
+
     @Query("SELECT ca, a.codigo FROM CarteiraAtivo ca JOIN Ativo a ON ca.ativo.id = a.id WHERE ca.carteira.id = :id")
-    public List<CarteiraAtivo> findByCarteira(@Param("id") int id);
+    public List<CarteiraAtivo> findByAtivosCarteira(@Param("id") int id);
 
     CarteiraAtivo[] findAllByCarteira(Carteira carteira);
 }

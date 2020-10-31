@@ -26,7 +26,8 @@
                                 <thead>
                                 <tr>
                                     <th>Código</th>
-                                    <th>Data</th>
+                                    <th>Operação</th>
+                                    <th>Data Transação</th>
                                     <th>Valor</th>
                                     <th>Quantidade</th>
                                     <th style="text-align: center;">#</th>
@@ -39,7 +40,10 @@
                                         <span th:text="${ativoCarteira.ativo.codigo}"></span>
                                     </td>
                                     <td>
-                                        <span th:text="${ativoCarteira.dataTransacao}"></span>
+                                        <span th:text="${ativoCarteira.operacao}"></span>
+                                    </td>
+                                    <td>
+                                        <span th:text="${#dates.format(ativoCarteira.dataTransacao, 'dd/MM/yyyy')}"></span>
                                     </td>
                                     <td>
                                         <span th:text="${ativoCarteira.valor}"></span>

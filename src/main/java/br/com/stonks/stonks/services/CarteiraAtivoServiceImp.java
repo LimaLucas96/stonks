@@ -27,8 +27,13 @@ public class CarteiraAtivoServiceImp implements CarteiraAtivoService {
     }
 
     @Override
-    public List<CarteiraAtivo> findByCarteira(int id) {
-        return carteiraAtivoRepository.findByCarteira(id);
+    public List<CarteiraAtivo> findByAtivosCarteiraCompra(int id) {
+        return carteiraAtivoRepository.findByAtivosCarteiraCompra(id);
+    }
+
+    @Override
+    public List<CarteiraAtivo> findByAtivosCarteira(int id) {
+        return carteiraAtivoRepository.findByAtivosCarteira(id);
     }
 
     public Ativo[] listarAtivos(Carteira carteira) {

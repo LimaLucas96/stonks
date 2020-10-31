@@ -15,7 +15,9 @@ public interface CarteiraAtivoService {
 
     public boolean isAlreadyPresent(CarteiraAtivo carteiraAtivo);
 
-    public List<CarteiraAtivo> findByCarteira(int id);
+    public List<CarteiraAtivo> findByAtivosCarteiraCompra(int id);
+
+    public List<CarteiraAtivo> findByAtivosCarteira(int id);
 
     Ativo[] listarAtivos(Carteira carteira);
 

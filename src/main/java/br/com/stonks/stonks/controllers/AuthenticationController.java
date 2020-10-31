@@ -7,18 +7,16 @@ import br.com.stonks.stonks.services.CarteiraAtivoService;
 import br.com.stonks.stonks.services.CarteiraService;
 import br.com.stonks.stonks.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 @Controller
 public class AuthenticationController {
@@ -55,10 +53,10 @@ public class AuthenticationController {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Usuario usuario = usuarioService.usuarioPorEmail(principal.getUsername());
         Carteira carteira = carteiraService.carteiraByUsuario(usuario);
-        modelAndView.addObject("carteiraAtivos", carteiraAtivoService.findByCarteira(carteira.getId()));
+        modelAndView.addObject("carteiraAtivos", carteiraAtivoService.findByAtivosCarteiraCompra(carteira.getId()));
         modelAndView.addObject("usuario", usuario);
         
-        List<CarteiraAtivo> carteiraAtivos = carteiraAtivoService.findByCarteira(carteira.getId());
+        List<CarteiraAtivo> carteiraAtivos = carteiraAtivoService.findByAtivosCarteiraCompra(carteira.getId());
         double sum = 0;
         for (CarteiraAtivo ca : carteiraAtivos) {
         	sum += ca.getValor() * ca.getQuantidade();
