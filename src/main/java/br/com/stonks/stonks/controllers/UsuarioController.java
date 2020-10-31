@@ -24,7 +24,7 @@ public class UsuarioController {
 
     @RequestMapping(value = "/usuario/register", method = RequestMethod.POST)
     public ModelAndView create(@Valid Usuario user, BindingResult bindingResult, ModelMap modelMap) throws Exception {
-        ModelAndView modelAndView = new ModelAndView();
+         ModelAndView modelAndView = new ModelAndView();
 
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("errorFlash", "Por favor corriga os erros.");
@@ -35,11 +35,14 @@ public class UsuarioController {
                 modelAndView.addObject("successMessage", "Usuario registrado com sucesso.");
             } catch (UsuarioExistenteException | CpfInvalidoException e){
                 modelAndView.addObject("failMessage", e.getMessage());
+                modelAndView.addObject("user", user);
+                modelAndView.setViewName("register");
+                return modelAndView;
             }
         }
 
-        modelAndView.addObject("user", new Usuario());
-        modelAndView.setViewName("register");
+//        modelAndView.addObject("user", new Usuario());
+        modelAndView.setViewName("login");
         return modelAndView;
 
     }

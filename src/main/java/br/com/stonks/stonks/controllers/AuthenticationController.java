@@ -53,15 +53,18 @@ public class AuthenticationController {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Usuario usuario = usuarioService.usuarioPorEmail(principal.getUsername());
         Carteira carteira = carteiraService.carteiraByUsuario(usuario);
-        modelAndView.addObject("carteiraAtivos", carteiraAtivoService.findByAtivosCarteiraCompra(carteira.getId()));
-        modelAndView.addObject("usuario", usuario);
-        
-        List<CarteiraAtivo> carteiraAtivos = carteiraAtivoService.findByAtivosCarteiraCompra(carteira.getId());
-        double sum = 0;
-        for (CarteiraAtivo ca : carteiraAtivos) {
-        	sum += ca.getValor() * ca.getQuantidade();
-        }
 
+        modelAndView.addObject("carteiraAtivos", carteira != null ? carteiraAtivoService.findByAtivosCarteiraCompra(carteira.getId()) : null );
+        modelAndView.addObject("usuario", usuario);
+
+        double sum = 0;
+
+        if (carteira != null) {
+            List<CarteiraAtivo> carteiraAtivos = carteiraAtivoService.findByAtivosCarteiraCompra(carteira.getId());
+            for (CarteiraAtivo ca : carteiraAtivos) {
+                sum += ca.getValor() * ca.getQuantidade();
+            }
+        }
         modelAndView.addObject("total", sum);
 
         return modelAndView;
