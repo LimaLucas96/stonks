@@ -45,6 +45,11 @@
       </div>
     </div>
 
+    <div th:if="${successMessage != null}" class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <p th:text="${successMessage}"></p>
+    </div>
+
     <form th:action="@{/login}" method="post">
       <div class="form-group has-feedback">
         <input type="email" class="form-control" th:placeholder="Email" id="email" name="email">
@@ -80,7 +85,7 @@
     <!-- /.social-auth-links -->
 
     <a href="#">I forgot my password</a><br>
-    <a href="register.html" class="text-center">Register a new membership</a>
+    <a href="/register" class="text-center">Register a new membership</a>
 
   </div>
   <!-- /.login-box-body -->
