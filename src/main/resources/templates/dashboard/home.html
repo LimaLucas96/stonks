@@ -50,7 +50,9 @@
                         </div>
 
                         <div th:id="'chart_' + ${carteiraAtivo.id}" class="autoChamadaAjax"
-                             th:attr="data-after-success=${'desenharGraficos(data, 200, &quot;'+carteiraAtivo.id+'&quot;)'}, data-url=${'/ativo/' + carteiraAtivo.id}"></div>
+                             th:attr="data-after-success=${'desenharGraficos(data, 200, &quot;'+carteiraAtivo.id+'&quot;)'}, data-url=${'/ativo/' + carteiraAtivo.id}"><div class="overlay">
+                            <i class="fa fa-refresh fa-spin"></i>
+                        </div></div>
                     </div>
                 </div>
             </div>
