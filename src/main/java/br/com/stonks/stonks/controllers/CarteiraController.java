@@ -16,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.Date;
 
 @Controller
@@ -45,14 +44,18 @@ public class CarteiraController {
         Carteira carteira = carteiraService.carteiraByUsuario(usuario);
 
         modelAndView.setViewName("/carteira/index");
-        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByCarteira(carteira.getId()));
+        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosCarteira(carteira.getId()));
         modelAndView.addObject("usuario", usuario);
 
         return modelAndView;
     }
 
     @RequestMapping(value = "/carteira/cadastrar", method = RequestMethod.POST)
-    public ModelAndView create(@Valid CarteiraAtivo carteiraAtivo, BindingResult bindingResult, @DateTimeFormat(pattern = "yyyy-MM-dd") Date dataTransacao, ModelMap modelMap){
+    public ModelAndView create(@Valid CarteiraAtivo carteiraAtivo,
+                               BindingResult bindingResult,
+                               @DateTimeFormat(pattern = "yyyy-MM-dd") Date dataTransacao,
+                               ModelMap modelMap){
+
         ModelAndView modelAndView = new ModelAndView();
 
         carteiraAtivo.setDataTransacao(dataTransacao);
@@ -69,7 +72,6 @@ public class CarteiraController {
         }
 
         carteiraAtivo.setCarteira(carteira);
-        carteiraAtivo.setOperacao(Operacao.COMPRA);
 
          if(carteiraAtivoService.isAlreadyPresent(carteiraAtivo)){
             modelAndView.addObject("errorFlash", "CarteiraAtivo ja existente");
@@ -79,13 +81,12 @@ public class CarteiraController {
             modelAndView.addObject("successFlash", "Ativo registrado na carteira com sucesso.");
         }
 
-        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByCarteira(carteira.getId()));
+        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosCarteira(carteira.getId()));
         modelAndView.addObject("usuario", usuario);
 
         modelAndView.setViewName("/carteira/index");
 
         return modelAndView;
-
     }
 
     @RequestMapping(value = "/carteira/editar/{id}")
@@ -124,7 +125,7 @@ public class CarteiraController {
 
         ModelAndView modelAndView = new ModelAndView();
 
-        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByCarteira(carteira.getId()));
+        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosCarteira(carteira.getId()));
         modelAndView.addObject("usuario", usuario);
         modelAndView.setViewName("/carteira/index");
 
