@@ -1,5 +1,5 @@
 <!-- sidebar: style can be found in sidebar.less -->
-<section class="sidebar">
+<section class="sidebar" xmlns:th="http://www.w3.org/1999/xhtml">
     <!-- Sidebar user panel -->
     <div class="user-panel">
         <div class="pull-left image">
@@ -19,7 +19,7 @@
         <li class="header">Principal</li>
         <li>
             <a th:href="@{/carteira/index}">
-                <i class="fa fa-edit"></i> <span>Sua carteira</span>
+                <i class="fa fa-money"></i> <span>Sua carteira</span>
             </a>
         </li>
         <li>
@@ -33,8 +33,8 @@
             </a>
         </li>
         <li>
-            <a th:href="@{/dadosfundamentalista/vizualizar}">
-                <i class="fa fa-edit"></i> <span>Historico de transações</span>
+            <a th:href="@{/historicoTransacao/index}">
+                <i class="fa fa-history"></i> <span>Historico de transações</span>
             </a>
         </li>
         <li class="header">Notícias</li>

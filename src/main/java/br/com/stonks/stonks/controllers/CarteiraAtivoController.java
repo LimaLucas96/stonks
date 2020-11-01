@@ -48,7 +48,7 @@ public class CarteiraAtivoController {
         Usuario usuario = usuarioService.usuarioPorEmail(principal.getUsername());
         Carteira carteira = carteiraService.carteiraByUsuario(usuario);
 
-        List<CarteiraAtivo> ativos = carteiraAtivoService.findByAtivosCarteira(carteira.getId());
+        List<CarteiraAtivo> ativos = carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null);
 
         model.addAttribute("ativosCarteira", ativos);
         model.addAttribute("usuario", usuario);
@@ -65,7 +65,7 @@ public class CarteiraAtivoController {
         Usuario usuario = usuarioService.usuarioPorEmail(principal.getUsername());
         Carteira carteira = carteiraService.carteiraByUsuario(usuario);
 
-        List<CarteiraAtivo> ativos = carteiraAtivoService.findByAtivosCarteira(carteira.getId());
+        List<CarteiraAtivo> ativos = carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null);
         
         String body = "<h2>Seu relatório Stonks</h2> <br/>";
         

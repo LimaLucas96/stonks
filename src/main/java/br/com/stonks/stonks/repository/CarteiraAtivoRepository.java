@@ -2,6 +2,7 @@ package br.com.stonks.stonks.repository;
 
 import br.com.stonks.stonks.models.Carteira;
 import br.com.stonks.stonks.models.CarteiraAtivo;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,7 +17,7 @@ public interface CarteiraAtivoRepository extends JpaRepository<CarteiraAtivo, In
     public List<CarteiraAtivo> findByAtivosCarteiraCompra(@Param("id") int id);
 
     @Query("SELECT ca, a.codigo FROM CarteiraAtivo ca JOIN Ativo a ON ca.ativo.id = a.id WHERE ca.carteira.id = :id")
-    public List<CarteiraAtivo> findByAtivosCarteira(@Param("id") int id);
+    public List<CarteiraAtivo> findByAtivosCarteira(@Param("id") int id, Sort sort);
 
     CarteiraAtivo[] findAllByCarteira(Carteira carteira);
 }

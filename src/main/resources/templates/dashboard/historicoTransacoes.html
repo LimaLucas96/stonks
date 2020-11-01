@@ -1,11 +1,22 @@
 <!DOCTYPE html>
-<html layout:decorator="layout" lang="pt-BR" xmlns:layout="http://www.w3.org/1999/xhtml">
+<html layout:decorator="layout" lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Stonks | Relatório Ativos</title>
     <link rel="stylesheet" href="/bower_components/jvectormap/jquery-jvectormap.css">
 </head>
 <body>
+
+<div layout:fragment="header">
+    <h1>
+        Historico de Transações
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/home"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="/historicoTransacao/index"><i class="fa fa-history"></i> Historico de transações</a></li>
+    </ol>
+</div>
+
 <div layout:fragment="content">
     <style>
         .confirmacao p {
@@ -30,13 +41,13 @@
             text-align: center
         }
     </style>
-    <div class="row confirmacao">
-        <div class="col-12 title-confirmacao">
-            <h5>
-                <span th:text="${usuario.nome}"></span>
-            </h5>
-        </div>
-    </div>
+<!--    <div class="row confirmacao">-->
+<!--        <div class="col-12 title-confirmacao">-->
+<!--            <h5>-->
+<!--                <span th:text="${usuario.nome}"></span>-->
+<!--            </h5>-->
+<!--        </div>-->
+<!--    </div>-->
     <div class="alert alert-success" role="alert" th:text="${successMessage}" th:if="${successMessage}"></div>
     <div class="alert alert-warning" role="alert" th:text="${failMessage}" th:if="${failMessage}"></div>
 <!--    <div class="box-footer">-->

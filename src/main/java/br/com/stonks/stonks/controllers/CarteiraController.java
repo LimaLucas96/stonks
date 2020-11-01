@@ -44,7 +44,7 @@ public class CarteiraController {
         Carteira carteira = carteiraService.carteiraByUsuario(usuario);
 
         modelAndView.setViewName("/carteira/index");
-        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosCarteira(carteira.getId()));
+        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null));
         modelAndView.addObject("usuario", usuario);
 
         return modelAndView;
@@ -81,7 +81,7 @@ public class CarteiraController {
             modelAndView.addObject("successFlash", "Ativo registrado na carteira com sucesso.");
         }
 
-        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosCarteira(carteira.getId()));
+        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null));
         modelAndView.addObject("usuario", usuario);
 
         modelAndView.setViewName("/carteira/index");
@@ -125,7 +125,7 @@ public class CarteiraController {
 
         ModelAndView modelAndView = new ModelAndView();
 
-        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosCarteira(carteira.getId()));
+        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null));
         modelAndView.addObject("usuario", usuario);
         modelAndView.setViewName("/carteira/index");
 
