@@ -1,11 +1,11 @@
 package br.com.stonks.stonks.controllers;
 
 import br.com.stonks.stonks.EmailConfig;
-import br.com.stonks.stonks.models.Carteira;
-import br.com.stonks.stonks.models.CarteiraAtivo;
-import br.com.stonks.stonks.models.Usuario;
+import br.com.stonks.stonks.exception.ResponseException;
+import br.com.stonks.stonks.models.*;
 import br.com.stonks.stonks.services.CarteiraAtivoService;
 import br.com.stonks.stonks.services.CarteiraService;
+import br.com.stonks.stonks.services.ResponseService;
 import br.com.stonks.stonks.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -37,7 +38,10 @@ public class CarteiraAtivoController {
 
     @Autowired
     private UsuarioService usuarioService;
-    
+
+    @Autowired
+    private ResponseService responseService;
+
     @Autowired
     private EmailConfig emailConfig;
 
@@ -48,9 +52,28 @@ public class CarteiraAtivoController {
         Usuario usuario = usuarioService.usuarioPorEmail(principal.getUsername());
         Carteira carteira = carteiraService.carteiraByUsuario(usuario);
 
-        List<CarteiraAtivo> ativos = carteiraAtivoService.findByAtivosCarteira(carteira.getId());
+        List<CarteiraAtivo> ativos = carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null);
 
-        model.addAttribute("ativosCarteira", ativos);
+        List<CarteiraAtivoValor> carteiraAtivoValorList = new ArrayList<>();
+
+        try {
+            for (int i = 0; i < ativos.size(); i++) {
+                CarteiraAtivoValor carteiraAtivoValor = new CarteiraAtivoValor();
+                CarteiraAtivo carteiraAtivo = ativos.get(i);
+                carteiraAtivoValor.setCarteiraAtivo(carteiraAtivo);
+                Response response = responseService.getDadosAtivo(carteiraAtivo.getAtivo().getCodigo());
+                carteiraAtivoValor.setValorMomento(response.getValorAcao());
+                carteiraAtivoValor.setLucro((float) (response.getValorAcao() - carteiraAtivo.getValor()));
+
+                carteiraAtivoValorList.add(carteiraAtivoValor);
+            }
+        } catch (ResponseException e) {
+            model.addAttribute("errorFlash", e.getMessage());
+            model.addAttribute("usuario", usuario);
+            return "dashboard/imprimirRelatorio";
+        }
+
+        model.addAttribute("ativosCarteira", carteiraAtivoValorList);
         model.addAttribute("usuario", usuario);
 
         return "dashboard/imprimirRelatorio";
@@ -65,7 +88,7 @@ public class CarteiraAtivoController {
         Usuario usuario = usuarioService.usuarioPorEmail(principal.getUsername());
         Carteira carteira = carteiraService.carteiraByUsuario(usuario);
 
-        List<CarteiraAtivo> ativos = carteiraAtivoService.findByAtivosCarteira(carteira.getId());
+        List<CarteiraAtivo> ativos = carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null);
         
         String body = "<h2>Seu relatório Stonks</h2> <br/>";
         

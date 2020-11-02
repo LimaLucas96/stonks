@@ -1,6 +1,7 @@
 
 package br.com.stonks.stonks.controllers;
 
+import br.com.stonks.stonks.exception.ResponseException;
 import br.com.stonks.stonks.models.*;
 import br.com.stonks.stonks.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class CarteiraController {
         Carteira carteira = carteiraService.carteiraByUsuario(usuario);
 
         modelAndView.setViewName("/carteira/index");
-        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosCarteira(carteira.getId()));
+        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null));
         modelAndView.addObject("usuario", usuario);
 
         return modelAndView;
@@ -81,7 +82,7 @@ public class CarteiraController {
             modelAndView.addObject("successFlash", "Ativo registrado na carteira com sucesso.");
         }
 
-        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosCarteira(carteira.getId()));
+        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null));
         modelAndView.addObject("usuario", usuario);
 
         modelAndView.setViewName("/carteira/index");
@@ -125,7 +126,7 @@ public class CarteiraController {
 
         ModelAndView modelAndView = new ModelAndView();
 
-        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosCarteira(carteira.getId()));
+        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null));
         modelAndView.addObject("usuario", usuario);
         modelAndView.setViewName("/carteira/index");
 
@@ -158,9 +159,18 @@ public class CarteiraController {
     public String dadosAtivo(@PathVariable("id") int id) {
 
         CarteiraAtivo carteiraAtivo = carteiraAtivoService.findById(id).get();
-        Response response = responseService.getDadosAtivo(carteiraAtivo.getAtivo().getCodigo());
+        Response response = null;
+        double valorLucro = 0.0;
+        try {
+            response = responseService.getDadosAtivo(carteiraAtivo.getAtivo().getCodigo());
+            valorLucro = response.getValorAcao() - carteiraAtivo.getValor();
 
-        double valorLucro = response.getValorAcao() - carteiraAtivo.getValor();
+        } catch (ResponseException e) {
+
+            return "{\"message\": "+e.getMessage()+"}";
+        }
+
+//        double valorLucro = response.getValorAcao() - carteiraAtivo.getValor();
 
         BigDecimal bd = new BigDecimal(valorLucro);
         bd.setScale(2, BigDecimal.ROUND_HALF_DOWN);

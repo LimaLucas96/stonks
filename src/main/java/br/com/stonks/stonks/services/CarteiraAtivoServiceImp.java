@@ -5,8 +5,10 @@ import br.com.stonks.stonks.models.Carteira;
 import br.com.stonks.stonks.models.CarteiraAtivo;
 import br.com.stonks.stonks.repository.CarteiraAtivoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,8 +34,25 @@ public class CarteiraAtivoServiceImp implements CarteiraAtivoService {
     }
 
     @Override
-    public List<CarteiraAtivo> findByAtivosCarteira(int id) {
-        return carteiraAtivoRepository.findByAtivosCarteira(id);
+    public List<CarteiraAtivo> findByAtivosCarteira(int id, HashMap<String, String> params) {
+        Sort.Direction direction = Sort.Direction.ASC;
+        String sortBy = "id";
+
+        if (params != null) {
+            if (params.get("order").equals("asc")) {
+                direction = Sort.Direction.ASC;
+            } else if (params.get("order").equals("desc")) {
+                direction = Sort.Direction.DESC;
+            }
+
+            if (!params.get("order").isEmpty()) {
+                sortBy = params.get("sort");
+            }
+        }
+
+        Sort sort = Sort.by(direction, sortBy);
+
+        return carteiraAtivoRepository.findByAtivosCarteira(id, sort);
     }
 
     public Ativo[] listarAtivos(Carteira carteira) {
