@@ -1,6 +1,7 @@
 
 package br.com.stonks.stonks.controllers;
 
+import br.com.stonks.stonks.exception.ResponseException;
 import br.com.stonks.stonks.models.*;
 import br.com.stonks.stonks.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -158,9 +159,18 @@ public class CarteiraController {
     public String dadosAtivo(@PathVariable("id") int id) {
 
         CarteiraAtivo carteiraAtivo = carteiraAtivoService.findById(id).get();
-        Response response = responseService.getDadosAtivo(carteiraAtivo.getAtivo().getCodigo());
+        Response response = null;
+        double valorLucro = 0.0;
+        try {
+            response = responseService.getDadosAtivo(carteiraAtivo.getAtivo().getCodigo());
+            valorLucro = response.getValorAcao() - carteiraAtivo.getValor();
 
-        double valorLucro = response.getValorAcao() - carteiraAtivo.getValor();
+        } catch (ResponseException e) {
+
+            return "{\"message\": "+e.getMessage()+"}";
+        }
+
+//        double valorLucro = response.getValorAcao() - carteiraAtivo.getValor();
 
         BigDecimal bd = new BigDecimal(valorLucro);
         bd.setScale(2, BigDecimal.ROUND_HALF_DOWN);

@@ -1,6 +1,7 @@
 package br.com.stonks.stonks.controllers;
 
 import br.com.stonks.stonks.EmailConfig;
+import br.com.stonks.stonks.exception.ResponseException;
 import br.com.stonks.stonks.models.*;
 import br.com.stonks.stonks.services.CarteiraAtivoService;
 import br.com.stonks.stonks.services.CarteiraService;
@@ -55,15 +56,21 @@ public class CarteiraAtivoController {
 
         List<CarteiraAtivoValor> carteiraAtivoValorList = new ArrayList<>();
 
-        for (int i = 0 ; i < ativos.size(); i ++ ) {
-            CarteiraAtivoValor  carteiraAtivoValor = new CarteiraAtivoValor();
-            CarteiraAtivo carteiraAtivo = ativos.get(i);
-            carteiraAtivoValor.setCarteiraAtivo(carteiraAtivo);
-            Response response = responseService.getDadosAtivo(carteiraAtivo.getAtivo().getCodigo());
-            carteiraAtivoValor.setValorMomento(response.getValorAcao());
-            carteiraAtivoValor.setLucro((float) (response.getValorAcao() - carteiraAtivo.getValor()));
+        try {
+            for (int i = 0; i < ativos.size(); i++) {
+                CarteiraAtivoValor carteiraAtivoValor = new CarteiraAtivoValor();
+                CarteiraAtivo carteiraAtivo = ativos.get(i);
+                carteiraAtivoValor.setCarteiraAtivo(carteiraAtivo);
+                Response response = responseService.getDadosAtivo(carteiraAtivo.getAtivo().getCodigo());
+                carteiraAtivoValor.setValorMomento(response.getValorAcao());
+                carteiraAtivoValor.setLucro((float) (response.getValorAcao() - carteiraAtivo.getValor()));
 
-            carteiraAtivoValorList.add(carteiraAtivoValor);
+                carteiraAtivoValorList.add(carteiraAtivoValor);
+            }
+        } catch (ResponseException e) {
+            model.addAttribute("errorFlash", e.getMessage());
+            model.addAttribute("usuario", usuario);
+            return "dashboard/imprimirRelatorio";
         }
 
         model.addAttribute("ativosCarteira", carteiraAtivoValorList);
