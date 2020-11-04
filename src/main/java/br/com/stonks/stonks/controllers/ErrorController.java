@@ -28,12 +28,10 @@ public class ErrorController implements org.springframework.boot.web.servlet.err
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 
         ModelAndView modelAndView = new ModelAndView();
+        Usuario usuarioLogado = usuarioService.usuarioLogado();
 
-        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Usuario usuario = usuarioService.usuarioPorEmail(principal.getUsername());
-
-        if (usuario != null) {
-            modelAndView.addObject("usuario", usuario);
+        if (usuarioLogado != null) {
+            modelAndView.addObject("usuario", usuarioLogado);
         }
 
         if(status != null){

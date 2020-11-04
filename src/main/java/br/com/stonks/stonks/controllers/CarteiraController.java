@@ -150,13 +150,18 @@ public class CarteiraController {
     @RequestMapping(value = "/ativo/{id}", method = RequestMethod.GET)
     @ResponseBody
     public String dadosAtivo(@PathVariable("id") int id) {
-        CarteiraAtivo carteiraAtivo = carteiraAtivoService.findById(id).get();
+        Optional<CarteiraAtivo> carteiraAtivo = carteiraAtivoService.findById(id);
+
+        if (!carteiraAtivo.isPresent()) {
+            return "{\"message\": \"Carteira não encontrada\"}";
+        }
+
         Response response;
         double valorLucro;
 
         try {
-            response = responseService.getDadosAtivo(carteiraAtivo.getAtivo().getCodigo());
-            valorLucro = response.getValorAcao() - carteiraAtivo.getValor();
+            response = responseService.getDadosAtivo(carteiraAtivo.get().getAtivo().getCodigo());
+            valorLucro = response.getValorAcao() - carteiraAtivo.get().getValor();
         } catch (ResponseException e) {
             return "{\"message\": " + e.getMessage() + "}";
         }

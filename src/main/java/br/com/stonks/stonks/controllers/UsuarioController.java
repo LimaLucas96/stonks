@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 public class UsuarioController {
@@ -27,7 +28,7 @@ public class UsuarioController {
          ModelAndView modelAndView = new ModelAndView();
 
         if (bindingResult.hasErrors()) {
-            modelAndView.addObject("errorFlash", "Por favor corriga os erros.");
+            modelAndView.addObject("failMessage", "Por favor corriga os erros.");
             modelMap.addAttribute("bindingResult", bindingResult);
         } else {
             try {
@@ -48,8 +49,13 @@ public class UsuarioController {
 
     @RequestMapping(value = "/usuario/{id}", method = RequestMethod.POST)
     public String update(@PathVariable("id") int id, Usuario usuario) throws CpfInvalidoException, UsuarioExistenteException {
-        Usuario usuarioInstance = usuarioService.findById(id).get();
+        Optional<Usuario> usuarioOptional = usuarioService.findById(id);
 
+        if (usuarioOptional.isPresent()){
+            return "Usuário não encontrado.";
+        }
+
+        Usuario usuarioInstance = usuarioOptional.get();
         usuarioInstance.setNome(usuario.getNome());
 
         usuarioService.salvarUsuario(usuarioInstance);

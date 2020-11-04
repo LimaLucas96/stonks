@@ -33,11 +33,10 @@ public class DadosFundamentalistaController {
     @RequestMapping(value = "/dadosfundamentalista/vizualizar", method = RequestMethod.GET)
     public ModelAndView vizualizar() {
         ModelAndView modelAndView = new ModelAndView();
-        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Usuario usuario = usuarioService.usuarioPorEmail(principal.getUsername());
+        Usuario usuarioLogado = usuarioService.usuarioLogado();
 
         modelAndView.addObject("ativos", ativoService.findAll());
-        modelAndView.addObject("usuario", usuario);
+        modelAndView.addObject("usuario", usuarioLogado);
 
         modelAndView.setViewName("/dashboard/dadosFundamentalistas");
 
@@ -49,13 +48,18 @@ public class DadosFundamentalistaController {
         ModelAndView modelAndView = new ModelAndView();
 
         Optional<DadosFundamentalista> optionalDadosFundamentalista = dadosFundamentalistaService.findByAtivo(ativo);
+
+        if (!optionalDadosFundamentalista.isPresent()) {
+            modelAndView.addObject("errorFlash", "Dados desse ativo não foram encontrados.");
+            return modelAndView;
+        }
+
         modelAndView.addObject("dadosfundamentalista", optionalDadosFundamentalista.get());
 
-        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Usuario usuario = usuarioService.usuarioPorEmail(principal.getUsername());
+        Usuario usuarioLogado = usuarioService.usuarioLogado();
 
         modelAndView.addObject("ativos", ativoService.findAll());
-        modelAndView.addObject("usuario", usuario);
+        modelAndView.addObject("usuario", usuarioLogado);
 
         modelAndView.setViewName("/dashboard/dadosFundamentalistas");
 
