@@ -69,4 +69,9 @@ public class CarteiraAtivoServiceImp implements CarteiraAtivoService {
     public Optional<CarteiraAtivo> findById(int id) {
         return carteiraAtivoRepository.findById(id);
     }
+
+    @Override
+    public Double totalCarteira(Integer idCarteira){
+        return carteiraAtivoRepository.totalCarteira(idCarteira);
+    }
 }

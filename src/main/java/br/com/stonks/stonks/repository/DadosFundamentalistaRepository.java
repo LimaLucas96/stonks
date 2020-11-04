@@ -7,5 +7,4 @@ import java.util.Optional;
 
 public interface DadosFundamentalistaRepository extends JpaRepository<DadosFundamentalista, Integer> {
 
-    Optional<DadosFundamentalista> findByAtivo (Integer idAtivo);
 }

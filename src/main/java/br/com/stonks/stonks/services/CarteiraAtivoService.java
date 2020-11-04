@@ -24,4 +24,6 @@ public interface CarteiraAtivoService {
     Ativo[] listarAtivos(Carteira carteira);
 
     public Optional<CarteiraAtivo> findById(int id);
+
+    public Double totalCarteira(Integer idCarteira);
 }

@@ -7,8 +7,6 @@ import br.com.stonks.stonks.services.CarteiraAtivoService;
 import br.com.stonks.stonks.services.CarteiraService;
 import br.com.stonks.stonks.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,7 +29,7 @@ public class AuthenticationController {
     private CarteiraAtivoService carteiraAtivoService;
 
     @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
-    public ModelAndView login(){
+    public ModelAndView login() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("login");
         return modelAndView;
@@ -50,35 +48,22 @@ public class AuthenticationController {
     public ModelAndView home() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("dashboard/home");
-        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Usuario usuario = usuarioService.usuarioPorEmail(principal.getUsername());
-        Carteira carteira = carteiraService.carteiraByUsuario(usuario);
 
-        modelAndView.addObject("carteiraAtivos", carteira != null ? carteiraAtivoService.findByAtivosCarteiraCompra(carteira.getId()) : null );
-        modelAndView.addObject("usuario", usuario);
+        Usuario usuarioLogado = usuarioService.usuarioLogado();
+        Carteira carteira = carteiraService.carteiraByUsuario(usuarioLogado);
+
+        modelAndView.addObject("usuario", usuarioLogado);
 
         double sum = 0;
 
         if (carteira != null) {
-            List<CarteiraAtivo> carteiraAtivos = carteiraAtivoService.findByAtivosCarteiraCompra(carteira.getId());
-            for (CarteiraAtivo ca : carteiraAtivos) {
-                sum += ca.getValor() * ca.getQuantidade();
-            }
+            sum = carteiraAtivoService.totalCarteira(carteira.getId());
         }
+
+        modelAndView.addObject("carteiraAtivos", carteira != null ?
+                carteiraAtivoService.findByAtivosCarteiraCompra(carteira.getId()) : null);
         modelAndView.addObject("total", sum);
 
         return modelAndView;
     }
-
-    @RequestMapping(value = "/teste", method = RequestMethod.GET)
-    @ResponseBody
-    public String teste () {
-        HashMap<String, Integer> test = new HashMap<String, Integer>();
-
-        test.put("teste 1", 1);
-        test.put("teste 2", 2);
-        test.put("teste 3", 3);
-        return "{\"dados\":[[\"teste\", \"conexao\"], [\"1\", 12], [\"2\", 12], [\"3\", 12]]}";
-    }
-
 }

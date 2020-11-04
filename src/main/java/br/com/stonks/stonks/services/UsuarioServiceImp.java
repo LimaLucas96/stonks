@@ -7,6 +7,8 @@ import br.com.stonks.stonks.models.Usuario;
 import br.com.stonks.stonks.repository.RoleRepository;
 import br.com.stonks.stonks.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -88,5 +90,11 @@ public class UsuarioServiceImp implements UsuarioService {
     @Override
     public void deleteById(int id) {
         usuarioRepository.deleteById(id);
+    }
+
+    @Override
+    public Usuario usuarioLogado(){
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return usuarioRepository.findByEmail(principal.getUsername());
     }
 }

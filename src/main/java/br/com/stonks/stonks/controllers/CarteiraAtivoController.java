@@ -138,8 +138,7 @@ public class CarteiraAtivoController {
         	System.out.print(e.getMessage());
         	modelAndView.addObject("failMessage", "Relatório não pode ser enviado.");
         }
-        
-        return "dashboard/imprimirRelatorio";
+
+        return "redirect:/carteiraativo/relatorio";
     }
-    
 }

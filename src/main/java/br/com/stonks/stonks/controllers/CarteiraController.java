@@ -2,7 +2,10 @@
 package br.com.stonks.stonks.controllers;
 
 import br.com.stonks.stonks.exception.ResponseException;
-import br.com.stonks.stonks.models.*;
+import br.com.stonks.stonks.models.Carteira;
+import br.com.stonks.stonks.models.CarteiraAtivo;
+import br.com.stonks.stonks.models.Response;
+import br.com.stonks.stonks.models.Usuario;
 import br.com.stonks.stonks.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -169,8 +172,6 @@ public class CarteiraController {
 
             return "{\"message\": "+e.getMessage()+"}";
         }
-
-//        double valorLucro = response.getValorAcao() - carteiraAtivo.getValor();
 
         BigDecimal bd = new BigDecimal(valorLucro);
         bd.setScale(2, BigDecimal.ROUND_HALF_DOWN);

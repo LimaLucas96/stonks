@@ -17,4 +17,6 @@ public interface UsuarioService {
     public Optional<Usuario> findById(int id);
 
     public void deleteById(int id);
+
+    public Usuario usuarioLogado();
 }

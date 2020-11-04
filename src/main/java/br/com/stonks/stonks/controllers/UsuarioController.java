@@ -41,7 +41,6 @@ public class UsuarioController {
             }
         }
 
-//        modelAndView.addObject("user", new Usuario());
         modelAndView.setViewName("login");
         return modelAndView;
 

@@ -15,13 +15,13 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class ErrorController implements org.springframework.boot.web.servlet.error.ErrorController {
+    @Autowired
+    private UsuarioService usuarioService;
+
     @Override
     public String getErrorPath() {
         return null;
     }
-
-    @Autowired
-    private UsuarioService usuarioService;
 
     @RequestMapping("/error")
     public ModelAndView handleError(HttpServletRequest request){
