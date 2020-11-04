@@ -9,7 +9,7 @@ import java.util.Set;
 public class Carteira {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @NotNull(message = "É preciso definir um usuario.")
@@ -21,46 +21,46 @@ public class Carteira {
     private Boolean status;
 
     @OneToMany(mappedBy = "carteira", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<CarteiraAtivo> carteiraAtivos;
+    private Set<CarteiraAtivo> carteiraAtivos;
 
-	public Set<CarteiraAtivo> getCarteiraAtivos() {
-		return carteiraAtivos;
-	}
-
-	public void setCarteiraAtivos(Set<CarteiraAtivo> carteiraAtivos) {
-		this.carteiraAtivos = carteiraAtivos;
-	}
-
-	public Carteira(
-    		@NotNull(message = "Usuário é obrigatorio.") Usuario usuario) {
-    	this.status = true;
-    	this.usuario = usuario;
+    public Set<CarteiraAtivo> getCarteiraAtivos() {
+        return carteiraAtivos;
     }
 
-    public Carteira() { }
+    public void setCarteiraAtivos(Set<CarteiraAtivo> carteiraAtivos) {
+        this.carteiraAtivos = carteiraAtivos;
+    }
 
-	public int getId() {
-		return id;
-	}
+    public Carteira(@NotNull(message = "Usuário é obrigatorio.") Usuario usuario) {
+        this.status = true;
+        this.usuario = usuario;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public Carteira() {
+    }
 
-	public Usuario getUsuario() {
-		return usuario;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public Boolean getStatus() {
-		return status;
-	}
+    public Usuario getUsuario() {
+        return usuario;
+    }
 
-	public void setStatus(Boolean status) {
-		this.status = status;
-	}
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
 
 }
