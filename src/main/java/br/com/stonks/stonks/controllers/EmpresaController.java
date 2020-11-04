@@ -49,7 +49,7 @@ public class EmpresaController {
         ModelAndView empresaModel = new ModelAndView("/empresas/cadastrarEmpresa");
 
         if (bindingResult.hasErrors()){
-            empresaModel.addObject("successMessage", "Corrija os erros.");
+            empresaModel.addObject("errorFlash", "Corrija os erros.");
             modelMap.addAttribute("bindingResult", bindingResult);
         }
         else {

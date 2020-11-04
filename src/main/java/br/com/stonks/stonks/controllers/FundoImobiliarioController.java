@@ -28,7 +28,7 @@ public class FundoImobiliarioController {
     @Autowired
     private EmpresaService empresaService;
 
-    @GetMapping("fundo-imobiliario/cadastro")
+    @GetMapping("fundoimobiliario/cadastro")
     public ModelAndView paginaCadastro() {
         ModelAndView cadastro = new ModelAndView("/ativos/cadastrarFundoImobiliario");
         FundoImobiliario fundo = new FundoImobiliario();
@@ -37,7 +37,7 @@ public class FundoImobiliarioController {
         return cadastro;
     }
 
-    @GetMapping("fundo-imobiliario/{id}")
+    @GetMapping("fundoimobiliario/{id}")
     public String paginaAtualizar(@PathVariable("id") int id, Model model) {
         FundoImobiliario fundoImobiliario = fundoImobiliarioService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("ID fornecido é inválido " + id));
@@ -46,16 +46,16 @@ public class FundoImobiliarioController {
         return "ativos/atualizarFundoImobiliario";
     }
 
-    @PostMapping("fundo-imobiliario/cadastro")
+    @PostMapping("fundoimobiliario/cadastro")
     public ModelAndView create(@Valid FundoImobiliario fundo, BindingResult bindingResult, ModelMap modelMap) {
         ModelAndView fundoImobiliario = new ModelAndView("/ativos/cadastrarFundoImobiliario");
 
         if (bindingResult.hasErrors()){
-            fundoImobiliario.addObject("successMessage", "Corrija os erros.");
+            fundoImobiliario.addObject("errorFlash", "Corrija os erros.");
             modelMap.addAttribute("bindingResult", bindingResult);
         }
         else if(ativoService.isAtivoAlreadyPresent(fundo)){
-            fundoImobiliario.addObject("successMessage", "Ativo já existente.");
+            fundoImobiliario.addObject("errorFlash", "Ativo já existente.");
         }
         else {
             fundoImobiliarioService.salvarFundoImobiliario(fundo);
@@ -66,7 +66,7 @@ public class FundoImobiliarioController {
         return fundoImobiliario;
     }
 
-    @PostMapping("fundo-imobiliario/{id}")
+    @PostMapping("fundoimobiliario/{id}")
     public String atualizar(@PathVariable("id") int id, @Valid FundoImobiliario fundoImobiliario,
                             BindingResult result, Model model) {
         if (result.hasErrors()) {
@@ -79,7 +79,7 @@ public class FundoImobiliarioController {
         return "ativos/index";
     }
 
-    @DeleteMapping("fundo-imobiliario/{id}")
+    @DeleteMapping("fundoimobiliario/{id}")
     public String delete(@PathVariable("id") int id) {
         fundoImobiliarioService.deleteById(id);
         return "ativos/index";

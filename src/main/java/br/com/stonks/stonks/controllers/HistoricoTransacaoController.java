@@ -32,17 +32,16 @@ public class HistoricoTransacaoController {
     @GetMapping("/historicoTransacao/index")
     public ModelAndView index() {
         ModelAndView modelAndView = new ModelAndView();
-        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Usuario usuario = usuarioService.usuarioPorEmail(principal.getUsername());
+        Usuario usuarioLogado = usuarioService.usuarioLogado();
 
-        Carteira carteira = carteiraService.carteiraByUsuario(usuario);
+        Carteira carteira = carteiraService.carteiraByUsuario(usuarioLogado);
 
         HashMap<String, String> params = new HashMap<>();
         params.put("sort", "dataTransacao");
         params.put("order", "desc");
         List<CarteiraAtivo> ativos = carteiraAtivoService.findByAtivosCarteira(carteira.getId(), params);
 
-        modelAndView.addObject("usuario", usuario);
+        modelAndView.addObject("usuario", usuarioLogado);
         modelAndView.addObject("ativosCarteira", ativos);
 
         modelAndView.setViewName("/dashboard/historicoTransacoes");
