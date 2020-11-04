@@ -2,8 +2,10 @@ package br.com.stonks.stonks.services;
 
 import br.com.stonks.stonks.exception.CpfInvalidoException;
 import br.com.stonks.stonks.exception.UsuarioExistenteException;
+import br.com.stonks.stonks.models.CarteiraAtivo;
 import br.com.stonks.stonks.models.Usuario;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UsuarioService {
