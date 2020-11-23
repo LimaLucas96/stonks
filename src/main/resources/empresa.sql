@@ -1,15 +1,16 @@
+CREATE SEQUENCE empresa_id_seq_cnpj START 1;
+
 CREATE OR REPLACE FUNCTION add_empresa(nome_empresa VARCHAR(500))
-    RETURNS INT AS
+    RETURNS VOID AS
 $$
 DECLARE
-    id_seq_em INT;
+    id_seq_cnpj INT;
 BEGIN
-    id_seq_em = nextval('empresa_id_seq');
+    id_seq_cnpj = nextval('empresa_id_seq_cnpj');
 
     INSERT INTO empresa (nome, cnpj)
-    VALUES(nome_empresa, id_seq_em);
+    VALUES(nome_empresa, id_seq_cnpj);
 
-    RETURN id_seq_em + 1;
 END;
 $$ LANGUAGE plpgsql;
 

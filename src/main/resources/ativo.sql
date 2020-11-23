@@ -22,10 +22,10 @@ SELECT add_acao('acao', 'AMBP3','Bens Industriais', null, (SELECT id FROM empres
 SELECT add_acao('acao', 'ALPK3','Bens Industriais', null, (SELECT id FROM empresa WHERE nome = 'Allpark'));
 SELECT add_acao('acao', 'MTRE3','Bens Industriais', null, (SELECT id FROM empresa WHERE nome = 'Mitre Realty'));
 SELECT add_acao('acao', 'MDNE3','Bens Industriais', null, (SELECT id FROM empresa WHERE nome = 'Moura Dubeux'));
-SELECT add_acao('acao', 'UPSS34','Bens Industriais', null,  (SELECT id FROM empresa WHERE nome = 'UPS'));
-SELECT add_acao('acao', 'LMTB34','Bens Industriais', null,  (SELECT id FROM empresa WHERE nome = 'Lockheed'));
-SELECT add_acao('acao', 'FDXB34','Bens Industriais', null,  (SELECT id FROM empresa WHERE nome = 'Fedex Corp'));
-SELECT add_acao('acao', 'CATP34','Bens Industriais', null,  (SELECT id FROM empresa WHERE nome = 'Caterpillar'));
+SELECT add_acao('acao', 'UPSS34','Bens Industriais', null, (SELECT id FROM empresa WHERE nome = 'UPS'));
+SELECT add_acao('acao', 'LMTB34','Bens Industriais', null, (SELECT id FROM empresa WHERE nome = 'Lockheed'));
+SELECT add_acao('acao', 'FDXB34','Bens Industriais', null, (SELECT id FROM empresa WHERE nome = 'Fedex Corp'));
+SELECT add_acao('acao', 'CATP34','Bens Industriais', null, (SELECT id FROM empresa WHERE nome = 'Caterpillar'));
 SELECT add_acao('acao', 'RAPT4','Bens Industriais', null, (SELECT id FROM empresa WHERE nome = 'Randon Part'));
 SELECT add_acao('acao', 'RAPT3','Bens Industriais', null, (SELECT id FROM empresa WHERE nome = 'Randon Part'));
 SELECT add_acao('acao', 'LUPA3','Bens Industriais', null, (SELECT id FROM empresa WHERE nome = 'Lupatech'));
