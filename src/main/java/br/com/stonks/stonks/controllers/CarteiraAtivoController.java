@@ -74,7 +74,7 @@ public class CarteiraAtivoController {
 
         List<CarteiraAtivo> ativos = carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null);
 
-        String mensagemEmail = emailService.montarCorpoEmailRelatorio(ativos);
+        String mensagemEmail = emailService.montarCorpoEmail(ativos);
 
         model.addAttribute("ativosCarteira", ativos);
         model.addAttribute("usuario", usuario);
