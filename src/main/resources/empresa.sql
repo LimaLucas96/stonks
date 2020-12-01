@@ -1,3 +1,5 @@
+CREATE SEQUENCE empresa_id_seq START 1;
+
 CREATE OR REPLACE FUNCTION add_empresa(nome_empresa VARCHAR(500))
     RETURNS INT AS
 $$

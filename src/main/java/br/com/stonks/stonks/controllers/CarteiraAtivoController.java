@@ -3,6 +3,8 @@ package br.com.stonks.stonks.controllers;
 import br.com.stonks.stonks.exception.ResponseException;
 import br.com.stonks.stonks.models.*;
 import br.com.stonks.stonks.services.*;
+import br.ufrn.imd.stonks.framework.framework.model.Despesa;
+import br.ufrn.imd.stonks.framework.framework.model.DespesaAtivo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,16 +40,16 @@ public class CarteiraAtivoController {
         Usuario usuario = usuarioService.usuarioLogado();
         Carteira carteira = carteiraService.carteiraByUsuario(usuario);
 
-        List<CarteiraAtivo> ativos = carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null);
+        List<DespesaAtivo> ativos = carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null);
 
         List<CarteiraAtivoValor> carteiraAtivoValorList = new ArrayList<>();
 
         try {
-            for (CarteiraAtivo ativo : ativos) {
+            for (DespesaAtivo ativo : ativos) {
                 CarteiraAtivoValor carteiraAtivoValor = new CarteiraAtivoValor();
-                carteiraAtivoValor.setCarteiraAtivo(ativo);
-                Response response = responseService.getDadosAtivo(ativo.getAtivo().getCodigo());
-                carteiraAtivoValor.setValorMomento(response.getValorAcao());
+                carteiraAtivoValor.setDespesaAtivo(ativo);
+                Response response = responseService.getDadosAtivo(ativo.getAtivoAbstract().getCodigo());
+                carteiraAtivoValor.setValor(response.getValorAcao());
                 carteiraAtivoValor.setLucro((float) (response.getValorAcao() - ativo.getValor()));
 
                 carteiraAtivoValorList.add(carteiraAtivoValor);
@@ -72,9 +74,9 @@ public class CarteiraAtivoController {
         Usuario usuario = usuarioService.usuarioLogado();
         Carteira carteira = carteiraService.carteiraByUsuario(usuario);
 
-        List<CarteiraAtivo> ativos = carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null);
+        List<DespesaAtivo> ativos = carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null);
 
-        String mensagemEmail = emailService.montarCorpoEmailRelatorio(ativos);
+        String mensagemEmail = emailService.montarCorpoEmail(ativos);
 
         model.addAttribute("ativosCarteira", ativos);
         model.addAttribute("usuario", usuario);

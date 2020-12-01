@@ -6,6 +6,7 @@ import br.com.stonks.stonks.models.Usuario;
 import br.com.stonks.stonks.services.CarteiraAtivoService;
 import br.com.stonks.stonks.services.CarteiraService;
 import br.com.stonks.stonks.services.UsuarioService;
+import br.ufrn.imd.stonks.framework.framework.model.DespesaAtivo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,7 +40,7 @@ public class HistoricoTransacaoController {
         HashMap<String, String> params = new HashMap<>();
         params.put("sort", "dataTransacao");
         params.put("order", "desc");
-        List<CarteiraAtivo> ativos = carteiraAtivoService.findByAtivosCarteira(carteira.getId(), params);
+        List<DespesaAtivo> ativos = carteiraAtivoService.findByAtivosCarteira(carteira.getId(), params);
 
         modelAndView.addObject("usuario", usuarioLogado);
         modelAndView.addObject("ativosCarteira", ativos);

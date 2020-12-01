@@ -16,20 +16,12 @@ public class CarteiraServiceImp implements CarteiraService{
 
     @Override
     public void salvarCarteira(Carteira carteira) {
-
         carteiraRepository.save(carteira);
     }
 
     @Override
     public boolean isAlreadyPresent(Carteira carteira) {
-        Boolean present;
-
-        if (carteiraRepository.findById(carteira.getId()) != null){
-            present = true;
-        }else{
-            present = false;
-        }
-        return present;
+        return carteiraRepository.findById(carteira.getId()).isPresent();
     }
 
     @Override

@@ -3,6 +3,7 @@ package br.com.stonks.stonks.services;
 import br.com.stonks.stonks.models.Ativo;
 import br.com.stonks.stonks.models.Carteira;
 import br.com.stonks.stonks.models.CarteiraAtivo;
+import br.ufrn.imd.stonks.framework.framework.model.DespesaAtivo;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -19,7 +20,7 @@ public interface CarteiraAtivoService {
 
     public List<CarteiraAtivo> findByAtivosCarteiraCompra(int id);
 
-    public List<CarteiraAtivo> findByAtivosCarteira(int id, HashMap<String, String> params);
+    public List<DespesaAtivo> findByAtivosCarteira(int id, HashMap<String, String> params);
 
     Ativo[] listarAtivos(Carteira carteira);
 

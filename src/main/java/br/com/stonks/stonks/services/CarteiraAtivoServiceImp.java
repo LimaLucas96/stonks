@@ -4,6 +4,7 @@ import br.com.stonks.stonks.models.Ativo;
 import br.com.stonks.stonks.models.Carteira;
 import br.com.stonks.stonks.models.CarteiraAtivo;
 import br.com.stonks.stonks.repository.CarteiraAtivoRepository;
+import br.ufrn.imd.stonks.framework.framework.model.DespesaAtivo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -34,7 +35,7 @@ public class CarteiraAtivoServiceImp implements CarteiraAtivoService {
     }
 
     @Override
-    public List<CarteiraAtivo> findByAtivosCarteira(int id, HashMap<String, String> params) {
+    public List<DespesaAtivo> findByAtivosCarteira(int id, HashMap<String, String> params) {
         Sort.Direction direction = Sort.Direction.ASC;
         String sortBy = "id";
 
@@ -56,11 +57,11 @@ public class CarteiraAtivoServiceImp implements CarteiraAtivoService {
     }
 
     public Ativo[] listarAtivos(Carteira carteira) {
-        CarteiraAtivo[] carteiraAtivo = carteiraAtivoRepository.findAllByCarteira(carteira);
+        CarteiraAtivo[] carteiraAtivo = carteiraAtivoRepository.findAllByDespesa(carteira);
 
         Ativo[] ativos = new Ativo[carteiraAtivo.length];
         for (int i = 0; i < carteiraAtivo.length; i ++) {
-            ativos[i] = carteiraAtivo[i].getAtivo();
+            ativos[i] = (Ativo) carteiraAtivo[i].getAtivoAbstract();
         }
         return ativos;
     }

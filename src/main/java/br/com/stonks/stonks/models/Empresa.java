@@ -1,11 +1,12 @@
 package br.com.stonks.stonks.models;
 
+import br.ufrn.imd.stonks.framework.framework.model.EmpresaAbstract;
+
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
-public class Empresa {
+public class Empresa extends EmpresaAbstract {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private long id;
@@ -16,20 +17,7 @@ public class Empresa {
     @Column(nullable = false)
     private Long cnpj;
 
-    @OneToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            mappedBy = "empresa")
-    private List<Ativo> ativos;
-
     public Empresa() {
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getNome() {
@@ -38,14 +26,6 @@ public class Empresa {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public List<Ativo> getAtivos() {
-        return ativos;
-    }
-
-    public void setAtivos(List<Ativo> ativos) {
-        this.ativos = ativos;
     }
 
     public Long getCnpj() {

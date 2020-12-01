@@ -69,7 +69,7 @@ public class CarteiraController {
             carteiraService.salvarCarteira(carteira);
         }
 
-        carteiraAtivo.setCarteira(carteira);
+        carteiraAtivo.setDespesa(carteira);
 
         if (carteiraAtivoService.isAlreadyPresent(carteiraAtivo)) {
             modelAndView.addObject("errorFlash", "CarteiraAtivo ja existente");
@@ -130,7 +130,7 @@ public class CarteiraController {
             modelAndView.addObject("errorFlash", "Ativo não encontrado");
             return modelAndView;
         }
-        carteiraAtivo.setCarteira(carteiraAtivoInstance.get().getCarteira());
+        carteiraAtivo.setDespesa(carteiraAtivoInstance.get().getDespesa());
         carteiraAtivoService.salvar(carteiraAtivo);
 
         modelAndView.addObject("successFlash", "Ativo Atualizado");
@@ -160,7 +160,7 @@ public class CarteiraController {
         double valorLucro;
 
         try {
-            response = responseService.getDadosAtivo(carteiraAtivo.get().getAtivo().getCodigo());
+            response = responseService.getDadosAtivo(carteiraAtivo.get().getAtivoAbstract().getCodigo());
             valorLucro = response.getValorAcao() - carteiraAtivo.get().getValor();
         } catch (ResponseException e) {
             return "{\"message\": " + e.getMessage() + "}";
