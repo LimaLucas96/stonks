@@ -56,7 +56,7 @@ public class CarteiraAtivoServiceImp implements CarteiraAtivoService {
     }
 
     public Ativo[] listarAtivos(Carteira carteira) {
-        CarteiraAtivo[] carteiraAtivo = carteiraAtivoRepository.findAllByCarteira(carteira);
+        CarteiraAtivo[] carteiraAtivo = carteiraAtivoRepository.findAllByDespesa(carteira);
 
         Ativo[] ativos = new Ativo[carteiraAtivo.length];
         for (int i = 0; i < carteiraAtivo.length; i ++) {
