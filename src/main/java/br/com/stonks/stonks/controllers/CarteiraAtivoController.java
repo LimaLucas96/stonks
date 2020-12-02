@@ -3,6 +3,7 @@ package br.com.stonks.stonks.controllers;
 import br.com.stonks.stonks.exception.ResponseException;
 import br.com.stonks.stonks.models.*;
 import br.com.stonks.stonks.services.*;
+import br.ufrn.imd.stonks.framework.framework.model.DespesaAtivo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,7 +47,7 @@ public class CarteiraAtivoController {
             for (CarteiraAtivo ativo : ativos) {
                 CarteiraAtivoValor carteiraAtivoValor = new CarteiraAtivoValor();
                 carteiraAtivoValor.setCarteiraAtivo(ativo);
-                Response response = responseService.getDadosAtivo(ativo.getAtivo().getCodigo());
+                Response response = responseService.getDadosAtivo(ativo.getAtivoAbstract().getCodigo());
                 carteiraAtivoValor.setValorMomento(response.getValorAcao());
                 carteiraAtivoValor.setLucro((float) (response.getValorAcao() - ativo.getValor()));
 

@@ -60,7 +60,7 @@ public class CarteiraAtivoServiceImp implements CarteiraAtivoService {
 
         Ativo[] ativos = new Ativo[carteiraAtivo.length];
         for (int i = 0; i < carteiraAtivo.length; i ++) {
-            ativos[i] = carteiraAtivo[i].getAtivo();
+            ativos[i] = (Ativo) carteiraAtivo[i].getAtivoAbstract();
         }
         return ativos;
     }

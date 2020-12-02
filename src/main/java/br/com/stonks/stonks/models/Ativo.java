@@ -5,7 +5,6 @@ import br.ufrn.imd.stonks.framework.framework.model.AtivoAbstract;
 import javax.persistence.*;
 
 @Entity
-@Inheritance
 public class Ativo extends AtivoAbstract {
 
     public Ativo(String codigo, Empresa empresa) {

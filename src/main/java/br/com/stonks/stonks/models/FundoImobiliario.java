@@ -13,7 +13,8 @@ public class FundoImobiliario extends Ativo {
 
     public FundoImobiliario() { }
 
-    public long getId() {
+    @Override
+    public Integer getId() {
         return id;
     }
 

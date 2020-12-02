@@ -62,7 +62,7 @@ public class EmpresaController {
     }
 
     @PostMapping("empresa/{id}")
-    public String atualizar(@PathVariable("id") long id, @Valid Empresa empresa,
+    public String atualizar(@PathVariable("id") int id, @Valid Empresa empresa,
                             BindingResult result, Model model) {
         if (result.hasErrors()) {
             empresa.setId(id);
