@@ -40,7 +40,7 @@ public class HistoricoTransacaoController {
         HashMap<String, String> params = new HashMap<>();
         params.put("sort", "dataTransacao");
         params.put("order", "desc");
-        List<DespesaAtivo> ativos = carteiraAtivoService.findByAtivosCarteira(carteira.getId(), params);
+        List<CarteiraAtivo> ativos = carteiraAtivoService.findByAtivosCarteira(carteira.getId(), params);
 
         modelAndView.addObject("usuario", usuarioLogado);
         modelAndView.addObject("ativosCarteira", ativos);

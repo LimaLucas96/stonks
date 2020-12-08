@@ -40,7 +40,7 @@ public class CarteiraAtivoController {
         Usuario usuario = usuarioService.usuarioLogado();
         Carteira carteira = carteiraService.carteiraByUsuario(usuario);
 
-        List<DespesaAtivo> ativos = carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null);
+        List<CarteiraAtivo> ativos = carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null);
 
         List<CarteiraAtivoValor> carteiraAtivoValorList = new ArrayList<>();
 
@@ -74,7 +74,7 @@ public class CarteiraAtivoController {
         Usuario usuario = usuarioService.usuarioLogado();
         Carteira carteira = carteiraService.carteiraByUsuario(usuario);
 
-        List<DespesaAtivo> ativos = carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null);
+        List<CarteiraAtivo> ativos = carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null);
 
         String mensagemEmail = emailService.montarCorpoEmail(ativos);
 

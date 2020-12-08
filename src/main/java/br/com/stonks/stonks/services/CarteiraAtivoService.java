@@ -20,7 +20,7 @@ public interface CarteiraAtivoService {
 
     public List<CarteiraAtivo> findByAtivosCarteiraCompra(int id);
 
-    public List<DespesaAtivo> findByAtivosCarteira(int id, HashMap<String, String> params);
+    public List<CarteiraAtivo> findByAtivosCarteira(int id, HashMap<String, String> params);
 
     Ativo[] listarAtivos(Carteira carteira);
 

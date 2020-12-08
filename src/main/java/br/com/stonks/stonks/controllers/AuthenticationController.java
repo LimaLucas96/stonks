@@ -45,7 +45,8 @@ public class AuthenticationController {
         modelAndView.setViewName("dashboard/home");
 
         Usuario usuarioLogado = usuarioService.usuarioLogado();
-        Carteira carteira = carteiraService.carteiraByUsuario(usuarioLogado);
+        Carteira carteira = null;
+        carteira= carteiraService.carteiraByUsuario(usuarioLogado);
 
         modelAndView.addObject("usuario", usuarioLogado);
 

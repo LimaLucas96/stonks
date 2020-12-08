@@ -7,6 +7,7 @@ import br.com.stonks.stonks.models.CarteiraAtivo;
 import br.com.stonks.stonks.models.Response;
 import br.com.stonks.stonks.models.Usuario;
 import br.com.stonks.stonks.services.*;
+import br.ufrn.imd.stonks.framework.framework.exception.AbstractEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -43,10 +44,15 @@ public class CarteiraController {
     public ModelAndView index() {
         ModelAndView modelAndView = new ModelAndView();
         Usuario usuarioLogado = usuarioService.usuarioLogado();
-        Carteira carteira = carteiraService.carteiraByUsuario(usuarioLogado);
+        Carteira carteira = null;
+        carteira = carteiraService.carteiraByUsuario(usuarioLogado);
 
         modelAndView.setViewName("/carteira/index");
-        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null));
+        if (carteira != null) {
+            modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null));
+        } else {
+            modelAndView.addObject("ativosCarteira",null);
+        }
         modelAndView.addObject("usuario", usuarioLogado);
 
         return modelAndView;
@@ -62,23 +68,17 @@ public class CarteiraController {
 
         carteiraAtivo.setDataTransacao(dataTransacao);
         Usuario usuarioLogado = usuarioService.usuarioLogado();
-        Carteira carteira = carteiraService.carteiraByUsuario(usuarioLogado);
 
-        if (carteira == null) {
-            carteira = new Carteira(usuarioLogado);
-            carteiraService.salvarCarteira(carteira);
+        try {
+            carteiraService.adicionar(carteiraAtivo, usuarioLogado);
+        } catch (AbstractEntityException e) {
+            modelAndView.addObject("errorFlash", e.getMessage());
         }
 
-        carteiraAtivo.setDespesa(carteira);
+        Carteira carteira = (Carteira) carteiraService.despesaByUsuario();
 
-        if (carteiraAtivoService.isAlreadyPresent(carteiraAtivo)) {
-            modelAndView.addObject("errorFlash", "CarteiraAtivo ja existente");
-        } else {
-            carteiraAtivoService.salvar(carteiraAtivo);
-            modelAndView.addObject("successFlash", "Ativo registrado na carteira com sucesso.");
-        }
-
-        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null));
+        modelAndView.addObject("ativosCarteira",
+                carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null));
         modelAndView.addObject("usuario", usuarioLogado);
 
         modelAndView.setViewName("/carteira/index");

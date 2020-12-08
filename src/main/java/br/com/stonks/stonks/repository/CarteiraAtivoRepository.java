@@ -18,7 +18,7 @@ public interface CarteiraAtivoRepository extends JpaRepository<CarteiraAtivo, In
     public List<CarteiraAtivo> findByAtivosCarteiraCompra(@Param("id") int id);
 
     @Query("SELECT ca, a.codigo FROM CarteiraAtivo ca JOIN Ativo a ON ca.ativoAbstract.id = a.id WHERE ca.id = :id")
-    public List<DespesaAtivo> findByAtivosCarteira(@Param("id") int id, Sort sort);
+    public List<CarteiraAtivo> findByAtivosCarteira(@Param("id") int id, Sort sort);
 
     public CarteiraAtivo[] findAllByDespesa(Carteira carteira);
 

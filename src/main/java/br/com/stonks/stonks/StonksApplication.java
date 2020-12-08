@@ -10,8 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,6 +23,10 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 
+@EntityScan({"br.ufrn.imd.stonks.framework.framework.model", "br.com.stonks.stonks.models"})
+@EnableJpaRepositories({"br.ufrn.imd.stonks.framework.framework.repository","br.com.stonks.stonks.repository"})
+//@ComponentScan({"br.com.stonks.stonks.services","br.com.stonks.stonks.controllers", "br.ufrn.imd.stonks.framework.framework.service"})
+@ComponentScan({"br.com.stonks.stonks", "br.ufrn.imd.stonks.framework.framework"})
 @SpringBootApplication
 public class StonksApplication implements CommandLineRunner {
 

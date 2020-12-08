@@ -16,7 +16,7 @@ import javax.mail.internet.MimeMessage;
 import java.util.List;
 
 @Service
-public class EmailService extends EmailServiceAbstract {
+public class EmailService extends EmailServiceAbstract<CarteiraAtivo> {
 
     @Autowired
     private EmailConfig emailConfig;
@@ -33,7 +33,7 @@ public class EmailService extends EmailServiceAbstract {
     }
 
     @Override
-    public String montarCorpoEmail(List<DespesaAtivo> entities) {
+    public String montarCorpoEmail(List<CarteiraAtivo> entities) {
         StringBuilder body = new StringBuilder("<h2>Seu relatório Stonks</h2> <br/>");
 
         body.append("<table><tr><th> Ativo </th><th> Valor </th><th> Quantidade </th><th> Data da Transação </th></tr>");

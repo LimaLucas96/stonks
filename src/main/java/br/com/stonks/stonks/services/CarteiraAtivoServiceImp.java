@@ -35,7 +35,7 @@ public class CarteiraAtivoServiceImp implements CarteiraAtivoService {
     }
 
     @Override
-    public List<DespesaAtivo> findByAtivosCarteira(int id, HashMap<String, String> params) {
+    public List<CarteiraAtivo> findByAtivosCarteira(int id, HashMap<String, String> params) {
         Sort.Direction direction = Sort.Direction.ASC;
         String sortBy = "id";
 
