@@ -2,40 +2,26 @@ package br.com.stonks.stonks.models;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-import static javax.persistence.TemporalType.DATE;
-
-@Entity
 public class CarteiraAtivo {
 
-    @Id
-    @GeneratedValue (strategy = GenerationType.AUTO)
     private int id;
 
     @NotNull
-	@ManyToOne
-    @JoinColumn(name = "carteira_id")
     private Carteira carteira;
     
     @NotNull
-	@ManyToOne
-    @JoinColumn(name = "ativo_id")
     private Ativo ativo;
 
-    @Column(name = "valor")
     private double valor;
     
-    @Column(name = "quantidade")
     private int quantidade;
 
-    @Column( name = "data_transacao")
 	@DateTimeFormat(pattern="yyyy-MM-dd")
     private Date dataTransacao;
 
-	@Enumerated(EnumType.STRING)
     private Operacao operacao;
 
     public CarteiraAtivo(

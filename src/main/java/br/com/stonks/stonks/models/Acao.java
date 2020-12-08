@@ -1,12 +1,7 @@
 package br.com.stonks.stonks.models;
 
-import javax.persistence.*;
-
-@Entity
-@DiscriminatorValue(value = "acao")
 public class Acao extends Ativo {
-    @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+
     private int id;
 
     private String setor;

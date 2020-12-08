@@ -1,20 +1,12 @@
 package br.com.stonks.stonks.models;
 
-import javax.persistence.*;
+public class Ativo {
 
-@Entity
-@Inheritance
-public abstract class Ativo {
-    @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(unique = true, nullable = false)
     private String codigo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "empresa_id", nullable = false)
-    private Empresa empresa;   
+    private Empresa empresa;
 
     public Ativo() { }
 

@@ -1,26 +1,17 @@
 package br.com.stonks.stonks.models;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 import java.util.Set;
 
-@Entity
 public class Carteira {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @NotNull(message = "É preciso definir um usuario.")
-    @ManyToOne
-    @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    @Column(name = "status")
     private Boolean status;
 
-    @OneToMany(mappedBy = "carteira", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<CarteiraAtivo> carteiraAtivos;
 
     public Set<CarteiraAtivo> getCarteiraAtivos() {
@@ -62,5 +53,4 @@ public class Carteira {
     public void setStatus(Boolean status) {
         this.status = status;
     }
-
 }

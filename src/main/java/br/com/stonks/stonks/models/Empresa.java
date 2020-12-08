@@ -1,24 +1,15 @@
 package br.com.stonks.stonks.models;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@Entity
 public class Empresa {
-    @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+
     private long id;
 
-    @Column(nullable = false, unique = true)
     private String nome;
 
-    @Column(nullable = false)
     private Long cnpj;
 
-    @OneToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            mappedBy = "empresa")
     private List<Ativo> ativos;
 
     public Empresa() {

@@ -1,17 +1,11 @@
 package br.com.stonks.stonks.models;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-@Entity
 public class DadosFundamentalista {
-    @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+
     private Integer id;
 
-    @OneToOne
-    @JoinColumn(name="ativo_id")
     private Ativo ativo;
 
     private Double pL;

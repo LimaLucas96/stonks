@@ -1,18 +1,12 @@
 package br.com.stonks.stonks.models;
 
-import org.hibernate.validator.constraints.UniqueElements;
-
-import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Set;
 
-@Entity
 public class Usuario {
 
-    @Id
-    @GeneratedValue (strategy = GenerationType.AUTO)
     private int id;
 
     @NotNull(message = "Nome é obrigatorio.")
@@ -20,24 +14,18 @@ public class Usuario {
 
     @NotNull(message = "Email é obrigatorio.")
     @Email(message = "Email invalido")
-    @Column(unique = true)
     private String email;
 
     @NotNull(message = "Senha é obrigatorio.")
-    @Column(unique = true)
     private String password;
 
     @NotNull(message = "CPF é obrigatorio.")
     private String cpf;
 
-    @Column(name = "status")
     private Boolean status;
 
-    @Column( name = "data_nascimento")
     private Date dataNascimento;
 
-    @ManyToMany( cascade = CascadeType.ALL)
-    @JoinTable(name = "usuario_role", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
     public Usuario(@NotNull(message = "Nome é obrigatorio.") String nome,
