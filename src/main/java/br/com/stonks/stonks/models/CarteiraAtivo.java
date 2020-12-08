@@ -19,6 +19,8 @@ public class CarteiraAtivo {
     
     private int quantidade;
 
+	private Boolean status;
+
 	@DateTimeFormat(pattern="yyyy-MM-dd")
     private Date dataTransacao;
 
@@ -95,5 +97,13 @@ public class CarteiraAtivo {
 
 	public void setOperacao(Operacao operacao) {
 		this.operacao = operacao;
+	}
+
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(Boolean status) {
+		this.status = status;
 	}
 }
