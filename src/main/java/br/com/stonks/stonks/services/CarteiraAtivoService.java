@@ -1,8 +1,10 @@
 package br.com.stonks.stonks.services;
 
+import br.com.stonks.stonks.exception.ResponseException;
 import br.com.stonks.stonks.models.Ativo;
 import br.com.stonks.stonks.models.Carteira;
 import br.com.stonks.stonks.models.CarteiraAtivo;
+import br.com.stonks.stonks.models.CarteiraAtivoValor;
 import br.ufrn.imd.stonks.framework.framework.model.DespesaAtivo;
 import org.springframework.stereotype.Service;
 
@@ -27,4 +29,6 @@ public interface CarteiraAtivoService {
     public Optional<CarteiraAtivo> findById(int id);
 
     public Double totalCarteira(Integer idCarteira);
+
+    public List<CarteiraAtivoValor> gerarDadosRelatorio(List<CarteiraAtivo> ativos) throws ResponseException;
 }

@@ -4,6 +4,7 @@ import br.com.stonks.stonks.models.Carteira;
 import br.com.stonks.stonks.models.CarteiraAtivo;
 import br.com.stonks.stonks.models.Usuario;
 import br.com.stonks.stonks.services.CarteiraAtivoService;
+import br.com.stonks.stonks.services.CarteiraAtivoServiceImp;
 import br.com.stonks.stonks.services.CarteiraService;
 import br.com.stonks.stonks.services.UsuarioService;
 import br.ufrn.imd.stonks.framework.framework.model.DespesaAtivo;
@@ -28,7 +29,7 @@ public class HistoricoTransacaoController {
     private CarteiraService carteiraService;
 
     @Autowired
-    private CarteiraAtivoService carteiraAtivoService;
+    private CarteiraAtivoServiceImp carteiraAtivoService;
 
     @GetMapping("/historicoTransacao/index")
     public ModelAndView index() {
@@ -40,10 +41,9 @@ public class HistoricoTransacaoController {
         HashMap<String, String> params = new HashMap<>();
         params.put("sort", "dataTransacao");
         params.put("order", "desc");
-        List<CarteiraAtivo> ativos = carteiraAtivoService.findByAtivosCarteira(carteira.getId(), params);
 
         modelAndView.addObject("usuario", usuarioLogado);
-        modelAndView.addObject("ativosCarteira", ativos);
+        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosDespesa(carteira.getId(), params));
 
         modelAndView.setViewName("/dashboard/historicoTransacoes");
 

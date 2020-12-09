@@ -29,7 +29,7 @@ public class CarteiraController {
     private CarteiraService carteiraService;
 
     @Autowired
-    private CarteiraAtivoService carteiraAtivoService;
+    private CarteiraAtivoServiceImp carteiraAtivoService;
 
     @Autowired
     private AtivoService ativoService;
@@ -48,7 +48,7 @@ public class CarteiraController {
 
         modelAndView.setViewName("/carteira/index");
         if (carteira != null) {
-            modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null));
+            modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosDespesa(carteira.getId(), null));
         } else {
             modelAndView.addObject("ativosCarteira",null);
         }
@@ -77,7 +77,7 @@ public class CarteiraController {
         Carteira carteira = (Carteira) carteiraService.despesaByUsuario();
 
         modelAndView.addObject("ativosCarteira",
-                carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null));
+                carteiraAtivoService.findByAtivosDespesa(carteira.getId(), null));
         modelAndView.addObject("usuario", usuarioLogado);
 
         modelAndView.setViewName("/carteira/index");
@@ -119,7 +119,7 @@ public class CarteiraController {
 
         ModelAndView modelAndView = new ModelAndView();
 
-        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null));
+        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosDespesa(carteira.getId(), null));
         modelAndView.addObject("usuario", usuarioLogado);
         modelAndView.setViewName("/carteira/index");
 

@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public interface CarteiraAtivoRepository extends JpaRepository<CarteiraAtivo, Integer> {
 
-    @Query(value = "SELECT ca, a.codigo FROM carteira_ativo ca JOIN ativo a ON ca.ativo_id = a.id WHERE ca.despesa_id = :id AND ca.operacao = 'COMPRA'", nativeQuery = true)
+    @Query("SELECT ca, a.codigo FROM CarteiraAtivo ca JOIN Ativo a ON ca.ativoAbstract.id = a.id WHERE ca.despesa.id = :id AND ca.operacao = 'COMPRA'")
     public List<CarteiraAtivo> findByAtivosCarteiraCompra(@Param("id") int id);
 
     @Query("SELECT ca, a.codigo FROM CarteiraAtivo ca JOIN Ativo a ON ca.ativoAbstract.id = a.id WHERE ca.despesa.id = :id")
@@ -22,7 +22,7 @@ public interface CarteiraAtivoRepository extends JpaRepository<CarteiraAtivo, In
 
     public CarteiraAtivo[] findAllByDespesa(Carteira carteira);
 
-    @Query(value = "SELECT SUM(ca.quantidade * ca.valor) FROM CarteiraAtivo ca WHERE ca.id = :idCarteira")
+    @Query(value = "SELECT SUM(ca.quantidade * ca.valor) FROM CarteiraAtivo ca WHERE ca.despesa.id = :idCarteira")
     public Double totalCarteira(Integer idCarteira);
 }
 
