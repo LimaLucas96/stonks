@@ -53,7 +53,8 @@ public class AuthenticationController {
         double sum = 0;
 
         if (carteira != null) {
-            sum = carteiraAtivoService.totalCarteira(carteira.getId());
+            Double total = carteiraAtivoService.totalCarteira(carteira.getId());
+            sum = total != null ? total : 0;
         }
 
         modelAndView.addObject("carteiraAtivos", carteira != null ?

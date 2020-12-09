@@ -44,8 +44,7 @@ public class CarteiraController {
     public ModelAndView index() {
         ModelAndView modelAndView = new ModelAndView();
         Usuario usuarioLogado = usuarioService.usuarioLogado();
-        Carteira carteira = null;
-        carteira = carteiraService.carteiraByUsuario(usuarioLogado);
+        Carteira carteira = carteiraService.carteiraByUsuario(usuarioLogado);
 
         modelAndView.setViewName("/carteira/index");
         if (carteira != null) {

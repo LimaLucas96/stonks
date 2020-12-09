@@ -77,7 +77,7 @@ public class StonksApplication implements CommandLineRunner {
 			usuarioAdmin.setRoles(new HashSet<Role>(Arrays.asList(adminUser)));
 			usuarioRepository.save(usuarioAdmin);
 			Carteira carteira = new Carteira(usuarioAdmin);
-//			carteiraService.salvarCarteira(carteira);
+			carteiraService.salvarCarteira(carteira);
 		}
 
 		System.out.println("Fim da configuração do banco.\n.\n.\n.");
