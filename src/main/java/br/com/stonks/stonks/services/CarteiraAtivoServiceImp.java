@@ -1,77 +1,56 @@
 package br.com.stonks.stonks.services;
 
+import br.com.stonks.stonks.dao.CarteiraAtivoDAO;
 import br.com.stonks.stonks.models.Ativo;
 import br.com.stonks.stonks.models.Carteira;
 import br.com.stonks.stonks.models.CarteiraAtivo;
-import br.com.stonks.stonks.repository.CarteiraAtivoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
+import br.com.stonks.stonks.dao.CarteiraAtivoDAOImp;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class CarteiraAtivoServiceImp implements CarteiraAtivoService {
+public class CarteiraAtivoServiceImp implements CarteiraAtivoDAO {
 
-    @Autowired
-    CarteiraAtivoRepository carteiraAtivoRepository;
+    private CarteiraAtivoDAOImp carteiraAtivoDAO;
 
     @Override
     public void salvar(CarteiraAtivo carteiraAtivo) {
-        carteiraAtivoRepository.save(carteiraAtivo);
+        carteiraAtivoDAO.save(carteiraAtivo);
     }
 
     @Override
     public boolean isAlreadyPresent(CarteiraAtivo carteiraAtivo) {
-        return carteiraAtivoRepository.findById(carteiraAtivo.getId()).isPresent();
+        return carteiraAtivoDAO.findById(carteiraAtivo.getId()) != null;
     }
 
     @Override
     public List<CarteiraAtivo> findByAtivosCarteiraCompra(int id) {
-        return carteiraAtivoRepository.findByAtivosCarteiraCompra(id);
+        return carteiraAtivoDAO.findByAtivosCarteiraCompra(id);
     }
 
     @Override
-    public List<CarteiraAtivo> findByAtivosCarteira(int id, HashMap<String, String> params) {
-        Sort.Direction direction = Sort.Direction.ASC;
-        String sortBy = "id";
-
-        if (params != null) {
-            if (params.get("order").equals("asc")) {
-                direction = Sort.Direction.ASC;
-            } else if (params.get("order").equals("desc")) {
-                direction = Sort.Direction.DESC;
-            }
-
-            if (!params.get("order").isEmpty()) {
-                sortBy = params.get("sort");
-            }
-        }
-
-        Sort sort = Sort.by(direction, sortBy);
-
-        return carteiraAtivoRepository.findByAtivosCarteira(id, sort);
+    public List<CarteiraAtivo> findByAtivosCarteira(int id) {
+        return carteiraAtivoDAO.findByAtivosCarteira(id);
     }
 
     public Ativo[] listarAtivos(Carteira carteira) {
-        CarteiraAtivo[] carteiraAtivo = carteiraAtivoRepository.findAllByCarteira(carteira);
+        List<CarteiraAtivo> carteiraAtivo = carteiraAtivoDAO.findByAtivosCarteira(carteira.getId());
 
-        Ativo[] ativos = new Ativo[carteiraAtivo.length];
-        for (int i = 0; i < carteiraAtivo.length; i ++) {
-            ativos[i] = carteiraAtivo[i].getAtivo();
+        Ativo[] ativos = new Ativo[carteiraAtivo.size()];
+        for (int i = 0; i < carteiraAtivo.size(); i++) {
+            ativos[i] = carteiraAtivo.get(i).getAtivo();
         }
         return ativos;
     }
 
     @Override
-    public Optional<CarteiraAtivo> findById(int id) {
-        return carteiraAtivoRepository.findById(id);
+    public CarteiraAtivo findById(int id) {
+        return carteiraAtivoDAO.findById(id);
     }
 
     @Override
-    public Double totalCarteira(Integer idCarteira){
-        return carteiraAtivoRepository.totalCarteira(idCarteira);
+    public Double totalCarteira(Integer idCarteira) {
+        return carteiraAtivoDAO.totalCarteira(idCarteira);
     }
 }

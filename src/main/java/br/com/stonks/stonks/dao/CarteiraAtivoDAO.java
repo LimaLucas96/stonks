@@ -1,4 +1,4 @@
-package br.com.stonks.stonks.services;
+package br.com.stonks.stonks.dao;
 
 import br.com.stonks.stonks.models.Ativo;
 import br.com.stonks.stonks.models.Carteira;
@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public interface CarteiraAtivoService {
+public interface CarteiraAtivoDAO {
 
     public void salvar(CarteiraAtivo carteiraAtivo);
 
@@ -19,11 +19,11 @@ public interface CarteiraAtivoService {
 
     public List<CarteiraAtivo> findByAtivosCarteiraCompra(int id);
 
-    public List<CarteiraAtivo> findByAtivosCarteira(int id, HashMap<String, String> params);
+    public List<CarteiraAtivo> findByAtivosCarteira(int id);
 
     Ativo[] listarAtivos(Carteira carteira);
 
-    public Optional<CarteiraAtivo> findById(int id);
+    public CarteiraAtivo findById(int id);
 
     public Double totalCarteira(Integer idCarteira);
 }

@@ -1,5 +1,6 @@
 package br.com.stonks.stonks.controllers;
 
+import br.com.stonks.stonks.dao.CarteiraAtivoDAO;
 import br.com.stonks.stonks.exception.ResponseException;
 import br.com.stonks.stonks.models.*;
 import br.com.stonks.stonks.services.*;
@@ -18,7 +19,7 @@ import java.util.List;
 public class CarteiraAtivoController {
 
     @Autowired
-    private CarteiraAtivoService carteiraAtivoService;
+    private CarteiraAtivoDAO carteiraAtivoService;
 
     @Autowired
     private CarteiraService carteiraService;
@@ -38,7 +39,7 @@ public class CarteiraAtivoController {
         Usuario usuario = usuarioService.usuarioLogado();
         Carteira carteira = carteiraService.carteiraByUsuario(usuario);
 
-        List<CarteiraAtivo> ativos = carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null);
+        List<CarteiraAtivo> ativos = carteiraAtivoService.findByAtivosCarteira(carteira.getId());
 
         List<CarteiraAtivoValor> carteiraAtivoValorList = new ArrayList<>();
 
@@ -72,7 +73,7 @@ public class CarteiraAtivoController {
         Usuario usuario = usuarioService.usuarioLogado();
         Carteira carteira = carteiraService.carteiraByUsuario(usuario);
 
-        List<CarteiraAtivo> ativos = carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null);
+        List<CarteiraAtivo> ativos = carteiraAtivoService.findByAtivosCarteira(carteira.getId());
 
         String mensagemEmail = emailService.montarCorpoEmailRelatorio(ativos);
 

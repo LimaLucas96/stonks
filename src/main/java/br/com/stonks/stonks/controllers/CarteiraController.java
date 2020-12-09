@@ -1,6 +1,7 @@
 
 package br.com.stonks.stonks.controllers;
 
+import br.com.stonks.stonks.dao.CarteiraAtivoDAO;
 import br.com.stonks.stonks.exception.ResponseException;
 import br.com.stonks.stonks.models.Carteira;
 import br.com.stonks.stonks.models.CarteiraAtivo;
@@ -27,8 +28,7 @@ public class CarteiraController {
     @Autowired
     private CarteiraService carteiraService;
 
-    @Autowired
-    private CarteiraAtivoService carteiraAtivoService;
+    private CarteiraAtivoDAO carteiraAtivoService;
 
     @Autowired
     private AtivoService ativoService;
@@ -46,7 +46,7 @@ public class CarteiraController {
         Carteira carteira = carteiraService.carteiraByUsuario(usuarioLogado);
 
         modelAndView.setViewName("/carteira/index");
-        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null));
+        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosCarteira(carteira.getId()));
         modelAndView.addObject("usuario", usuarioLogado);
 
         return modelAndView;
@@ -78,7 +78,7 @@ public class CarteiraController {
             modelAndView.addObject("successFlash", "Ativo registrado na carteira com sucesso.");
         }
 
-        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null));
+        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosCarteira(carteira.getId()));
         modelAndView.addObject("usuario", usuarioLogado);
 
         modelAndView.setViewName("/carteira/index");
@@ -92,7 +92,7 @@ public class CarteiraController {
         Usuario usuarioLogado = usuarioService.usuarioLogado();
 
         modelAndView.addObject("ativos", ativoService.findAll());
-        modelAndView.addObject("carteiraAtivo", carteiraAtivoService.findById(id).get());
+        modelAndView.addObject("carteiraAtivo", carteiraAtivoService.findById(id));
         modelAndView.addObject("usuario", usuarioLogado);
 
         modelAndView.setViewName("/carteira/edit");
@@ -120,17 +120,17 @@ public class CarteiraController {
 
         ModelAndView modelAndView = new ModelAndView();
 
-        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null));
+        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosCarteira(carteira.getId()));
         modelAndView.addObject("usuario", usuarioLogado);
         modelAndView.setViewName("/carteira/index");
 
-        Optional<CarteiraAtivo> carteiraAtivoInstance = carteiraAtivoService.findById(id);
+        CarteiraAtivo carteiraAtivoInstance = carteiraAtivoService.findById(id);
 
-        if (!carteiraAtivoInstance.isPresent()) {
+        if (carteiraAtivoInstance != null) {
             modelAndView.addObject("errorFlash", "Ativo não encontrado");
             return modelAndView;
         }
-        carteiraAtivo.setCarteira(carteiraAtivoInstance.get().getCarteira());
+        carteiraAtivo.setCarteira(carteiraAtivoInstance.getCarteira());
         carteiraAtivoService.salvar(carteiraAtivo);
 
         modelAndView.addObject("successFlash", "Ativo Atualizado");
@@ -150,9 +150,9 @@ public class CarteiraController {
     @RequestMapping(value = "/ativo/{id}", method = RequestMethod.GET)
     @ResponseBody
     public String dadosAtivo(@PathVariable("id") int id) {
-        Optional<CarteiraAtivo> carteiraAtivo = carteiraAtivoService.findById(id);
+        CarteiraAtivo carteiraAtivo = carteiraAtivoService.findById(id);
 
-        if (!carteiraAtivo.isPresent()) {
+        if (carteiraAtivo != null) {
             return "{\"message\": \"Carteira não encontrada\"}";
         }
 
@@ -160,8 +160,8 @@ public class CarteiraController {
         double valorLucro;
 
         try {
-            response = responseService.getDadosAtivo(carteiraAtivo.get().getAtivo().getCodigo());
-            valorLucro = response.getValorAcao() - carteiraAtivo.get().getValor();
+            response = responseService.getDadosAtivo(carteiraAtivo.getAtivo().getCodigo());
+            valorLucro = response.getValorAcao() - carteiraAtivo.getValor();
         } catch (ResponseException e) {
             return "{\"message\": " + e.getMessage() + "}";
         }

@@ -2,7 +2,7 @@ package br.com.stonks.stonks.controllers;
 
 import br.com.stonks.stonks.models.Carteira;
 import br.com.stonks.stonks.models.Usuario;
-import br.com.stonks.stonks.services.CarteiraAtivoService;
+import br.com.stonks.stonks.dao.CarteiraAtivoDAO;
 import br.com.stonks.stonks.services.CarteiraService;
 import br.com.stonks.stonks.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class AuthenticationController {
     private CarteiraService carteiraService;
 
     @Autowired
-    private CarteiraAtivoService carteiraAtivoService;
+    private CarteiraAtivoDAO carteiraAtivoService;
 
     @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
     public ModelAndView login() {

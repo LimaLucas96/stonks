@@ -1,4 +1,4 @@
-package br.com.stonks.stonks.repository;
+package br.com.stonks.stonks.dao;
 
 import br.com.stonks.stonks.helper.ConexaoFactory;
 import br.com.stonks.stonks.models.Ativo;
@@ -6,7 +6,6 @@ import br.com.stonks.stonks.models.Carteira;
 import br.com.stonks.stonks.models.CarteiraAtivo;
 import br.com.stonks.stonks.models.Operacao;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Sort;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -16,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class CarteiraAtivoRepository {
+public class CarteiraAtivoDAOImp {
 
     @Value("${spring.datasource.url}")
     public String URL;
@@ -48,14 +47,12 @@ public class CarteiraAtivoRepository {
 
             comando.executeUpdate(sql);
             fechar();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    public void insert(CarteiraAtivo carteiraAtivo) {
+    public void save(CarteiraAtivo carteiraAtivo) {
         try {
             conectar();
 
@@ -72,19 +69,17 @@ public class CarteiraAtivoRepository {
             comando.executeUpdate(sql);
             fechar();
 
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public CarteiraAtivo search(int id) {
+    public CarteiraAtivo findById(int id) {
+        CarteiraAtivo carteiraAtivo = new CarteiraAtivo();
         try {
             conectar();
             String sql = "SELECT * FROM carteira_ativo WHERE id = " + id;
             ResultSet rs = comando.executeQuery(sql);
-            CarteiraAtivo carteiraAtivo = new CarteiraAtivo();
             if (rs.next()) {
                 Ativo ativo = new Ativo();
                 ativo.setId(rs.getInt("ativo_id"));
@@ -101,39 +96,29 @@ public class CarteiraAtivoRepository {
             }
             fechar();
             return carteiraAtivo;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return null;
+        return carteiraAtivo;
     }
 
     public void remove(CarteiraAtivo carteiraAtivo) {
-
         try {
             conectar();
-
             String sql = "DELETE FROM carteira_ativo WHERE id = " + carteiraAtivo.getId();
-            System.out.println(sql);
-
             comando.executeUpdate(sql);
-
             fechar();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
     }
 
     public List<CarteiraAtivo> findByAtivosCarteiraCompra(int id) {
+        List<CarteiraAtivo> carteiraAtivos = new ArrayList<CarteiraAtivo>();
         try {
             conectar();
-            String sql = "SELECT * FROM carteira_ativo ca JOIN ativo a ON ca.ativo_id = a.id WHERE ca.operacao = 'COMPRA' AND ca.carteira_id = " + id ;
+            String sql = "SELECT ca.* FROM carteira_ativo ca JOIN ativo a ON ca.ativo_id = a.id WHERE ca.operacao = 'COMPRA' AND ca.carteira_id = " + id ;
             ResultSet rs = comando.executeQuery(sql);
-            List<CarteiraAtivo> emps = new ArrayList<CarteiraAtivo>();
             while (rs.next()) {
                 Ativo ativo = new Ativo();
                 ativo.setId(rs.getInt("ativo_id"));
@@ -149,24 +134,22 @@ public class CarteiraAtivoRepository {
                 carteiraAtivo.setValor(rs.getDouble("valor"));
                 carteiraAtivo.setOperacao(Operacao.valueOf(rs.getString("operacao")));
 
-                emps.add(carteiraAtivo);
+                carteiraAtivos.add(carteiraAtivo);
             }
             fechar();
-            return emps;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+            return carteiraAtivos;
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return null;
+        return carteiraAtivos;
     }
 
-    public List<CarteiraAtivo> findByAtivosCarteira(int id, Sort sort) {
+    public List<CarteiraAtivo> findByAtivosCarteira(int id) {
+        List<CarteiraAtivo> carteiraAtivos = new ArrayList<CarteiraAtivo>();
         try {
             conectar();
-            String sql = "SELECT * FROM carteira_ativo ca JOIN ativo a ON ca.ativo_id = a.id WHERE ca.carteira_id = " + id;
+            String sql = "SELECT ca.* FROM carteira_ativo ca JOIN ativo a ON ca.ativo_id = a.id WHERE ca.carteira_id = " + id;
             ResultSet rs = comando.executeQuery(sql);
-            List<CarteiraAtivo> emps = new ArrayList<CarteiraAtivo>();
             while (rs.next()) {
                 Ativo ativo = new Ativo();
                 ativo.setId(rs.getInt("ativo_id"));
@@ -182,16 +165,14 @@ public class CarteiraAtivoRepository {
                 carteiraAtivo.setValor(rs.getDouble("valor"));
                 carteiraAtivo.setOperacao(Operacao.valueOf(rs.getString("operacao")));
 
-                emps.add(carteiraAtivo);
+                carteiraAtivos.add(carteiraAtivo);
             }
             fechar();
-            return emps;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+            return carteiraAtivos;
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return null;
+        return carteiraAtivos;
     }
 
     public Double totalCarteira(Integer idCarteira) {
@@ -202,18 +183,15 @@ public class CarteiraAtivoRepository {
 
             fechar();
             return rs.getDouble("SUM");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return null;
+        return 0.0;
     }
 
     private void conectar() throws ClassNotFoundException, SQLException {
         con = ConexaoFactory.conexao(URL, NOME, SENHA, BANCO);
         comando = con.createStatement();
-        System.out.println("Conectado!");
     }
 
     private void fechar() {
@@ -230,7 +208,6 @@ public class CarteiraAtivoRepository {
     }
 
     protected String returnFieldValuesBD(CarteiraAtivo carteiraAtivo) {
-
         StringBuffer buffer = new StringBuffer();
         buffer.append("ativo_id = ");
         buffer.append(carteiraAtivo.getAtivo().getId());
