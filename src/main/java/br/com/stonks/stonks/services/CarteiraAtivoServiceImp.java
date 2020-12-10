@@ -1,18 +1,17 @@
 package br.com.stonks.stonks.services;
 
-import br.com.stonks.stonks.dao.CarteiraAtivoDAO;
 import br.com.stonks.stonks.models.Ativo;
 import br.com.stonks.stonks.models.Carteira;
 import br.com.stonks.stonks.models.CarteiraAtivo;
-import br.com.stonks.stonks.dao.CarteiraAtivoDAOImp;
+import br.com.stonks.stonks.dao.CarteiraAtivoDAO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class CarteiraAtivoServiceImp implements CarteiraAtivoDAO {
+public class CarteiraAtivoServiceImp implements CarteiraAtivoService {
 
-    private CarteiraAtivoDAOImp carteiraAtivoDAO;
+    private final CarteiraAtivoDAO carteiraAtivoDAO = new CarteiraAtivoDAO();
 
     @Override
     public void salvar(CarteiraAtivo carteiraAtivo) {

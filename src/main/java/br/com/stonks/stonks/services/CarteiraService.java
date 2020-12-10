@@ -14,7 +14,7 @@ public interface CarteiraService {
 
     public boolean isAlreadyPresent(Carteira carteira);
 
-    public Optional<Carteira> findById(int id);
+    public Carteira findById(int id);
 
 	public Carteira carteiraByUsuario(Usuario usuario);
 

@@ -3,7 +3,7 @@ package br.com.stonks.stonks.controllers;
 import br.com.stonks.stonks.models.Carteira;
 import br.com.stonks.stonks.models.CarteiraAtivo;
 import br.com.stonks.stonks.models.Usuario;
-import br.com.stonks.stonks.dao.CarteiraAtivoDAO;
+import br.com.stonks.stonks.services.CarteiraAtivoService;
 import br.com.stonks.stonks.services.CarteiraService;
 import br.com.stonks.stonks.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class HistoricoTransacaoController {
     private CarteiraService carteiraService;
 
     @Autowired
-    private CarteiraAtivoDAO carteiraAtivoService;
+    private CarteiraAtivoService carteiraAtivoService;
 
     @GetMapping("/historicoTransacao/index")
     public ModelAndView index() {

@@ -1,7 +1,6 @@
 
 package br.com.stonks.stonks.controllers;
 
-import br.com.stonks.stonks.dao.CarteiraAtivoDAO;
 import br.com.stonks.stonks.exception.ResponseException;
 import br.com.stonks.stonks.models.Carteira;
 import br.com.stonks.stonks.models.CarteiraAtivo;
@@ -20,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Optional;
 
 @Controller
 public class CarteiraController {
@@ -28,7 +26,7 @@ public class CarteiraController {
     @Autowired
     private CarteiraService carteiraService;
 
-    private CarteiraAtivoDAO carteiraAtivoService;
+    private CarteiraAtivoService carteiraAtivoService;
 
     @Autowired
     private AtivoService ativoService;
