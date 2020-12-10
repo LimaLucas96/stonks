@@ -25,12 +25,12 @@
                     <form th:action="@{/carteira/cadastrar}" th:object="${carteiraAtivo}" method="post">
                         <div class="box-body">
                             <div class="col-sm-12 col-md-2">
-                                <label for="ativo">Ativo</label>
+                                <label for="ativoAbstract">Ativo</label>
                                 <div class="input-group">
                                     <select class="form-control input-lg" th:field="*{ativoAbstract}">
-                                        <option id="ativo" th:each="ativo : ${ativos}"
-                                                th:value="${ativo.id}"
-                                                th:text="${ativo.codigo}">
+                                        <option id="ativoAbstract" th:each="ativoAbstract : ${ativos}"
+                                                th:value="${ativoAbstract.id}"
+                                                th:text="${ativoAbstract.codigo}">
                                         </option>
                                     </select>
                                 </div>

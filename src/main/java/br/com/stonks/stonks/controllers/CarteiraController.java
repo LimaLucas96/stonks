@@ -2,10 +2,7 @@
 package br.com.stonks.stonks.controllers;
 
 import br.com.stonks.stonks.exception.ResponseException;
-import br.com.stonks.stonks.models.Carteira;
-import br.com.stonks.stonks.models.CarteiraAtivo;
-import br.com.stonks.stonks.models.Response;
-import br.com.stonks.stonks.models.Usuario;
+import br.com.stonks.stonks.models.*;
 import br.com.stonks.stonks.services.*;
 import br.ufrn.imd.stonks.framework.framework.exception.AbstractEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,11 +58,13 @@ public class CarteiraController {
     public ModelAndView create(@Valid CarteiraAtivo carteiraAtivo,
                                BindingResult bindingResult,
                                @DateTimeFormat(pattern = "yyyy-MM-dd") Date dataTransacao,
+                               @RequestParam Ativo ativoAbstract,
                                ModelMap modelMap) {
 
         ModelAndView modelAndView = new ModelAndView();
 
         carteiraAtivo.setDataTransacao(dataTransacao);
+        carteiraAtivo.setAtivoAbstract(ativoAbstract);
         Usuario usuarioLogado = usuarioService.usuarioLogado();
 
         try {

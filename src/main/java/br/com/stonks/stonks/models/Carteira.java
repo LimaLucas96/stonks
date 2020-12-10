@@ -17,4 +17,7 @@ public class Carteira extends Despesa {
 
     public Carteira() {
     }
+    public Carteira(Despesa despesa) {
+        super(despesa.getUsuario());
+    }
 }
