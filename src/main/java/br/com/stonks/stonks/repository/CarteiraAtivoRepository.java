@@ -25,4 +25,3 @@ public interface CarteiraAtivoRepository extends JpaRepository<CarteiraAtivo, In
     @Query(value = "SELECT SUM(ca.quantidade * ca.valor) FROM CarteiraAtivo ca WHERE ca.despesa.id = :idCarteira")
     public Double totalCarteira(Integer idCarteira);
 }
-

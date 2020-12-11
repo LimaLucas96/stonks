@@ -1,34 +1,68 @@
 package br.com.stonks.stonks.services;
 
 import br.com.stonks.stonks.exception.ResponseException;
-import br.com.stonks.stonks.models.Ativo;
-import br.com.stonks.stonks.models.Carteira;
-import br.com.stonks.stonks.models.CarteiraAtivo;
-import br.com.stonks.stonks.models.CarteiraAtivoValor;
+import br.com.stonks.stonks.models.*;
+import br.com.stonks.stonks.repository.CarteiraAtivoRepository;
 import br.ufrn.imd.stonks.framework.framework.model.DespesaAtivo;
+import br.ufrn.imd.stonks.framework.framework.model.DespesaAtivoValorAbstract;
+import br.ufrn.imd.stonks.framework.framework.service.DespesaAtivoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
-public interface CarteiraAtivoService {
+public class CarteiraAtivoService extends DespesaAtivoService {
 
-    public void salvar(CarteiraAtivo carteiraAtivo);
+    @Autowired
+    CarteiraAtivoRepository carteiraAtivoRepository;
 
-    public boolean isAlreadyPresent(CarteiraAtivo carteiraAtivo);
+    @Autowired
+    private ResponseService responseService;
 
-    public List<CarteiraAtivo> findByAtivosCarteiraCompra(int id);
+    public List<CarteiraAtivo> findByAtivosCarteiraCompra(int id) {
+        return carteiraAtivoRepository.findByAtivosCarteiraCompra(id);
+    }
 
-    public List<CarteiraAtivo> findByAtivosCarteira(int id, HashMap<String, String> params);
+    public Ativo[] listarAtivos(Carteira carteira) {
+        CarteiraAtivo[] carteiraAtivo = carteiraAtivoRepository.findAllByDespesa(carteira);
 
-    Ativo[] listarAtivos(Carteira carteira);
+        Ativo[] ativos = new Ativo[carteiraAtivo.length];
+        for (int i = 0; i < carteiraAtivo.length; i ++) {
+            ativos[i] = (Ativo) carteiraAtivo[i].getAtivoAbstract();
+        }
+        return ativos;
+    }
 
-    public Optional<CarteiraAtivo> findById(int id);
+    public Optional<CarteiraAtivo> findById(int id) {
+        return carteiraAtivoRepository.findById(id);
+    }
 
-    public Double totalCarteira(Integer idCarteira);
+    public Double totalCarteira(Integer idCarteira){
+        return carteiraAtivoRepository.totalCarteira(idCarteira);
+    }
 
-    public List<CarteiraAtivoValor> gerarDadosRelatorio(List<CarteiraAtivo> ativos) throws ResponseException;
+    @Override
+    public List<DespesaAtivoValorAbstract> gerarDadosRelatorio(List<DespesaAtivo> ativos) {
+        List<DespesaAtivoValorAbstract> carteiraAtivoValorList = new ArrayList<>();
+
+        for (DespesaAtivo ativo : ativos) {
+            CarteiraAtivoValor carteiraAtivoValor = new CarteiraAtivoValor();
+            carteiraAtivoValor.setDespesaAtivo(ativo);
+
+            try {
+                Response response = responseService.getDadosAtivo(ativo.getAtivoAbstract().getCodigo());
+                carteiraAtivoValor.setValor(response.getValorAcao());
+                carteiraAtivoValor.setLucro((float) (response.getValorAcao() - ativo.getValor()));
+            } catch (ResponseException e) {
+                e.printStackTrace();
+            }
+
+            carteiraAtivoValorList.add(carteiraAtivoValor);
+        }
+
+        return carteiraAtivoValorList;
+    }
 }
