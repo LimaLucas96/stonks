@@ -1,4 +1,4 @@
-package br.com.stonks.stonks;
+package br.com.stonks.stonks.helper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

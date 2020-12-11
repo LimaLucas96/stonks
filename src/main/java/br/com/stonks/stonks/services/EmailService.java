@@ -1,18 +1,14 @@
 package br.com.stonks.stonks.services;
 
-import br.com.stonks.stonks.EmailConfig;
-import br.com.stonks.stonks.models.CarteiraAtivo;
+import br.com.stonks.stonks.helper.EmailConfig;
 import br.com.stonks.stonks.models.Usuario;
 import br.ufrn.imd.stonks.framework.framework.model.DespesaAtivo;
 import br.ufrn.imd.stonks.framework.framework.service.EmailServiceAbstract;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import java.util.List;
 
 @Service

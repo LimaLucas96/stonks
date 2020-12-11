@@ -26,7 +26,7 @@ public class CarteiraController {
     private CarteiraService carteiraService;
 
     @Autowired
-    private CarteiraAtivoServiceImp carteiraAtivoService;
+    private CarteiraAtivoService carteiraAtivoService;
 
     @Autowired
     private AtivoService ativoService;

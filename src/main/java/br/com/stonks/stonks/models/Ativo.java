@@ -9,10 +9,5 @@ import javax.persistence.Table;
 @Table(name="ativo")
 public class Ativo extends AtivoAbstract {
 
-//    public Ativo(String codigo, Empresa empresa) {
-//        super(codigo, empresa);
-//    }
-
     public Ativo() { }
-
 }
