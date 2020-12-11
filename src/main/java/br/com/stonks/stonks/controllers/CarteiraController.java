@@ -112,7 +112,12 @@ public class CarteiraController {
     }
 
     @RequestMapping(value = "/carteira/editar/{id}", method = RequestMethod.POST)
-    public ModelAndView update(@PathVariable("id") int id, HttpServletRequest request, @ModelAttribute("carteiraAtivo") CarteiraAtivo carteiraAtivo) {
+    public ModelAndView update(@PathVariable("id") int id, HttpServletRequest request,
+                               @Valid CarteiraAtivo carteiraAtivo,
+                               BindingResult bindingResult,
+                               @DateTimeFormat(pattern = "yyyy-MM-dd") Date dataTransacao,
+                               @RequestParam Ativo ativoAbstract,
+                               ModelMap modelMap) {
         Usuario usuarioLogado = usuarioService.usuarioLogado();
         Carteira carteira = carteiraService.carteiraByUsuario(usuarioLogado);
 
@@ -129,6 +134,7 @@ public class CarteiraController {
             return modelAndView;
         }
         carteiraAtivo.setDespesa(carteiraAtivoInstance.get().getDespesa());
+        carteiraAtivo.setAtivoAbstract(ativoAbstract);
         carteiraAtivoService.salvar(carteiraAtivo);
 
         modelAndView.addObject("successFlash", "Ativo Atualizado");
