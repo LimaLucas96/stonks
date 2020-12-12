@@ -58,13 +58,13 @@ public class CarteiraController {
     public ModelAndView create(@Valid CarteiraAtivo carteiraAtivo,
                                BindingResult bindingResult,
                                @DateTimeFormat(pattern = "yyyy-MM-dd") Date dataTransacao,
-                               @RequestParam Ativo ativoAbstract,
+                               @RequestParam Ativo ativo,
                                ModelMap modelMap) {
 
         ModelAndView modelAndView = new ModelAndView();
 
         carteiraAtivo.setDataTransacao(dataTransacao);
-        carteiraAtivo.setAtivo(ativoAbstract);
+        carteiraAtivo.setAtivo(ativo);
         Usuario usuarioLogado = usuarioService.usuarioLogado();
 
         try {
@@ -116,7 +116,7 @@ public class CarteiraController {
                                @Valid CarteiraAtivo carteiraAtivo,
                                BindingResult bindingResult,
                                @DateTimeFormat(pattern = "yyyy-MM-dd") Date dataTransacao,
-                               @RequestParam Ativo ativoAbstract,
+                               @RequestParam Ativo ativo,
                                ModelMap modelMap) {
         Usuario usuarioLogado = usuarioService.usuarioLogado();
         Carteira carteira = carteiraService.carteiraByUsuario(usuarioLogado);
@@ -134,7 +134,7 @@ public class CarteiraController {
             return modelAndView;
         }
         carteiraAtivo.setDespesa(carteiraAtivoInstance.get().getDespesa());
-        carteiraAtivo.setAtivo(ativoAbstract);
+        carteiraAtivo.setAtivo(ativo);
         carteiraAtivoService.salvar(carteiraAtivo);
 
         modelAndView.addObject("successFlash", "Ativo Atualizado");
