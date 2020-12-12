@@ -1,12 +1,11 @@
 package br.com.stonks.stonks.models;
 
-import br.ufrn.imd.stonks.framework.framework.model.EmpresaAbstract;
+import br.ufrn.imd.stonks.framework.framework.model.EmpresaFramework;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
-public class Empresa extends EmpresaAbstract {
+public class Empresa extends EmpresaFramework {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private long id;

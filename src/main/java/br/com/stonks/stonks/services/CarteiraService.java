@@ -1,11 +1,10 @@
 package br.com.stonks.stonks.services;
 
 import br.com.stonks.stonks.models.Carteira;
-import br.com.stonks.stonks.models.Operacao;
 import br.com.stonks.stonks.models.Usuario;
 import br.com.stonks.stonks.repository.CarteiraRepository;
-import br.ufrn.imd.stonks.framework.framework.model.Despesa;
-import br.ufrn.imd.stonks.framework.framework.model.DespesaAtivo;
+import br.ufrn.imd.stonks.framework.framework.model.DespesaAtivoFramework;
+import br.ufrn.imd.stonks.framework.framework.model.DespesaFramework;
 import br.ufrn.imd.stonks.framework.framework.service.DespesaServiceAbstract;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class CarteiraService extends DespesaServiceAbstract<Carteira>{
+public class CarteiraService extends DespesaServiceAbstract {
 
     @Autowired
     CarteiraRepository carteiraRepository;
@@ -42,18 +41,18 @@ public class CarteiraService extends DespesaServiceAbstract<Carteira>{
     }
 
     @Override
-    public DespesaAtivo adicionarAtivo(Despesa despesa, DespesaAtivo despesaAtivo) {
+    public DespesaAtivoFramework adicionarAtivo(DespesaFramework despesa, DespesaAtivoFramework despesaAtivo) {
         despesaAtivo.setDespesa(despesa);
         return despesaAtivo;
     }
 
     @Override
-    public boolean removerAtivo(DespesaAtivo despesaAtivo) {
+    public boolean removerAtivo(DespesaAtivoFramework despesaAtivo) {
         return false;
     }
 
     @Override
-    public Despesa despesaByUsuario() {
+    public DespesaFramework despesaByUsuario() {
         Usuario usuarioLogado = usuarioService.usuarioLogado();
         Carteira carteira = null;
         carteira = carteiraByUsuario(usuarioLogado);
@@ -62,7 +61,7 @@ public class CarteiraService extends DespesaServiceAbstract<Carteira>{
     }
 
     @Override
-    public void salvarDespesa(Despesa despesa) {
+    public void salvarDespesa(DespesaFramework despesa) {
         Carteira carteira = new Carteira(despesa);
         carteiraRepository.save(carteira);
     }

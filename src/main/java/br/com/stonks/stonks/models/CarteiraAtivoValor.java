@@ -1,8 +1,8 @@
 package br.com.stonks.stonks.models;
 
-import br.ufrn.imd.stonks.framework.framework.model.DespesaAtivoValorAbstract;
+import br.ufrn.imd.stonks.framework.framework.model.DespesaAtivoValorFramework;
 
-public class CarteiraAtivoValor extends DespesaAtivoValorAbstract {
+public class CarteiraAtivoValor extends DespesaAtivoValorFramework {
 
     public Float lucro;
 

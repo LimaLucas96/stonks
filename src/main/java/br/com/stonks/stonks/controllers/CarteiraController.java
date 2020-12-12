@@ -64,12 +64,12 @@ public class CarteiraController {
         ModelAndView modelAndView = new ModelAndView();
 
         carteiraAtivo.setDataTransacao(dataTransacao);
-        carteiraAtivo.setAtivoAbstract(ativoAbstract);
+        carteiraAtivo.setAtivo(ativoAbstract);
         Usuario usuarioLogado = usuarioService.usuarioLogado();
 
         try {
             carteiraService.adicionar(carteiraAtivo, usuarioLogado);
-        } catch (AbstractEntityException e) {
+        } catch (Exception e) {
             modelAndView.addObject("errorFlash", e.getMessage());
         }
 
@@ -134,7 +134,7 @@ public class CarteiraController {
             return modelAndView;
         }
         carteiraAtivo.setDespesa(carteiraAtivoInstance.get().getDespesa());
-        carteiraAtivo.setAtivoAbstract(ativoAbstract);
+        carteiraAtivo.setAtivo(ativoAbstract);
         carteiraAtivoService.salvar(carteiraAtivo);
 
         modelAndView.addObject("successFlash", "Ativo Atualizado");
@@ -164,7 +164,7 @@ public class CarteiraController {
         double valorLucro;
 
         try {
-            response = responseService.getDadosAtivo(carteiraAtivo.get().getAtivoAbstract().getCodigo());
+            response = responseService.getDadosAtivo(carteiraAtivo.get().getAtivo().getCodigo());
             valorLucro = response.getValorAcao() - carteiraAtivo.get().getValor();
         } catch (ResponseException e) {
             return "{\"message\": " + e.getMessage() + "}";

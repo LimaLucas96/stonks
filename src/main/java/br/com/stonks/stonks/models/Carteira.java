@@ -1,15 +1,12 @@
 package br.com.stonks.stonks.models;
 
-import br.ufrn.imd.stonks.framework.framework.model.Despesa;
-import br.ufrn.imd.stonks.framework.framework.model.DespesaAtivo;
+import br.ufrn.imd.stonks.framework.framework.model.DespesaFramework;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
-import java.util.Set;
 
 @Entity
-public class Carteira extends Despesa {
+public class Carteira extends DespesaFramework {
 
     public Carteira(@NotNull(message = "Usuário é obrigatorio.") Usuario usuario) {
         super(usuario);
@@ -17,7 +14,7 @@ public class Carteira extends Despesa {
 
     public Carteira() {
     }
-    public Carteira(Despesa despesa) {
+    public Carteira(DespesaFramework despesa) {
         super(despesa.getUsuario());
     }
 }

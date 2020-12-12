@@ -1,6 +1,6 @@
 package br.com.stonks.stonks.models;
 
-import br.ufrn.imd.stonks.framework.framework.model.DespesaAtivo;
+import br.ufrn.imd.stonks.framework.framework.model.DespesaAtivoFramework;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
-public class CarteiraAtivo extends DespesaAtivo {
+public class CarteiraAtivo extends DespesaAtivoFramework {
 
 	@Enumerated(EnumType.STRING)
     private Operacao operacao;

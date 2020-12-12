@@ -6,7 +6,7 @@ import br.com.stonks.stonks.services.CarteiraAtivoService;
 import br.com.stonks.stonks.services.CarteiraService;
 import br.com.stonks.stonks.services.EmailService;
 import br.com.stonks.stonks.services.UsuarioService;
-import br.ufrn.imd.stonks.framework.framework.model.DespesaAtivo;
+import br.ufrn.imd.stonks.framework.framework.model.DespesaAtivoFramework;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,7 +40,7 @@ public class CarteiraAtivoController {
 
         Carteira carteira = carteiraService.carteiraByUsuario(usuario);
 
-        List<DespesaAtivo> ativos = carteiraAtivoService.findByAtivosDespesa(carteira.getId(), null);
+        List<DespesaAtivoFramework> ativos = carteiraAtivoService.findByAtivosDespesa(carteira.getId(), null);
 
         model.addAttribute("ativosCarteira", carteiraAtivoService.gerarDadosRelatorio(ativos));
 
@@ -55,7 +55,7 @@ public class CarteiraAtivoController {
         Usuario usuario = usuarioService.usuarioLogado();
         Carteira carteira = carteiraService.carteiraByUsuario(usuario);
 
-        List<DespesaAtivo> ativos = carteiraAtivoService.findByAtivosDespesa(carteira.getId(), null);
+        List<DespesaAtivoFramework> ativos = carteiraAtivoService.findByAtivosDespesa(carteira.getId(), null);
 
         String mensagemEmail = emailService.montarCorpoEmail(ativos);
 
