@@ -1,8 +1,10 @@
 package br.com.stonks.stonks.models;
 
+import br.ufrn.imd.stonks.framework.framework.model.AtivoFramework;
 import br.ufrn.imd.stonks.framework.framework.model.EmpresaFramework;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Empresa extends EmpresaFramework {
@@ -15,6 +17,11 @@ public class Empresa extends EmpresaFramework {
 
     @Column(nullable = false)
     private Long cnpj;
+
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "empresa")
+    private List<Ativo> ativo;
 
     public Empresa() {
     }
@@ -33,5 +40,13 @@ public class Empresa extends EmpresaFramework {
 
     public void setCnpj(Long cnpj) {
         this.cnpj = cnpj;
+    }
+
+    public List<Ativo> getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(List<Ativo> ativo) {
+        this.ativo = ativo;
     }
 }
