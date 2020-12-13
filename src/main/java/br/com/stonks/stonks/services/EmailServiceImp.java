@@ -1,6 +1,6 @@
 package br.com.stonks.stonks.services;
 
-import br.com.stonks.stonks.EmailConfig;
+import br.com.stonks.stonks.helper.EmailConfig;
 import br.com.stonks.stonks.models.CarteiraAtivo;
 import br.com.stonks.stonks.models.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;

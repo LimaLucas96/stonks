@@ -1,16 +1,15 @@
 package br.com.stonks.stonks.services;
 
 import br.com.stonks.stonks.models.Ativo;
-import br.com.stonks.stonks.repository.AtivoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import br.com.stonks.stonks.dao.AtivoDAO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class AtivoServiceImp implements AtivoService {
-    @Autowired
-    AtivoRepository ativoRepository;
+
+    AtivoDAO ativoRepository = new AtivoDAO();
 
     @Override
     public boolean isAtivoAlreadyPresent(Ativo ativo) {

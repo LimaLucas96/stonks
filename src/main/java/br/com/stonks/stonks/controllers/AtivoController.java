@@ -1,5 +1,7 @@
 package br.com.stonks.stonks.controllers;
 
+import br.com.stonks.stonks.services.AcaoService;
+import br.com.stonks.stonks.services.FundoImobiliarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
