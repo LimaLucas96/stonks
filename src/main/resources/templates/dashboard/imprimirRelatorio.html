@@ -71,23 +71,21 @@
                             <tbody>
                             <tr th:each="ativoCarteira : ${ativosCarteira}">
                                 <td>
-                                    <span th:text="${ativoCarteira.carteiraAtivo.ativo.codigo}"></span>
+                                    <span th:text="${ativoCarteira.despesaAtivo.ativo.codigo}"></span>
                                 </td>
                                 <td>
-                                    <span th:text="${ativoCarteira.carteiraAtivo.operacao}"></span>
+                                    <span th:text="${ativoCarteira.despesaAtivo.operacao}"></span>
                                 </td>
                                 <td>
-                                    <span th:text="${#dates.format(ativoCarteira.carteiraAtivo.dataTransacao, 'dd/MM/yyyy')}"></span>
+                                    <span th:text="${#dates.format(ativoCarteira.despesaAtivo.dataTransacao, 'dd/MM/yyyy')}"></span>
                                 </td>
                                 <td>
-                                    <span th:text="${#strings.replace(#numbers.formatCurrency(ativoCarteira.carteiraAtivo.valor), '.00', '')}"></span>
+                                    <span th:text="${#strings.replace(#numbers.formatCurrency(ativoCarteira.despesaAtivo.valor), '.00', '')}"></span>
                                 </td>
                                 <td>
-<!--                                    <span th:text="${ativoCarteira.valorMomento}"></span>-->
-                                    <span th:text="${#strings.replace(#numbers.formatCurrency(ativoCarteira.valorMomento), '.00', '')}"></span>
+                                    <span th:text="${#strings.replace(#numbers.formatCurrency(ativoCarteira.valor), '.00', '')}"></span>
                                 </td>
                                 <td>
-<!--                                    <span th:text="${ativoCarteira.lucro}"></span>-->
                                     <div th:if="${ativoCarteira.lucro > 0}" class="text-green">
                                         <span th:text="${#strings.replace(#numbers.formatCurrency(ativoCarteira.lucro), '.00', '')}"></span>
                                     </div>
@@ -96,17 +94,17 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <span th:text="${ativoCarteira.carteiraAtivo.quantidade}"></span>
+                                    <span th:text="${ativoCarteira.despesaAtivo.quantidade}"></span>
                                 </td>
                                 <td>
-                                    <span th:text="${#strings.replace(#numbers.formatCurrency(ativoCarteira.carteiraAtivo.quantidade * ativoCarteira.carteiraAtivo.valor), '.00', '')}"></span>
+                                    <span th:text="${#strings.replace(#numbers.formatCurrency(ativoCarteira.despesaAtivo.quantidade * ativoCarteira.despesaAtivo.valor), '.00', '')}"></span>
                                 </td>
                                 <td>
-                                    <div th:if="${(ativoCarteira.carteiraAtivo.quantidade * ativoCarteira.valorMomento) - (ativoCarteira.carteiraAtivo.quantidade * ativoCarteira.carteiraAtivo.valor) > 0}" class="text-green">
-                                        <span th:text="${#strings.replace(#numbers.formatCurrency((ativoCarteira.carteiraAtivo.quantidade * ativoCarteira.valorMomento) - (ativoCarteira.carteiraAtivo.quantidade * ativoCarteira.carteiraAtivo.valor)), '.00', '')}"></span>
+                                    <div th:if="${(ativoCarteira.despesaAtivo.quantidade * ativoCarteira.valor) - (ativoCarteira.despesaAtivo.quantidade * ativoCarteira.despesaAtivo.valor) > 0}" class="text-green">
+                                        <span th:text="${#strings.replace(#numbers.formatCurrency((ativoCarteira.despesaAtivo.quantidade * ativoCarteira.valor) - (ativoCarteira.despesaAtivo.quantidade * ativoCarteira.despesaAtivo.valor)), '.00', '')}"></span>
                                     </div>
-                                    <div th:unless="${(ativoCarteira.carteiraAtivo.quantidade * ativoCarteira.valorMomento) - (ativoCarteira.carteiraAtivo.quantidade * ativoCarteira.carteiraAtivo.valor) > 0}" class="text-red">
-                                        <span th:text="${#strings.replace(#numbers.formatCurrency((ativoCarteira.carteiraAtivo.quantidade * ativoCarteira.valorMomento) - (ativoCarteira.carteiraAtivo.quantidade * ativoCarteira.carteiraAtivo.valor)), '.00', '')}"></span>
+                                    <div th:unless="${(ativoCarteira.despesaAtivo.quantidade * ativoCarteira.valor) - (ativoCarteira.despesaAtivo.quantidade * ativoCarteira.despesaAtivo.valor) > 0}" class="text-red">
+                                        <span th:text="${#strings.replace(#numbers.formatCurrency((ativoCarteira.despesaAtivo.quantidade * ativoCarteira.valor) - (ativoCarteira.despesaAtivo.quantidade * ativoCarteira.despesaAtivo.valor)), '.00', '')}"></span>
                                     </div>
 
                                 </td>

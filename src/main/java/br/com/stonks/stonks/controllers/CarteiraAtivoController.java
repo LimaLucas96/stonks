@@ -1,8 +1,12 @@
 package br.com.stonks.stonks.controllers;
 
-import br.com.stonks.stonks.exception.ResponseException;
-import br.com.stonks.stonks.models.*;
-import br.com.stonks.stonks.services.*;
+import br.com.stonks.stonks.models.Carteira;
+import br.com.stonks.stonks.models.Usuario;
+import br.com.stonks.stonks.services.CarteiraAtivoService;
+import br.com.stonks.stonks.services.CarteiraService;
+import br.com.stonks.stonks.services.EmailService;
+import br.com.stonks.stonks.services.UsuarioService;
+import br.ufrn.imd.stonks.framework.framework.model.DespesaAtivoFramework;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -27,39 +30,19 @@ public class CarteiraAtivoController {
     private UsuarioService usuarioService;
 
     @Autowired
-    private ResponseService responseService;
-
-    @Autowired
     private EmailService emailService;
 
     @GetMapping(value = "/carteiraativo/relatorio")
     public String imprimirRelatorio(Model model) {
 
         Usuario usuario = usuarioService.usuarioLogado();
+        model.addAttribute("usuario", usuario);
+
         Carteira carteira = carteiraService.carteiraByUsuario(usuario);
 
-        List<CarteiraAtivo> ativos = carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null);
+        List<DespesaAtivoFramework> ativos = carteiraAtivoService.findByAtivosDespesa(carteira.getId(), null);
 
-        List<CarteiraAtivoValor> carteiraAtivoValorList = new ArrayList<>();
-
-        try {
-            for (CarteiraAtivo ativo : ativos) {
-                CarteiraAtivoValor carteiraAtivoValor = new CarteiraAtivoValor();
-                carteiraAtivoValor.setCarteiraAtivo(ativo);
-                Response response = responseService.getDadosAtivo(ativo.getAtivo().getCodigo());
-                carteiraAtivoValor.setValorMomento(response.getValorAcao());
-                carteiraAtivoValor.setLucro((float) (response.getValorAcao() - ativo.getValor()));
-
-                carteiraAtivoValorList.add(carteiraAtivoValor);
-            }
-        } catch (ResponseException e) {
-            model.addAttribute("errorFlash", e.getMessage());
-            model.addAttribute("usuario", usuario);
-            return "dashboard/imprimirRelatorio";
-        }
-
-        model.addAttribute("ativosCarteira", carteiraAtivoValorList);
-        model.addAttribute("usuario", usuario);
+        model.addAttribute("ativosCarteira", carteiraAtivoService.gerarDadosRelatorio(ativos));
 
         return "dashboard/imprimirRelatorio";
     }
@@ -72,9 +55,9 @@ public class CarteiraAtivoController {
         Usuario usuario = usuarioService.usuarioLogado();
         Carteira carteira = carteiraService.carteiraByUsuario(usuario);
 
-        List<CarteiraAtivo> ativos = carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null);
+        List<DespesaAtivoFramework> ativos = carteiraAtivoService.findByAtivosDespesa(carteira.getId(), null);
 
-        String mensagemEmail = emailService.montarCorpoEmailRelatorio(ativos);
+        String mensagemEmail = emailService.montarCorpoEmail(ativos);
 
         model.addAttribute("ativosCarteira", ativos);
         model.addAttribute("usuario", usuario);

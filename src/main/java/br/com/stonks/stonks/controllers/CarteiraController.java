@@ -2,11 +2,9 @@
 package br.com.stonks.stonks.controllers;
 
 import br.com.stonks.stonks.exception.ResponseException;
-import br.com.stonks.stonks.models.Carteira;
-import br.com.stonks.stonks.models.CarteiraAtivo;
-import br.com.stonks.stonks.models.Response;
-import br.com.stonks.stonks.models.Usuario;
+import br.com.stonks.stonks.models.*;
 import br.com.stonks.stonks.services.*;
+import br.ufrn.imd.stonks.framework.framework.exception.AbstractEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -46,7 +44,11 @@ public class CarteiraController {
         Carteira carteira = carteiraService.carteiraByUsuario(usuarioLogado);
 
         modelAndView.setViewName("/carteira/index");
-        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null));
+        if (carteira != null) {
+            modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosDespesa(carteira.getId(), null));
+        } else {
+            modelAndView.addObject("ativosCarteira",null);
+        }
         modelAndView.addObject("usuario", usuarioLogado);
 
         return modelAndView;
@@ -56,29 +58,25 @@ public class CarteiraController {
     public ModelAndView create(@Valid CarteiraAtivo carteiraAtivo,
                                BindingResult bindingResult,
                                @DateTimeFormat(pattern = "yyyy-MM-dd") Date dataTransacao,
+                               @RequestParam Ativo ativo,
                                ModelMap modelMap) {
 
         ModelAndView modelAndView = new ModelAndView();
 
         carteiraAtivo.setDataTransacao(dataTransacao);
+        carteiraAtivo.setAtivo(ativo);
         Usuario usuarioLogado = usuarioService.usuarioLogado();
-        Carteira carteira = carteiraService.carteiraByUsuario(usuarioLogado);
 
-        if (carteira == null) {
-            carteira = new Carteira(usuarioLogado);
-            carteiraService.salvarCarteira(carteira);
+        try {
+            carteiraService.adicionar(carteiraAtivo, usuarioLogado);
+        } catch (Exception e) {
+            modelAndView.addObject("errorFlash", e.getMessage());
         }
 
-        carteiraAtivo.setCarteira(carteira);
+        Carteira carteira = (Carteira) carteiraService.despesaByUsuario();
 
-        if (carteiraAtivoService.isAlreadyPresent(carteiraAtivo)) {
-            modelAndView.addObject("errorFlash", "CarteiraAtivo ja existente");
-        } else {
-            carteiraAtivoService.salvar(carteiraAtivo);
-            modelAndView.addObject("successFlash", "Ativo registrado na carteira com sucesso.");
-        }
-
-        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null));
+        modelAndView.addObject("ativosCarteira",
+                carteiraAtivoService.findByAtivosDespesa(carteira.getId(), null));
         modelAndView.addObject("usuario", usuarioLogado);
 
         modelAndView.setViewName("/carteira/index");
@@ -114,13 +112,18 @@ public class CarteiraController {
     }
 
     @RequestMapping(value = "/carteira/editar/{id}", method = RequestMethod.POST)
-    public ModelAndView update(@PathVariable("id") int id, HttpServletRequest request, @ModelAttribute("carteiraAtivo") CarteiraAtivo carteiraAtivo) {
+    public ModelAndView update(@PathVariable("id") int id, HttpServletRequest request,
+                               @Valid CarteiraAtivo carteiraAtivo,
+                               BindingResult bindingResult,
+                               @DateTimeFormat(pattern = "yyyy-MM-dd") Date dataTransacao,
+                               @RequestParam Ativo ativo,
+                               ModelMap modelMap) {
         Usuario usuarioLogado = usuarioService.usuarioLogado();
         Carteira carteira = carteiraService.carteiraByUsuario(usuarioLogado);
 
         ModelAndView modelAndView = new ModelAndView();
 
-        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosCarteira(carteira.getId(), null));
+        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosDespesa(carteira.getId(), null));
         modelAndView.addObject("usuario", usuarioLogado);
         modelAndView.setViewName("/carteira/index");
 
@@ -130,7 +133,8 @@ public class CarteiraController {
             modelAndView.addObject("errorFlash", "Ativo não encontrado");
             return modelAndView;
         }
-        carteiraAtivo.setCarteira(carteiraAtivoInstance.get().getCarteira());
+        carteiraAtivo.setDespesa(carteiraAtivoInstance.get().getDespesa());
+        carteiraAtivo.setAtivo(ativo);
         carteiraAtivoService.salvar(carteiraAtivo);
 
         modelAndView.addObject("successFlash", "Ativo Atualizado");

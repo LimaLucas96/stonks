@@ -45,14 +45,16 @@ public class AuthenticationController {
         modelAndView.setViewName("dashboard/home");
 
         Usuario usuarioLogado = usuarioService.usuarioLogado();
-        Carteira carteira = carteiraService.carteiraByUsuario(usuarioLogado);
+        Carteira carteira = null;
+        carteira= carteiraService.carteiraByUsuario(usuarioLogado);
 
         modelAndView.addObject("usuario", usuarioLogado);
 
         double sum = 0;
 
         if (carteira != null) {
-            sum = carteiraAtivoService.totalCarteira(carteira.getId());
+            Double total = carteiraAtivoService.totalCarteira(carteira.getId());
+            sum = total != null ? total : 0;
         }
 
         modelAndView.addObject("carteiraAtivos", carteira != null ?

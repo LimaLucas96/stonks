@@ -1,44 +1,25 @@
 package br.com.stonks.stonks.models;
 
+import br.ufrn.imd.stonks.framework.framework.model.AtivoFramework;
+import br.ufrn.imd.stonks.framework.framework.model.EmpresaFramework;
+
 import javax.persistence.*;
 
 @Entity
-@Inheritance
-public abstract class Ativo {
-    @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @Column(unique = true, nullable = false)
-    private String codigo;
+@Table(name="ativo")
+public class Ativo extends AtivoFramework {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "empresa_id", nullable = false)
-    private Empresa empresa;   
+    private EmpresaFramework empresa;
 
     public Ativo() { }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
-    }
-
-    public Empresa getEmpresa() {
+    public EmpresaFramework getEmpresa() {
         return empresa;
     }
 
-    public void setEmpresa(Empresa empresa) {
+    public void setEmpresa(EmpresaFramework empresa) {
         this.empresa = empresa;
     }
 }

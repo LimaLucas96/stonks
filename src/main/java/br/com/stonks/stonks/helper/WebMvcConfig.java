@@ -1,4 +1,4 @@
-package br.com.stonks.stonks;
+package br.com.stonks.stonks.helper;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

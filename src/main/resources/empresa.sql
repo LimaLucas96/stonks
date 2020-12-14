@@ -1,3 +1,5 @@
+CREATE SEQUENCE empresa_id_seq START 1;
+
 CREATE OR REPLACE FUNCTION add_empresa(nome_empresa VARCHAR(500))
     RETURNS INT AS
 $$
@@ -6,8 +8,8 @@ DECLARE
 BEGIN
     id_seq_em = nextval('empresa_id_seq');
 
-    INSERT INTO empresa (nome, cnpj)
-    VALUES(nome_empresa, id_seq_em);
+    INSERT INTO empresa (dtype, nome, cnpj)
+    VALUES('Empresa', nome_empresa, id_seq_em);
 
     RETURN id_seq_em + 1;
 END;
