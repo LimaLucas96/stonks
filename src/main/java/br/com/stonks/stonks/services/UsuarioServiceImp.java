@@ -4,8 +4,8 @@ import br.com.stonks.stonks.exception.CpfInvalidoException;
 import br.com.stonks.stonks.exception.UsuarioExistenteException;
 import br.com.stonks.stonks.models.Role;
 import br.com.stonks.stonks.models.Usuario;
-import br.com.stonks.stonks.repository.RoleRepository;
-import br.com.stonks.stonks.repository.UsuarioRepository;
+import br.com.stonks.stonks.dao.RoleDAO;
+import br.com.stonks.stonks.dao.UsuarioDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,19 +14,16 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Optional;
 
 @Service
 public class UsuarioServiceImp implements UsuarioService {
 
     @Autowired
-    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    private BCryptPasswordEncoder encoder;
 
-    @Autowired
-    private RoleRepository roleRepository;
+    private final RoleDAO roleRepository = new RoleDAO();
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioDAO usuarioRepository = new UsuarioDAO();
 
     @Override
     public void salvarUsuario(Usuario usuario) throws UsuarioExistenteException, CpfInvalidoException {
@@ -83,18 +80,28 @@ public class UsuarioServiceImp implements UsuarioService {
     }
 
     @Override
-    public Optional<Usuario> findById(int id){
+    public Usuario findById(int id){
         return usuarioRepository.findById(id);
     }
 
     @Override
     public void deleteById(int id) {
-        usuarioRepository.deleteById(id);
+        usuarioRepository.remove(id);
     }
 
     @Override
     public Usuario usuarioLogado(){
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return usuarioRepository.findByEmail(principal.getUsername());
+    }
+
+    @Override
+    public Usuario findByEmail(String email) {
+        return usuarioRepository.findByEmail(email);
+    }
+
+    @Override
+    public void save(Usuario usuario) {
+        usuarioRepository.save(usuario);
     }
 }

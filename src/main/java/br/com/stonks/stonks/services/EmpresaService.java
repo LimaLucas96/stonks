@@ -11,7 +11,7 @@ public interface EmpresaService {
 
     public List<Empresa> findAll();
 
-    public Optional<Empresa> findById(Long id);
+    public Empresa findById(Long id);
 
     public void deleteById(Long id);
 }

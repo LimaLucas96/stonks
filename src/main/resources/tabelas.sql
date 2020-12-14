@@ -10,7 +10,9 @@ CREATE TABLE IF NOT EXISTS ativo (
     codigo     VARCHAR(255) NOT NULL UNIQUE,
     setor      VARCHAR(255),
     tipo       VARCHAR(255),
-    empresa_id BIGINT NOT NULL REFERENCES empresa
+    empresa_id BIGINT NOT NULL REFERENCES empresa,
+    UPDATE CASCADE
+    DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS usuario (
@@ -26,7 +28,9 @@ CREATE TABLE IF NOT EXISTS usuario (
 CREATE TABLE IF NOT EXISTS carteira (
     id         SERIAL NOT NULL PRIMARY KEY,
     status     BOOLEAN,
-    usuario_id INTEGER NOT NULL REFERENCES usuario
+    usuario_id INTEGER NOT NULL REFERENCES usuario,
+    UPDATE CASCADE
+    DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS carteira_ativo (
@@ -36,11 +40,12 @@ CREATE TABLE IF NOT EXISTS carteira_ativo (
     quantidade     INTEGER,
     valor          DOUBLE PRECISION,
     ativo_id       INTEGER NOT NULL REFERENCES ativo,
-    carteira_id    INTEGER NOT NULL REFERENCES carteira
+    carteira_id    INTEGER NOT NULL REFERENCES carteira,
+    UPDATE CASCADE
+    DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS dados_fundamentalista (
-     id                SERIAL NOT NULL PRIMARY KEY,
      data_atualizacao  TIMESTAMP,
      dy                DOUBLE PRECISION,
      ev_ebit           DOUBLE PRECISION,
@@ -58,7 +63,9 @@ CREATE TABLE IF NOT EXISTS dados_fundamentalista (
      roe               DOUBLE PRECISION,
      roic              DOUBLE PRECISION,
      status            BOOLEAN,
-     ativo_id          INTEGER NOT NULL REFERENCES ativo
+     ativo_id          INTEGER NOT NULL REFERENCES ativo,
+     UPDATE CASCADE
+     DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS role (

@@ -1,20 +1,16 @@
 package br.com.stonks.stonks.services;
 
 import br.com.stonks.stonks.models.DadosFundamentalista;
-import br.com.stonks.stonks.repository.DadosFundamentalistaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import br.com.stonks.stonks.dao.DadosFundamentalistaDAO;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class DadosFundamentalistaServiceImp implements DadosFundamentalistaService {
 
-    @Autowired
-    private DadosFundamentalistaRepository dadosFundamentalistaRepository;
+    private final DadosFundamentalistaDAO dadosFundamentalistaRepository = new DadosFundamentalistaDAO();
 
     @Override
-    public Optional<DadosFundamentalista> findByAtivo(Integer idAtivo) {
-        return dadosFundamentalistaRepository.findById(idAtivo);
+    public DadosFundamentalista findByAtivo(Integer idAtivo) {
+        return dadosFundamentalistaRepository.findByAtivo(idAtivo);
     }
 }

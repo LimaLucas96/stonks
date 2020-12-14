@@ -1,17 +1,15 @@
 package br.com.stonks.stonks.services;
 
 import br.com.stonks.stonks.models.Empresa;
-import br.com.stonks.stonks.repository.EmpresaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import br.com.stonks.stonks.dao.EmpresaDAO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EmpresaImp implements EmpresaService {
-    @Autowired
-    EmpresaRepository empresaRepository;
+
+    private final EmpresaDAO empresaRepository = new EmpresaDAO();
 
     @Override
     public void salvarEmpresa(Empresa empresa) {
@@ -24,12 +22,12 @@ public class EmpresaImp implements EmpresaService {
     }
 
     @Override
-    public Optional<Empresa> findById(Long id) {
+    public Empresa findById(Long id) {
         return empresaRepository.findById(id);
     }
 
     @Override
     public void deleteById(Long id) {
-        empresaRepository.deleteById(id);
+        empresaRepository.remove(id);
     }
 }

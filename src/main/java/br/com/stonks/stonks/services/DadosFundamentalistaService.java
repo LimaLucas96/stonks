@@ -7,5 +7,5 @@ import java.util.Optional;
 
 @Service
 public interface DadosFundamentalistaService {
-    Optional<DadosFundamentalista> findByAtivo (Integer idAtivo);
+    DadosFundamentalista findByAtivo (Integer idAtivo);
 }

@@ -1,7 +1,6 @@
 package br.com.stonks.stonks.controllers;
 
 import br.com.stonks.stonks.models.Empresa;
-import br.com.stonks.stonks.repository.EmpresaRepository;
 import br.com.stonks.stonks.services.EmpresaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,9 +36,12 @@ public class EmpresaController {
 
     @GetMapping("empresa/{id}")
     public String paginaAtualizar(@PathVariable("id") long id, Model model) {
-        Empresa empresa = empresaService.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("ID fornecido é inválido " + id)
-        );
+        Empresa empresa = empresaService.findById(id);
+
+        if(empresa == null){
+            return ("ID fornecido é inválido " + id);
+        }
+
         model.addAttribute("empresa", empresa);
         return "empresas/atualizarEmpresa";
     }

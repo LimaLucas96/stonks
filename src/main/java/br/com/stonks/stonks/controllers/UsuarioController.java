@@ -2,7 +2,6 @@ package br.com.stonks.stonks.controllers;
 
 import br.com.stonks.stonks.exception.UsuarioExistenteException;
 import br.com.stonks.stonks.models.Usuario;
-import br.com.stonks.stonks.repository.UsuarioRepository;
 import br.com.stonks.stonks.exception.CpfInvalidoException;
 import br.com.stonks.stonks.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @Controller
 public class UsuarioController {
@@ -49,13 +47,13 @@ public class UsuarioController {
 
     @RequestMapping(value = "/usuario/{id}", method = RequestMethod.POST)
     public String update(@PathVariable("id") int id, Usuario usuario) throws CpfInvalidoException, UsuarioExistenteException {
-        Optional<Usuario> usuarioOptional = usuarioService.findById(id);
+        Usuario usuarioOptional = usuarioService.findById(id);
 
-        if (usuarioOptional.isPresent()){
+        if (usuarioOptional == null){
             return "Usuário não encontrado.";
         }
 
-        Usuario usuarioInstance = usuarioOptional.get();
+        Usuario usuarioInstance = usuarioOptional;
         usuarioInstance.setNome(usuario.getNome());
 
         usuarioService.salvarUsuario(usuarioInstance);

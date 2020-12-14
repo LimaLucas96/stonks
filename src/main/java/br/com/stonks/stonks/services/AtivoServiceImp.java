@@ -1,7 +1,7 @@
 package br.com.stonks.stonks.services;
 
-import br.com.stonks.stonks.models.Ativo;
 import br.com.stonks.stonks.dao.AtivoDAO;
+import br.com.stonks.stonks.models.Ativo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public class AtivoServiceImp implements AtivoService {
 
-    AtivoDAO ativoRepository = new AtivoDAO();
+    private final AtivoDAO ativoRepository = new AtivoDAO();
 
     @Override
     public boolean isAtivoAlreadyPresent(Ativo ativo) {

@@ -16,9 +16,13 @@ public interface UsuarioService {
 
     public Usuario usuarioPorEmail(String email);
 
-    public Optional<Usuario> findById(int id);
+    public Usuario findById(int id);
 
     public void deleteById(int id);
 
     public Usuario usuarioLogado();
+
+    Usuario findByEmail(String emailAdmin);
+
+    void save(Usuario usuarioAdmin);
 }

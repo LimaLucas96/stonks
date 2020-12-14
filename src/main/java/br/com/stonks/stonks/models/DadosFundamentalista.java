@@ -4,8 +4,6 @@ import java.util.Date;
 
 public class DadosFundamentalista {
 
-    private Integer id;
-
     private Ativo ativo;
 
     private Double pL;
@@ -187,13 +185,5 @@ public class DadosFundamentalista {
 
     public void setDataAtualizacao(Date dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getId() {
-        return id;
     }
 }

@@ -47,14 +47,14 @@ public class DadosFundamentalistaController {
     public ModelAndView getDados(@RequestParam("ativo") Integer ativo) {
         ModelAndView modelAndView = new ModelAndView();
 
-        Optional<DadosFundamentalista> optionalDadosFundamentalista = dadosFundamentalistaService.findByAtivo(ativo);
+        DadosFundamentalista dadosFundamentalista = dadosFundamentalistaService.findByAtivo(ativo);
 
-        if (!optionalDadosFundamentalista.isPresent()) {
+        if (dadosFundamentalista != null) {
             modelAndView.addObject("errorFlash", "Dados desse ativo não foram encontrados.");
             return modelAndView;
         }
 
-        modelAndView.addObject("dadosfundamentalista", optionalDadosFundamentalista.get());
+        modelAndView.addObject("dadosfundamentalista", dadosFundamentalista);
 
         Usuario usuarioLogado = usuarioService.usuarioLogado();
 
