@@ -130,7 +130,7 @@ public class CarteiraController {
             return modelAndView;
         }
         carteiraAtivo.setCarteira(carteiraAtivoInstance.getCarteira());
-        carteiraAtivoService.salvar(carteiraAtivo);
+        carteiraAtivoService.update(carteiraAtivo);
 
         modelAndView.addObject("successFlash", "Ativo Atualizado");
         modelAndView.setViewName("/carteira/index");

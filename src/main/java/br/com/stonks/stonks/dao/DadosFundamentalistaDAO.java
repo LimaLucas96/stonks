@@ -19,7 +19,7 @@ public class DadosFundamentalistaDAO {
         DadosFundamentalista dadosFundamentalista = new DadosFundamentalista();
         try {
             conectar();
-            String sql = "SELECT * FROM dados_fundamentalista WHERE id_ativo = " + id;
+            String sql = "SELECT * FROM dados_fundamentalista WHERE ativo_id = " + id;
             ResultSet rs = comando.executeQuery(sql);
             if (rs.next()) {
                 dadosFundamentalista.setEvEbit(rs.getDouble("ev_ebit"));
@@ -37,6 +37,7 @@ public class DadosFundamentalistaDAO {
                 dadosFundamentalista.setRoe(rs.getDouble("roe"));
                 dadosFundamentalista.setRoic(rs.getDouble("roic"));
                 dadosFundamentalista.setStatus(rs.getBoolean("status"));
+                dadosFundamentalista.setDataAtualizacao(rs.getDate("data_atualizacao"));
 
                 Ativo ativo = new Ativo();
                 ativo.setId(rs.getInt("ativo_id"));

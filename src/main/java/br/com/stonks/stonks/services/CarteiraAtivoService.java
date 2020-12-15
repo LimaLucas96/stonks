@@ -15,6 +15,8 @@ public interface CarteiraAtivoService {
 
     public void salvar(CarteiraAtivo carteiraAtivo);
 
+    public void update(CarteiraAtivo carteiraAtivo);
+
     public boolean isAlreadyPresent(CarteiraAtivo carteiraAtivo);
 
     public List<CarteiraAtivo> findByAtivosCarteiraCompra(int id);

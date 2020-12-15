@@ -76,7 +76,8 @@ public class CarteiraAtivoDAO {
                 carteira.setId(rs.getInt("carteira_id"));
 
                 carteiraAtivo.setAtivo(ativo);
-                carteiraAtivo.setStatus(rs.getBoolean("ativo"));
+                carteiraAtivo.setId(rs.getInt("id"));
+                carteiraAtivo.setStatus(rs.getBoolean("status"));
                 carteiraAtivo.setDataTransacao(rs.getDate("data_transacao"));
                 carteiraAtivo.setQuantidade(rs.getInt("quantidade"));
                 carteiraAtivo.setValor(rs.getDouble("valor"));
@@ -105,18 +106,20 @@ public class CarteiraAtivoDAO {
         List<CarteiraAtivo> carteiraAtivos = new ArrayList<CarteiraAtivo>();
         try {
             conectar();
-            String sql = "SELECT ca.* FROM carteira_ativo ca JOIN ativo a ON ca.ativo_id = a.id WHERE ca.operacao = 'COMPRA' AND ca.carteira_id = " + id ;
+            String sql = "SELECT ca.*, a.codigo FROM carteira_ativo ca JOIN ativo a ON ca.ativo_id = a.id WHERE ca.operacao = 'COMPRA' AND ca.carteira_id = " + id ;
             ResultSet rs = comando.executeQuery(sql);
             while (rs.next()) {
                 Ativo ativo = new Ativo();
                 ativo.setId(rs.getInt("ativo_id"));
+                ativo.setCodigo(rs.getString("codigo"));
 
                 Carteira carteira = new Carteira();
-                carteira.setId(rs.getInt("carteira_id"));
+                carteira.setId(rs.getInt("id"));
 
                 CarteiraAtivo carteiraAtivo = new CarteiraAtivo();
+                carteiraAtivo.setId(rs.getInt("id"));
                 carteiraAtivo.setAtivo(ativo);
-                carteiraAtivo.setStatus(rs.getBoolean("ativo"));
+                carteiraAtivo.setStatus(rs.getBoolean("status"));
                 carteiraAtivo.setDataTransacao(rs.getDate("data_transacao"));
                 carteiraAtivo.setQuantidade(rs.getInt("quantidade"));
                 carteiraAtivo.setValor(rs.getDouble("valor"));
@@ -136,18 +139,20 @@ public class CarteiraAtivoDAO {
         List<CarteiraAtivo> carteiraAtivos = new ArrayList<CarteiraAtivo>();
         try {
             conectar();
-            String sql = "SELECT ca.* FROM carteira_ativo ca JOIN ativo a ON ca.ativo_id = a.id WHERE ca.carteira_id = " + id;
+            String sql = "SELECT ca.*, a.codigo FROM carteira_ativo ca JOIN ativo a ON ca.ativo_id = a.id WHERE ca.carteira_id = " + id;
             ResultSet rs = comando.executeQuery(sql);
             while (rs.next()) {
                 Ativo ativo = new Ativo();
                 ativo.setId(rs.getInt("ativo_id"));
+                ativo.setCodigo(rs.getString("codigo"));
 
                 Carteira carteira = new Carteira();
                 carteira.setId(rs.getInt("carteira_id"));
 
                 CarteiraAtivo carteiraAtivo = new CarteiraAtivo();
+                carteiraAtivo.setId(rs.getInt("id"));
                 carteiraAtivo.setAtivo(ativo);
-                carteiraAtivo.setStatus(rs.getBoolean("ativo"));
+                carteiraAtivo.setStatus(rs.getBoolean("status"));
                 carteiraAtivo.setDataTransacao(rs.getDate("data_transacao"));
                 carteiraAtivo.setQuantidade(rs.getInt("quantidade"));
                 carteiraAtivo.setValor(rs.getDouble("valor"));

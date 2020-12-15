@@ -49,7 +49,7 @@ public class DadosFundamentalistaController {
 
         DadosFundamentalista dadosFundamentalista = dadosFundamentalistaService.findByAtivo(ativo);
 
-        if (dadosFundamentalista != null) {
+        if (dadosFundamentalista.getAtivo().getId() == 0) {
             modelAndView.addObject("errorFlash", "Dados desse ativo não foram encontrados.");
             return modelAndView;
         }
