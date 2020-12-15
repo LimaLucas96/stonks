@@ -1,7 +1,5 @@
 package br.com.stonks.stonks.models;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -9,10 +7,8 @@ public class CarteiraAtivo {
 
     private int id;
 
-    @NotNull
     private Carteira carteira;
     
-    @NotNull
     private Ativo ativo;
 
     private double valor;
@@ -21,7 +17,6 @@ public class CarteiraAtivo {
 
 	private Boolean status;
 
-	@DateTimeFormat(pattern="yyyy-MM-dd")
     private Date dataTransacao;
 
     private Operacao operacao;

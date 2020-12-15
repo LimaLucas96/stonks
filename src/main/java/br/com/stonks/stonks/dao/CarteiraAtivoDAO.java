@@ -11,23 +11,13 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class CarteiraAtivoDAO {
-
-    @Value("${spring.datasource.url}")
-    public String URL;
-
-    @Value("${spring.datasource.username}")
-    private String NOME;
-
-    @Value("${spring.datasource.password}")
-    private String SENHA;
-
-    @Value("${spring.datasource.banco}")
-    private int BANCO;
 
     private Connection con;
     private Statement comando;
@@ -42,8 +32,6 @@ public class CarteiraAtivoDAO {
             buffer.append(" WHERE id =");
             buffer.append(carteiraAtivo.getId());
             String sql = buffer.toString();
-
-            System.out.println(sql);
 
             comando.executeUpdate(sql);
             fechar();
@@ -178,11 +166,13 @@ public class CarteiraAtivoDAO {
     public Double totalCarteira(Integer idCarteira) {
         try {
             conectar();
-            String sql = "SELECT SUM(ca.quantidade * ca.valor) FROM carteira_ativo ca WHERE ca.carteira_id = " + idCarteira;
+            String sql = "SELECT COALESCE(SUM(ca.quantidade * ca.valor), 0) AS total FROM carteira_ativo ca WHERE ca.carteira_id = " + idCarteira;
             ResultSet rs = comando.executeQuery(sql);
-
+            rs.next();
+            Double total = rs.getDouble("total");
             fechar();
-            return rs.getDouble("SUM");
+
+            return total;
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -190,7 +180,7 @@ public class CarteiraAtivoDAO {
     }
 
     private void conectar() throws ClassNotFoundException, SQLException {
-        con = ConexaoFactory.conexao(URL, NOME, SENHA, BANCO);
+        con = ConexaoFactory.conexao();
         comando = con.createStatement();
     }
 
@@ -204,14 +194,14 @@ public class CarteiraAtivoDAO {
     }
 
     protected String retornarCamposBD() {
-        return "ativo, data_criacao, data_transacao, quantidade, valor, operacao, ativo_id, carteira_id";
+        return "data_transacao, quantidade, valor, operacao, ativo_id, carteira_id, status";
     }
 
     protected String returnFieldValuesBD(CarteiraAtivo carteiraAtivo) {
         StringBuffer buffer = new StringBuffer();
         buffer.append("ativo_id = ");
         buffer.append(carteiraAtivo.getAtivo().getId());
-        buffer.append(", carteira_ativo = ");
+        buffer.append(", carteira_id = ");
         buffer.append(carteiraAtivo.getCarteira().getId());
         buffer.append(", valor = ");
         buffer.append(carteiraAtivo.getValor());
@@ -221,31 +211,29 @@ public class CarteiraAtivoDAO {
         buffer.append(retornarValorStringBD(carteiraAtivo.getOperacao().getDenominacao()));
         buffer.append(", data_transacao = ");
         buffer.append(carteiraAtivo.getDataTransacao());
-        buffer.append(", ativo = ");
+        buffer.append(", status = ");
         buffer.append(carteiraAtivo.getStatus());
 
         return buffer.toString();
     }
 
     protected String retornarValoresBD(CarteiraAtivo carteiraAtivo) {
-        return
-                true
-                        + ", "
-                        + new Date()
-                        + ", "
-                        + carteiraAtivo.getDataTransacao()
-                        + ", "
-                        + carteiraAtivo.getQuantidade()
-                        + ", "
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String strDate = dateFormat.format(carteiraAtivo.getDataTransacao());
+
+        return "', TO_DATE('" + strDate
+                        + "', 'YYYY-MM-DD'), "
                         + carteiraAtivo.getQuantidade()
                         + ", "
                         + carteiraAtivo.getValor()
-                        + ", "
+                        + ", '"
                         + carteiraAtivo.getOperacao().getDenominacao()
-                        + ", "
+                        + "', "
                         + carteiraAtivo.getAtivo().getId()
                         + ", "
-                        + carteiraAtivo.getCarteira().getId();
+                        + carteiraAtivo.getCarteira().getId()
+                        + ", "
+                        + carteiraAtivo.getStatus();
     }
 
     private String retornarValorStringBD(String valor) {

@@ -2,6 +2,7 @@ package br.com.stonks.stonks.dao;
 
 import br.com.stonks.stonks.helper.ConexaoFactory;
 import br.com.stonks.stonks.models.Role;
+import br.com.stonks.stonks.models.Usuario;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.sql.Connection;
@@ -10,18 +11,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class RoleDAO {
-
-    @Value("${spring.datasource.url}")
-    public String URL;
-
-    @Value("${spring.datasource.username}")
-    private String NOME;
-
-    @Value("${spring.datasource.password}")
-    private String SENHA;
-
-    @Value("${spring.datasource.banco}")
-    private int BANCO;
 
     private Connection con;
     private Statement comando;
@@ -63,14 +52,35 @@ public class RoleDAO {
         }
     }
 
+    public void saveRoleUsuario(Role role, Usuario usuario) {
+        try {
+            conectar();
+
+            StringBuffer buffer = new StringBuffer();
+            buffer.append("INSERT INTO usuario_role (id, role_id)");
+            buffer.append(" VALUES (");
+            buffer.append(usuario.getId());
+            buffer.append(", ");
+            buffer.append(role.getId());
+            buffer.append(")");
+            String sql = buffer.toString();
+
+            comando.executeUpdate(sql);
+            fechar();
+
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public Role findByRole(String role_name) {
         Role role = new Role();
         try {
             conectar();
-            String sql = "SELECT * FROM role WHERE role_name = " + role_name;
+            String sql = "SELECT * FROM role WHERE role_name = UPPER('" + role_name + "')";
             ResultSet rs = comando.executeQuery(sql);
             if (rs.next()) {
-                role.setId(rs.getInt("id"));
+                role.setId(rs.getInt("role_id"));
                 role.setDescricao(rs.getString("descricao"));
                 role.setRole(rs.getString("role_name"));
             }
@@ -83,7 +93,7 @@ public class RoleDAO {
     }
 
     private void conectar() throws ClassNotFoundException, SQLException {
-        con = ConexaoFactory.conexao(URL, NOME, SENHA, BANCO);
+        con = ConexaoFactory.conexao();
         comando = con.createStatement();
     }
 
@@ -111,8 +121,9 @@ public class RoleDAO {
     }
 
     protected String retornarValoresBD(Role role) {
-        return role.getDescricao()
-                + ", "
-                + role.getRole();
+        return "'" + role.getDescricao()
+                + "', '"
+                + role.getRole()
+                + "'";
     }
 }

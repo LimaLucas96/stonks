@@ -8,20 +8,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 public class UsuarioDAO {
-
-    @Value("${spring.datasource.url}")
-    public String URL;
-
-    @Value("${spring.datasource.username}")
-    private String NOME;
-
-    @Value("${spring.datasource.password}")
-    private String SENHA;
-
-    @Value("${spring.datasource.banco}")
-    private int BANCO;
 
     private Connection con;
     private Statement comando;
@@ -78,12 +68,11 @@ public class UsuarioDAO {
         Usuario usuario = new Usuario();
         try {
             conectar();
-            String sql = "SELECT * FROM usuario WHERE email = " + email;
+            String sql = "SELECT * FROM usuario WHERE email = '" + email + "'";
             ResultSet rs = comando.executeQuery(sql);
             if (rs.next()) {
                 usuario.setId(rs.getInt("id"));
                 usuario.setCpf(rs.getString("cpf"));
-                usuario.setDataNascimento(rs.getDate("data_nascimento"));
                 usuario.setDataNascimento(rs.getDate("data_nascimento"));
                 usuario.setEmail(rs.getString("email"));
                 usuario.setNome(rs.getString("nome"));
@@ -150,7 +139,7 @@ public class UsuarioDAO {
     }
 
     private void conectar() throws ClassNotFoundException, SQLException {
-        con = ConexaoFactory.conexao(URL, NOME, SENHA, BANCO);
+        con = ConexaoFactory.conexao();
         comando = con.createStatement();
     }
 
@@ -169,33 +158,36 @@ public class UsuarioDAO {
 
     protected String returnFieldValuesBD(Usuario usuario) {
         StringBuffer buffer = new StringBuffer();
-        buffer.append("cpf = ");
+        buffer.append("cpf = '");
         buffer.append(usuario.getCpf());
-        buffer.append(", data_nascimento = ");
+        buffer.append("', data_nascimento = ");
         buffer.append(usuario.getDataNascimento());
-        buffer.append(", email = ");
+        buffer.append(", email = '");
         buffer.append(usuario.getEmail());
-        buffer.append(", nome = ");
+        buffer.append("', nome = '");
         buffer.append(usuario.getNome());
-        buffer.append(", password = ");
+        buffer.append("', password = '");
         buffer.append(usuario.getPassword());
-        buffer.append(", status = ");
+        buffer.append("', status = ");
         buffer.append(usuario.getStatus());
 
         return buffer.toString();
     }
 
     protected String retornarValoresBD(Usuario usuario) {
-        return usuario.getCpf()
-                + ", "
-                + usuario.getDataNascimento()
-                + ", "
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String strDate = dateFormat.format(usuario.getDataNascimento());
+
+        return "'" + usuario.getCpf()
+                + "', TO_DATE('"
+                + strDate
+                + "', 'YYYY-MM-DD'), '"
                 + usuario.getEmail()
-                + ", "
+                + "', '"
                 + usuario.getNome()
-                + ", "
+                + "', '"
                 + usuario.getPassword()
-                + ", "
+                + "', "
                 + usuario.getStatus();
     }
 }

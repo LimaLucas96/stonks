@@ -20,7 +20,7 @@ public class CarteiraAtivoServiceImp implements CarteiraAtivoService {
 
     @Override
     public boolean isAlreadyPresent(CarteiraAtivo carteiraAtivo) {
-        return carteiraAtivoDAO.findById(carteiraAtivo.getId()) != null;
+        return carteiraAtivoDAO.findById(carteiraAtivo.getId()).getId() != 0;
     }
 
     @Override

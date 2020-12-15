@@ -45,26 +45,30 @@ public class StonksApplication implements CommandLineRunner {
 		Role adminUser = roleService.findByRole("ADMIN_USER");
 		Role superUser = roleService.findByRole("SUPER_USER");
 
-		if(siteUser == null){
+		if(siteUser.getId() == 0){
 			siteUser = new Role("SITE_USER", "Permissao de acesso padrão do site");
 			roleService.save(siteUser);
+			siteUser = roleService.findByRole("SITE_USER");
 		}
-		if(adminUser == null){
+		if(adminUser.getId() == 0){
 			adminUser = new Role("ADMIN_USER", "Permissao de acesso de administrador do site");
 			roleService.save(adminUser);
+			adminUser = roleService.findByRole("ADMIN_USER");
 		}
-		if(superUser == null){
+		if(superUser.getId() == 0){
 			superUser = new Role("SUPER_USER", "Permissao de acesso de super usuario do site");
 			roleService.save(superUser);
+			superUser = roleService.findByRole("SUPER_USER");
 		}
 
 		Usuario usuarioAdmin = usuarioService.findByEmail(EMAIL_ADMIN);
-		if (usuarioAdmin == null){
+		if (usuarioAdmin.getId() == 0){
 			usuarioAdmin = new Usuario("Admin", EMAIL_ADMIN, encoder.encode(SENHA_ADMIN),
 					"000.000.000-00",true, new Date());
-			usuarioService.save(usuarioAdmin);
 			usuarioAdmin.setRoles(new HashSet<Role>(Arrays.asList(adminUser)));
 			usuarioService.save(usuarioAdmin);
+			usuarioAdmin = usuarioService.findByEmail(EMAIL_ADMIN);
+			roleService.saveRoleUsuario(adminUser, usuarioAdmin);
 			Carteira carteira = new Carteira(usuarioAdmin);
 			carteiraService.salvarCarteira(carteira);
 		}

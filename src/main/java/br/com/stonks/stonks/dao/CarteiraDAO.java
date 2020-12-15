@@ -15,18 +15,6 @@ import java.util.List;
 
 public class CarteiraDAO {
 
-    @Value("${spring.datasource.url}")
-    public String URL;
-
-    @Value("${spring.datasource.username}")
-    private String NOME;
-
-    @Value("${spring.datasource.password}")
-    private String SENHA;
-
-    @Value("${spring.datasource.banco}")
-    private int BANCO;
-
     private Connection con;
     private Statement comando;
 
@@ -126,7 +114,7 @@ public class CarteiraDAO {
     }
 
     private void conectar() throws ClassNotFoundException, SQLException {
-        con = ConexaoFactory.conexao(URL, NOME, SENHA, BANCO);
+        con = ConexaoFactory.conexao();
         comando = con.createStatement();
     }
 

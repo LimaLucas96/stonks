@@ -10,9 +10,7 @@ CREATE TABLE IF NOT EXISTS ativo (
     codigo     VARCHAR(255) NOT NULL UNIQUE,
     setor      VARCHAR(255),
     tipo       VARCHAR(255),
-    empresa_id BIGINT NOT NULL REFERENCES empresa,
-    UPDATE CASCADE
-    DELETE CASCADE
+    empresa_id BIGINT NOT NULL REFERENCES empresa ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS usuario (
@@ -28,9 +26,7 @@ CREATE TABLE IF NOT EXISTS usuario (
 CREATE TABLE IF NOT EXISTS carteira (
     id         SERIAL NOT NULL PRIMARY KEY,
     status     BOOLEAN,
-    usuario_id INTEGER NOT NULL REFERENCES usuario,
-    UPDATE CASCADE
-    DELETE CASCADE
+    usuario_id INTEGER NOT NULL REFERENCES usuario ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS carteira_ativo (
@@ -39,10 +35,9 @@ CREATE TABLE IF NOT EXISTS carteira_ativo (
     operacao       VARCHAR(255),
     quantidade     INTEGER,
     valor          DOUBLE PRECISION,
+    status         BOOLEAN,
     ativo_id       INTEGER NOT NULL REFERENCES ativo,
-    carteira_id    INTEGER NOT NULL REFERENCES carteira,
-    UPDATE CASCADE
-    DELETE CASCADE
+    carteira_id    INTEGER NOT NULL REFERENCES carteira ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS dados_fundamentalista (
@@ -63,9 +58,7 @@ CREATE TABLE IF NOT EXISTS dados_fundamentalista (
      roe               DOUBLE PRECISION,
      roic              DOUBLE PRECISION,
      status            BOOLEAN,
-     ativo_id          INTEGER NOT NULL REFERENCES ativo,
-     UPDATE CASCADE
-     DELETE CASCADE
+     ativo_id          INTEGER NOT NULL REFERENCES ativo ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS role (
@@ -75,7 +68,7 @@ CREATE TABLE IF NOT EXISTS role (
 );
 
 CREATE TABLE IF NOT EXISTS usuario_role (
-    id      INTEGER NOT NULL REFERENCES usuario,
+    id      INTEGER NOT NULL REFERENCES usuario ON DELETE CASCADE,
     role_id INTEGER NOT NULL REFERENCES role,
     PRIMARY KEY (id, role_id)
 );

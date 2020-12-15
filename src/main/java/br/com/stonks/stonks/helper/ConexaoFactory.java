@@ -11,8 +11,16 @@ public class ConexaoFactory {
     private static final String MySQLDriver = "com.mysql.cj.jdbc.Driver";
     private static final String PostgreSQLDriver = "org.postgresql.Driver";
 
-    public static Connection conexao(String url, String nome, String senha, int banco) throws ClassNotFoundException, SQLException {
-        switch (banco) {
+    public static String URL = "jdbc:postgresql://localhost:5432/stonks_db";
+
+    private static final String NOME = "root";
+
+    private static final String SENHA = "root";
+
+    private static final int BANCO = 1;
+
+    public static Connection conexao() throws ClassNotFoundException, SQLException {
+        switch (BANCO) {
             case MYSQL:
                 Class.forName(MySQLDriver);
                 break;
@@ -21,6 +29,6 @@ public class ConexaoFactory {
                 Class.forName(PostgreSQLDriver);
                 break;
         }
-        return DriverManager.getConnection(url, nome, senha);
+        return DriverManager.getConnection(URL, NOME, SENHA);
     }
 }
