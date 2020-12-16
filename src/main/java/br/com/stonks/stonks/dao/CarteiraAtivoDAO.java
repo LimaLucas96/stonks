@@ -69,11 +69,12 @@ public class CarteiraAtivoDAO {
         CarteiraAtivo carteiraAtivo = new CarteiraAtivo();
         try {
             conectar();
-            String sql = "SELECT * FROM carteira_ativo WHERE id = " + id;
+            String sql = "SELECT ca.*, a.codigo FROM carteira_ativo ca JOIN ativo a ON ca.ativo_id = a.id WHERE ca.id =" + id;
             ResultSet rs = comando.executeQuery(sql);
             if (rs.next()) {
                 Ativo ativo = new Ativo();
                 ativo.setId(rs.getInt("ativo_id"));
+                ativo.setCodigo(rs.getString("codigo"));
 
                 Carteira carteira = new Carteira();
                 carteira.setId(rs.getInt("carteira_id"));

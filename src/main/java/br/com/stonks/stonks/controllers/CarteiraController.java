@@ -160,7 +160,7 @@ public class CarteiraController {
     public String dadosAtivo(@PathVariable("id") int id) {
         CarteiraAtivo carteiraAtivo = carteiraAtivoService.findById(id);
 
-        if (carteiraAtivo != null) {
+        if (carteiraAtivo.getId() == 0) {
             return "{\"message\": \"Carteira não encontrada\"}";
         }
 

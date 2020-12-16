@@ -13,7 +13,7 @@ public class ConexaoFactory {
 
     public static String URL = "jdbc:postgresql://localhost:5432/stonks_db";
 
-    private static final String NOME = "postgres";
+    private static final String NOME = "root";
 
     private static final String SENHA = "root";
 
