@@ -39,6 +39,32 @@ public class AtivoDAO {
         return ativo;
     }
 
+    public Ativo findbyId(int id) {
+        Ativo ativo = new Ativo();
+        try {
+            conectar();
+            String sql = "SELECT * FROM ativo WHERE ativo.id = " + id ;
+            ResultSet rs = comando.executeQuery(sql);
+            if (rs.next()) {
+                ativo.setId(rs.getInt("id"));
+                ativo.setCodigo(rs.getString("codigo"));
+
+                Empresa empresa = new Empresa();
+                empresa.setId(rs.getInt("empresa_id"));
+
+                ativo.setEmpresa(empresa);
+            }
+            fechar();
+            return ativo;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return ativo;
+    }
+
     public List<Ativo> findAll() {
         List<Ativo> ativos = new ArrayList<>();
         try {

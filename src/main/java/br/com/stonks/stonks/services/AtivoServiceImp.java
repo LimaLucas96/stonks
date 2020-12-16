@@ -20,4 +20,9 @@ public class AtivoServiceImp implements AtivoService {
     public List<Ativo> findAll() {
         return ativoRepository.findAll();
     }
+
+    @Override
+    public Ativo findById(int id) {
+        return ativoRepository.findbyId(id);
+    }
 }

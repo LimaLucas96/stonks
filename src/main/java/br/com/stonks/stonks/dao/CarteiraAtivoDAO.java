@@ -5,6 +5,7 @@ import br.com.stonks.stonks.models.Ativo;
 import br.com.stonks.stonks.models.Carteira;
 import br.com.stonks.stonks.models.CarteiraAtivo;
 import br.com.stonks.stonks.models.Operacao;
+import br.com.stonks.stonks.services.AtivoService;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.sql.Connection;
@@ -21,6 +22,8 @@ public class CarteiraAtivoDAO {
 
     private Connection con;
     private Statement comando;
+
+    private AtivoService ativoService;
 
     public void update(CarteiraAtivo carteiraAtivo) {
 
@@ -203,6 +206,9 @@ public class CarteiraAtivoDAO {
     }
 
     protected String returnFieldValuesBD(CarteiraAtivo carteiraAtivo) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String strDate = dateFormat.format(carteiraAtivo.getDataTransacao());
+
         StringBuffer buffer = new StringBuffer();
         buffer.append("ativo_id = ");
         buffer.append(carteiraAtivo.getAtivo().getId());
@@ -213,9 +219,9 @@ public class CarteiraAtivoDAO {
         buffer.append(", quantidade = ");
         buffer.append(carteiraAtivo.getQuantidade());
         buffer.append(", operacao = ");
-        buffer.append(retornarValorStringBD(carteiraAtivo.getOperacao().getDenominacao()));
+        buffer.append("\'" + carteiraAtivo.getOperacao() + "\'");
         buffer.append(", data_transacao = ");
-        buffer.append(carteiraAtivo.getDataTransacao());
+        buffer.append("TO_DATE(\'" + strDate + "\', \'YYYY-MM-DD\')");
         buffer.append(", status = ");
         buffer.append(carteiraAtivo.getStatus());
 
@@ -226,14 +232,14 @@ public class CarteiraAtivoDAO {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String strDate = dateFormat.format(carteiraAtivo.getDataTransacao());
 
-        return "', TO_DATE('" + strDate
-                        + "', 'YYYY-MM-DD'), "
+        return "TO_DATE(\'" + strDate
+                        + "\', \'YYYY-MM-DD\'), "
                         + carteiraAtivo.getQuantidade()
                         + ", "
                         + carteiraAtivo.getValor()
-                        + ", '"
-                        + carteiraAtivo.getOperacao().getDenominacao()
-                        + "', "
+                        + ", \'"
+                        + carteiraAtivo.getOperacao()
+                        + "\', "
                         + carteiraAtivo.getAtivo().getId()
                         + ", "
                         + carteiraAtivo.getCarteira().getId()

@@ -8,4 +8,6 @@ public interface AtivoService {
     public boolean isAtivoAlreadyPresent(Ativo ativo);
 
     public List<Ativo> findAll();
+
+    public Ativo findById(int id);
 }

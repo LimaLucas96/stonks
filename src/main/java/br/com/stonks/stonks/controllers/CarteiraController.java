@@ -2,10 +2,7 @@
 package br.com.stonks.stonks.controllers;
 
 import br.com.stonks.stonks.exception.ResponseException;
-import br.com.stonks.stonks.models.Carteira;
-import br.com.stonks.stonks.models.CarteiraAtivo;
-import br.com.stonks.stonks.models.Response;
-import br.com.stonks.stonks.models.Usuario;
+import br.com.stonks.stonks.models.*;
 import br.com.stonks.stonks.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -55,6 +52,7 @@ public class CarteiraController {
     public ModelAndView create(@Valid CarteiraAtivo carteiraAtivo,
                                BindingResult bindingResult,
                                @DateTimeFormat(pattern = "yyyy-MM-dd") Date dataTransacao,
+                               int ativo,
                                ModelMap modelMap) {
 
         ModelAndView modelAndView = new ModelAndView();
@@ -63,12 +61,15 @@ public class CarteiraController {
         Usuario usuarioLogado = usuarioService.usuarioLogado();
         Carteira carteira = carteiraService.carteiraByUsuario(usuarioLogado);
 
+        Ativo ativoInstance = ativoService.findById(ativo);
+
         if (carteira == null) {
             carteira = new Carteira(usuarioLogado);
             carteiraService.salvarCarteira(carteira);
         }
 
         carteiraAtivo.setCarteira(carteira);
+        carteiraAtivo.setAtivo(ativoInstance);
 
         if (carteiraAtivoService.isAlreadyPresent(carteiraAtivo)) {
             modelAndView.addObject("errorFlash", "CarteiraAtivo ja existente");
@@ -113,27 +114,35 @@ public class CarteiraController {
     }
 
     @RequestMapping(value = "/carteira/editar/{id}", method = RequestMethod.POST)
-    public ModelAndView update(@PathVariable("id") int id, HttpServletRequest request, @ModelAttribute("carteiraAtivo") CarteiraAtivo carteiraAtivo) {
+    public ModelAndView update(@PathVariable("id") int id,
+                               HttpServletRequest request,
+                               @Valid CarteiraAtivo carteiraAtivo,
+                               BindingResult bindingResult,
+                               @DateTimeFormat(pattern = "yyyy-MM-dd") Date dataTransacao,
+                               int ativo) {
         Usuario usuarioLogado = usuarioService.usuarioLogado();
         Carteira carteira = carteiraService.carteiraByUsuario(usuarioLogado);
 
         ModelAndView modelAndView = new ModelAndView();
 
-        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosCarteira(carteira.getId()));
         modelAndView.addObject("usuario", usuarioLogado);
         modelAndView.setViewName("/carteira/index");
 
         CarteiraAtivo carteiraAtivoInstance = carteiraAtivoService.findById(id);
 
-        if (carteiraAtivoInstance != null) {
+        if (carteiraAtivoInstance == null) {
             modelAndView.addObject("errorFlash", "Ativo não encontrado");
             return modelAndView;
         }
-        carteiraAtivo.setCarteira(carteiraAtivoInstance.getCarteira());
-        carteiraAtivoService.update(carteiraAtivo);
+        carteiraAtivo.setCarteira(carteira);
+        carteiraAtivo.setAtivo(ativoService.findById(ativo));
+        carteiraAtivo.setDataTransacao(dataTransacao);
+
+        carteiraAtivoService.atualizar(carteiraAtivo);
 
         modelAndView.addObject("successFlash", "Ativo Atualizado");
         modelAndView.setViewName("/carteira/index");
+        modelAndView.addObject("ativosCarteira", carteiraAtivoService.findByAtivosCarteira(carteira.getId()));
 
         return modelAndView;
     }

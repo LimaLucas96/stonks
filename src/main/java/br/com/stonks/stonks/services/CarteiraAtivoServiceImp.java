@@ -24,6 +24,11 @@ public class CarteiraAtivoServiceImp implements CarteiraAtivoService {
     }
 
     @Override
+    public void atualizar(CarteiraAtivo carteiraAtivo) {
+        carteiraAtivoDAO.update(carteiraAtivo);
+    }
+
+    @Override
     public boolean isAlreadyPresent(CarteiraAtivo carteiraAtivo) {
         return carteiraAtivoDAO.findById(carteiraAtivo.getId()).getId() != 0;
     }
