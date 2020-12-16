@@ -26,10 +26,10 @@
                         <div class="col-sm-12 col-md-2">
                             <label for="ativo">Ativo</label>
                             <div class="input-group">
-                                <select class="form-control input-lg" th:field="*{ativo}">
-                                    <option id="ativo" th:each="ativo : ${ativos}"
+                                <select class="form-control input-lg" id="ativo" name="ativo">
+                                    <option  th:each="ativo : ${ativos}"
                                             th:value="${ativo.id}"
-                                            th:text="${ativo.codigo}">
+                                            th:text="${ativo.codigo}" th:selected="${ativo.id == carteiraAtivo.ativo.id }">
                                     </option>
                                 </select>
                             </div>
