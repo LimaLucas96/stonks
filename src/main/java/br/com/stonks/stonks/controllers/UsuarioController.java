@@ -1,10 +1,13 @@
 package br.com.stonks.stonks.controllers;
 
 import br.com.stonks.stonks.exception.UsuarioExistenteException;
+import br.com.stonks.stonks.models.Role;
 import br.com.stonks.stonks.models.Usuario;
 import br.com.stonks.stonks.exception.CpfInvalidoException;
+import br.com.stonks.stonks.services.RoleService;
 import br.com.stonks.stonks.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -14,12 +17,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Date;
 
 @Controller
 public class UsuarioController {
 
     @Autowired
     UsuarioService usuarioService;
+
+    @Autowired
+    RoleService roleService;
 
     @RequestMapping(value = "/usuario/register", method = RequestMethod.POST)
     public ModelAndView create(@Valid Usuario user, BindingResult bindingResult, ModelMap modelMap) throws Exception {
@@ -31,6 +38,9 @@ public class UsuarioController {
         } else {
             try {
                 usuarioService.salvarUsuario(user);
+                Usuario usuario = usuarioService.findByEmail(user.getEmail());
+                Role siteUser = roleService.findByRole("SITE_USER");
+                roleService.saveRoleUsuario(siteUser, usuario);
                 modelAndView.addObject("successMessage", "Usuario registrado com sucesso.");
             } catch (UsuarioExistenteException | CpfInvalidoException e){
                 modelAndView.addObject("failMessage", e.getMessage());

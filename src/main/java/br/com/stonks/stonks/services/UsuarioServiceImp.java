@@ -42,7 +42,7 @@ public class UsuarioServiceImp implements UsuarioService {
 
     @Override
     public Boolean isUserAlreadyPresent(Usuario usuario) {
-        return usuarioRepository.findByCpf(usuario.getCpf()) != null;
+        return usuarioRepository.findByCpf(usuario.getCpf()).getId() != 0;
     }
 
     private Boolean validarCpf(String cpf) {

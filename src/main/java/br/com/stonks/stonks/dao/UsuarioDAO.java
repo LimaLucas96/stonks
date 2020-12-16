@@ -92,12 +92,11 @@ public class UsuarioDAO {
         Usuario usuario = new Usuario();
         try {
             conectar();
-            String sql = "SELECT * FROM usuario WHERE cpf = " + cpf;
+            String sql = "SELECT * FROM usuario WHERE cpf = '" + cpf + "'";
             ResultSet rs = comando.executeQuery(sql);
             if (rs.next()) {
                 usuario.setId(rs.getInt("id"));
                 usuario.setCpf(rs.getString("cpf"));
-                usuario.setDataNascimento(rs.getDate("data_nascimento"));
                 usuario.setDataNascimento(rs.getDate("data_nascimento"));
                 usuario.setEmail(rs.getString("email"));
                 usuario.setNome(rs.getString("nome"));
@@ -122,7 +121,6 @@ public class UsuarioDAO {
             if (rs.next()) {
                 usuario.setId(rs.getInt("id"));
                 usuario.setCpf(rs.getString("cpf"));
-                usuario.setDataNascimento(rs.getDate("data_nascimento"));
                 usuario.setDataNascimento(rs.getDate("data_nascimento"));
                 usuario.setEmail(rs.getString("email"));
                 usuario.setNome(rs.getString("nome"));
@@ -153,15 +151,13 @@ public class UsuarioDAO {
     }
 
     protected String retornarCamposBD() {
-        return "cpf, data_nascimento, email, nome, password, status";
+        return "cpf, email, nome, password, status";
     }
 
     protected String returnFieldValuesBD(Usuario usuario) {
         StringBuffer buffer = new StringBuffer();
         buffer.append("cpf = '");
         buffer.append(usuario.getCpf());
-        buffer.append("', data_nascimento = ");
-        buffer.append(usuario.getDataNascimento());
         buffer.append(", email = '");
         buffer.append(usuario.getEmail());
         buffer.append("', nome = '");
@@ -175,13 +171,9 @@ public class UsuarioDAO {
     }
 
     protected String retornarValoresBD(Usuario usuario) {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String strDate = dateFormat.format(usuario.getDataNascimento());
 
         return "'" + usuario.getCpf()
-                + "', TO_DATE('"
-                + strDate
-                + "', 'YYYY-MM-DD'), '"
+                + "', '"
                 + usuario.getEmail()
                 + "', '"
                 + usuario.getNome()
